@@ -12,13 +12,21 @@
 }
 * { box-sizing:border-box; }
 body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:linear-gradient(180deg,#fff,#fbfaf6); color:#152315; }
-header { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:14px 22px 10px; border-bottom:3px solid var(--green); background:white; }
-.logo-eu { height:52px; max-width:250px; object-fit:contain; }
+header {
+  display:grid;
+  grid-template-columns:minmax(120px,1fr) auto minmax(120px,1fr);
+  align-items:center;
+  gap:16px;
+  padding:14px 22px 10px;
+  border-bottom:3px solid var(--green);
+  background:white;
+}
+.logo-eu { height:52px; max-width:min(250px, 28vw); object-fit:contain; justify-self:start; }
 .logo-tetom { height:58px; object-fit:contain; }
-.center { text-align:center; flex:1; }
+.center { text-align:center; justify-self:center; }
 .center h1 { margin:0; color:var(--green); font-size:clamp(22px,2.8vw,34px); }
 .center p { margin:2px 0 0; color:var(--muted); font-size:14px; }
-.controls { display:flex; gap:10px; align-items:center; }
+.controls { display:flex; gap:10px; align-items:center; justify-self:end; }
 select, button { font:inherit; }
 .lang { border:1px solid #ccd9c8; border-radius:12px; padding:9px 12px; background:#fff; font-weight:700; color:#1e531f; }
 .app { max-width:1400px; margin:18px auto; padding:0 18px; }
@@ -413,6 +421,30 @@ header::after {
   background:rgba(255,255,255,.62);
   border-radius:14px;
   padding:12px 18px;
+}
+
+
+@media (max-width: 760px) {
+  header {
+    grid-template-columns:minmax(70px,1fr) auto minmax(70px,1fr);
+    gap:8px;
+    padding:10px 12px 8px;
+  }
+  .logo-eu { height:34px; max-width:28vw; }
+  .logo-tetom { height:42px; max-width:34vw; }
+  .center h1 { font-size:clamp(16px,4vw,22px); }
+  .center p { display:none; }
+  .lang { padding:7px 8px; border-radius:10px; font-size:14px; }
+}
+@media (max-width: 420px) {
+  header {
+    grid-template-columns:minmax(52px,1fr) auto minmax(52px,1fr);
+  }
+  .logo-eu { height:28px; max-width:25vw; }
+  .logo-tetom { height:36px; max-width:36vw; }
+  .center h1 { font-size:15px; }
+  .controls { gap:4px; }
+  .lang { padding:6px 6px; font-size:13px; }
 }
 
 </style>
