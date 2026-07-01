@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TeToM Dienes material</title>
+<title>TeToM Dienes material – Representation Lab</title>
 <style>
 :root {
   --blue:#0b55a0; --green:#2f7d32; --orange:#f0a400; --red:#c62828;
@@ -43,18 +43,103 @@ select, button { font:inherit; }
 .piece:hover { background:#fff3dc; }
 .piece.selected { border-color:var(--blue); background:#eef6ff; box-shadow:0 0 0 3px rgba(11,85,160,.14); }
 .piece.selected::after { content:'✓'; position:absolute; top:-9px; right:-9px; background:var(--blue); color:white; border-radius:99px; width:22px; height:22px; display:grid; place-items:center; font-size:13px; font-weight:900; }
+
+/* Automatic sorting without visible group titles */
+.workspace.sorted {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  align-content: start;
+  align-items: start;
+}
+.sorted-group {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+}
+.sorted-group.stack5 {
+  display: grid;
+  grid-template-columns: repeat(5, max-content);
+  grid-auto-flow: row;
+  justify-content: start;
+  align-items: start;
+  column-gap: 12px;
+  row-gap: 10px;
+}
+.sorted-group.stack5 .piece { padding: 2px; }
+.sorted-group.stack5 .piece svg { display:block; }
+.sorted-group:empty { display:none; }
+@media (max-width: 560px) {
+  .sorted-group.stack5 { grid-template-columns: repeat(3, max-content); column-gap: 10px; row-gap: 8px; }
+  .sorted-group { gap: 8px; }
+}
 .add-section { border:1px solid #dbe8d4; border-radius:18px; margin-top:16px; padding:14px; background:white; }
 .add-section h3 { margin:0 0 10px; color:var(--green); font-size:16px; }
+
+/* v18: one automatic lateral sorting line. No visible group levels. */
+.workspace.sorted {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+}
+.inline-pack {
+  display: grid;
+  grid-template-rows: repeat(5, var(--pack-row, 18px));
+  grid-auto-flow: column;
+  gap: 2px 12px;
+  align-items: center;
+}
+.inline-pack:empty { display:none; }
+.inline-pack .piece { padding: 1px; display:flex; align-items:center; justify-content:center; }
+/* Proportional visual packing.
+   Pieces keep their own Dienes scale: ten-bars are not crushed.
+   Ten-bars stand vertically, side by side, so ten bars visually form a hundred plate.
+   One-cubes are stacked in columns of ten, so ten ones match one ten-bar. */
+.inline-pack.ten-pack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  align-items: flex-start;
+  max-width: 260px;
+}
+.inline-pack.ten-pack .piece { padding: 1px; }
+.inline-pack.ten-pack .piece svg { display:block; }
+.inline-pack.one-pack {
+  display: grid;
+  grid-template-rows: repeat(5, max-content);
+  grid-auto-flow: column;
+  gap: 0 4px;
+  align-items: start;
+}
+.inline-pack.one-pack .piece { padding: 0; }
+.inline-pack.one-pack .piece svg { display:block; }
+.workspace .piece { transition: transform .28s ease, box-shadow .18s ease, background .18s ease; }
+.workspace .piece.new-piece { animation: popIn .22s ease-out; }
+@keyframes popIn { from { transform: scale(.92); opacity:.4; } to { transform: scale(1); opacity:1; } }
+@media (max-width:560px) {
+  .inline-pack.ten-pack { max-width: 180px; gap: 4px 5px; }
+  .inline-pack.one-pack { gap: 0 3px; }
+}
+
 .palette { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-.tile { border:1px solid #d7dfd3; border-radius:16px; background:#fffefb; padding:12px; text-align:center; }
+.tile { border:1px solid #d7dfd3; border-radius:16px; background:#fffefb; padding:12px; text-align:center; position:relative; cursor:pointer; min-height:145px; }
+.tile:hover { box-shadow:0 4px 14px rgba(11,85,160,.10); border-color:#a9c6ee; }
 .tile svg { display:block; margin:0 auto 6px; }
 .tile-name { font-weight:800; color:#4e321b; margin-bottom:2px; }
-.addbtn { margin-top:6px; width:100%; border:1px solid #9fc1f4; background:#f3f8ff; color:#064aa5; border-radius:10px; padding:8px 10px; font-weight:800; cursor:pointer; }
+.addbtn { position:absolute; top:8px; right:8px; width:34px; height:34px; border:1px solid #9fc1f4; background:#f3f8ff; color:#064aa5; border-radius:999px; padding:0; font-size:0; font-weight:900; cursor:pointer; display:grid; place-items:center; box-shadow:0 2px 7px rgba(11,85,160,.12); }
+.addbtn::before { content:'+'; font-size:24px; line-height:1; }
+.addbtn:hover { background:#e8f2ff; transform:translateY(-1px); }
 .status { margin-top:12px; border:1px solid #d4e7ca; background:#f7fff4; border-radius:14px; padding:12px 14px; color:#315b2d; font-weight:650; min-height:48px; }
 .status.err { background:#fff7f5; border-color:#efc2bc; color:#9e241b; }
 .rep-tabs { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:16px; }
 .rep-tab { border:1px solid #d6dfd2; background:white; border-radius:14px; padding:13px 8px; text-align:center; cursor:pointer; font-weight:800; color:#455345; }
 .rep-tab.active { border-color:#78ac62; background:#f3fff0; color:#1f6b20; }
+.rep-tab.locked { opacity:.45; cursor:not-allowed; background:#f7f7f7; color:#777; }
+.rep-tab.unlocked { box-shadow:0 0 0 2px rgba(120,172,98,.15) inset; }
 .rep-view { min-height:520px; border:1px solid #dce9d5; border-radius:18px; background:#fff; padding:18px; display:flex; align-items:center; justify-content:center; }
 .value-card { width:100%; border:1px solid #dce9d5; border-radius:16px; padding:16px; background:#fffefb; }
 .value-label { color:var(--green); font-weight:800; margin-bottom:6px; }
@@ -66,12 +151,27 @@ select, button { font:inherit; }
 .pv-table th:nth-child(3) { color:#d45e00; background:#fff6e8; }
 .pv-table th:nth-child(4) { color:#bc1616; background:#fff0f0; }
 .pv-table td { border:2px solid #82bb6f; height:130px; font-size:clamp(48px,7vw,82px); font-weight:900; color:#050505; width:25%; }
-.expanded, .words { font-size:clamp(30px,5vw,58px); font-weight:900; line-height:1.25; text-align:center; color:#090909; }
+.expanded, .words { font-size:clamp(26px,4.2vw,48px); font-weight:900; line-height:1.25; text-align:center; color:#090909; overflow-wrap:anywhere; word-break:normal; max-width:100%; }
+.word-box { width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; }
+.speak-btn { border:1px solid #9fc1f4; background:#f3f8ff; color:#064aa5; border-radius:999px; padding:10px 14px; font-weight:800; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+.speak-btn:hover { background:#e8f2ff; }
+.audio-controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:12px; }
+.audio-chip { border:1px solid #c7d8ef; background:#fff; border-radius:999px; padding:8px 12px; font-weight:700; color:#163b6e; cursor:pointer; }
+.audio-chip.active { background:#e8f2ff; border-color:#78a8ea; color:#064aa5; }
+.audio-chip:disabled { opacity:.55; cursor:not-allowed; }
+.voice-note { color:#4b6584; font-size:13px; margin-top:8px; }
 .allgrid { display:grid; gap:16px; width:100%; }
 .small-card { border:1px solid #dce9d5; border-radius:16px; padding:15px; background:#fffefb; }
 .small-card h3 { margin:0 0 8px; color:var(--green); font-size:16px; }
 .small-card .val { font-size:28px; font-weight:900; }
 .small-card .val.big { font-size:34px; }
+.small-card .word-small { overflow-wrap:anywhere; word-break:normal; }
+.lock-card { width:100%; border:1px solid #f1d7a6; border-radius:16px; padding:18px; background:#fffaf0; color:#6b4b16; text-align:center; }
+.lock-card .lock { font-size:44px; margin-bottom:8px; }
+.lock-card strong { display:block; font-size:20px; margin-bottom:8px; color:#875a10; }
+.canon-note { margin-top:12px; padding:10px 12px; border-radius:12px; font-weight:700; text-align:center; }
+.canon-note.ok { background:#f0fff0; border:1px solid #bee2b8; color:#236923; }
+.canon-note.warn { background:#fff8e8; border:1px solid #ecd59d; color:#805916; }
 .footer { max-width:1400px; margin:10px auto 24px; padding:0 18px; color:#637060; font-size:12px; line-height:1.35; }
 .teacher { border:1px solid #ccd9c8; background:#fff; color:#1e531f; border-radius:12px; padding:9px 12px; font-weight:800; cursor:pointer; }
 .teacher-panel { display:none; margin-top:12px; border:1px dashed #9abd8d; background:#fbfff8; border-radius:16px; padding:12px; }
@@ -173,6 +273,148 @@ button, select, .rep-tab, .addbtn, .piece { touch-action: manipulation; }
   .rep-view { min-height: 300px; }
 }
 
+
+
+/* ---------- TeToM color polish v24 ---------- */
+body {
+  background:
+    radial-gradient(circle at top left, rgba(240,164,0,.18), transparent 34%),
+    radial-gradient(circle at top right, rgba(11,85,160,.13), transparent 36%),
+    linear-gradient(180deg,#fffdf7 0%, #f7fbf2 54%, #fffaf0 100%);
+}
+header {
+  border-bottom:1px solid #e5eee1;
+  background:#ffffff;
+  box-shadow:0 4px 18px rgba(47,125,50,.06);
+  position:relative;
+}
+header::after {
+  content:none;
+}
+.center h1 {
+  color:#1e6b25;
+  text-shadow:0 1px 0 rgba(255,255,255,.7);
+}
+.lang {
+  border:2px solid #c5dfbc;
+  background:linear-gradient(180deg,#ffffff,#f4fff1);
+  box-shadow:0 3px 12px rgba(47,125,50,.08);
+}
+.panel {
+  border:0;
+  background:linear-gradient(#fffefb,#fffefb) padding-box,
+    linear-gradient(135deg, rgba(47,125,50,.62), rgba(240,164,0,.55), rgba(11,85,160,.52)) border-box;
+  border:2px solid transparent;
+  box-shadow:0 14px 32px rgba(27,72,23,.10);
+}
+.panel h2 {
+  color:#174f1b;
+  background:linear-gradient(90deg, rgba(47,125,50,.12), rgba(240,164,0,.15), rgba(11,85,160,.10));
+  border-radius:16px;
+  padding:10px 12px;
+  margin-bottom:16px;
+}
+.workspace {
+  border:2px dashed rgba(11,85,160,.32);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.90), rgba(255,250,240,.92)),
+    repeating-linear-gradient(0deg, transparent 0 34px, rgba(47,125,50,.035) 34px 35px),
+    repeating-linear-gradient(90deg, transparent 0 34px, rgba(11,85,160,.035) 34px 35px);
+}
+.add-section {
+  border:0;
+  background:linear-gradient(135deg, rgba(47,125,50,.08), rgba(240,164,0,.10), rgba(11,85,160,.08));
+  box-shadow:inset 0 0 0 1px rgba(47,125,50,.15);
+}
+.add-section h3 { color:#174f1b; }
+.tile {
+  border:2px solid rgba(232,208,156,.85);
+  background:linear-gradient(180deg,#fffefb,#fff7e8);
+  box-shadow:0 7px 18px rgba(126,83,30,.08);
+}
+.tile:nth-child(1) { border-color:rgba(11,85,160,.25); }
+.tile:nth-child(2) { border-color:rgba(47,125,50,.30); }
+.tile:nth-child(3) { border-color:rgba(240,164,0,.35); }
+.tile:nth-child(4) { border-color:rgba(198,40,40,.22); }
+.addbtn {
+  border:0;
+  color:white;
+  background:linear-gradient(135deg,var(--green),#56a84d);
+  box-shadow:0 6px 14px rgba(47,125,50,.24);
+}
+.addbtn:hover { background:linear-gradient(135deg,#256b2b,#70b34f); }
+.btn.green {
+  color:white;
+  border:0;
+  background:linear-gradient(135deg,var(--green),#57a64a);
+}
+.btn.blue {
+  color:white;
+  border:0;
+  background:linear-gradient(135deg,var(--blue),#4f8dd6);
+}
+.btn.gray {
+  border-color:#e5d7b6;
+  background:#fffdf7;
+}
+.btn.red {
+  color:white;
+  border:0;
+  background:linear-gradient(135deg,#c62828,#e97853);
+}
+.rep-tab {
+  border:0;
+  background:#fffdf7;
+  box-shadow:inset 0 0 0 1px rgba(60,83,55,.13), 0 4px 10px rgba(32,70,22,.04);
+}
+.rep-tab.active {
+  color:white;
+  background:linear-gradient(135deg,var(--green),#6aae4f);
+  box-shadow:0 7px 18px rgba(47,125,50,.22);
+}
+.rep-tab.unlocked:not(.active) { background:#f3fff0; }
+.rep-tab.locked { background:#f3f3f0; box-shadow:inset 0 0 0 1px rgba(0,0,0,.06); }
+.rep-view {
+  border:0;
+  background:linear-gradient(180deg,#ffffff,#fffaf0);
+  box-shadow:inset 0 0 0 1px rgba(47,125,50,.16);
+}
+.value-card, .small-card {
+  border:0;
+  box-shadow:inset 0 0 0 1px rgba(47,125,50,.14);
+  background:linear-gradient(180deg,#ffffff,#fffdf6);
+}
+.value-label { color:#1e6b25; }
+.pv-table th {
+  border-color:#d7e7cb;
+  background:#f1faed;
+}
+.pv-table td { border-color:#d7e7cb; background:#fff; }
+.speak-btn {
+  border:0;
+  color:white;
+  background:linear-gradient(135deg,var(--blue),#48a0e8);
+  box-shadow:0 7px 18px rgba(11,85,160,.22);
+}
+.speak-btn:hover { background:linear-gradient(135deg,#084886,#62adee); }
+.clean-audio { justify-content:center; margin-top:8px; }
+.word-parts { display:inline; max-width:100%; white-space:normal; }
+.word-part { display:inline; padding:0 .015em; border-radius:.12em; transition:background .16s ease, color .16s ease; }
+.word-part.speaking { background:rgba(240,164,0,.34); color:inherit; }
+.status {
+  border:0;
+  background:linear-gradient(90deg, rgba(47,125,50,.12), rgba(240,164,0,.13));
+  color:#224d20;
+  box-shadow:inset 0 0 0 1px rgba(47,125,50,.18);
+}
+.canon-note.ok { background:#ecffec; border-color:#b8dfae; }
+.canon-note.warn { background:#fff5db; border-color:#f0d596; }
+.footer {
+  background:rgba(255,255,255,.62);
+  border-radius:14px;
+  padding:12px 18px;
+}
+
 </style>
 </head>
 <body>
@@ -227,18 +469,28 @@ button, select, .rep-tab, .addbtn, .piece { touch-action: manipulation; }
 <div class="footer">Funded by the European Union (grant no. KA220-NW-25-36-358844). Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or Erasmus+ National Agency. Neither the European Union nor the granting authority can be held responsible for them.</div>
 <script>
 const I18N = {
-  en: {title:'Dienes material', subtitle:'Compose, decompose and connect representations', materialTitle:'DIENES MATERIAL', representationTitle:'REPRESENTATION', helpHtml:'Select pieces in the workspace.<br>Use <strong>Decompose</strong> to break into smaller units.<br>Use <strong>Compose</strong> to build into larger units.', decompose:'Decompose', compose:'Compose', undo:'Undo', clear:'Clear', empty:'Add pieces below or select pieces to compose/decompose.', addPieces:'Add pieces', add:'Add', thousand:'Thousand', hundred:'Hundred', ten:'Ten', one:'One', statusStart:'All representations are linked.', placeValue:'Place-value', digits:'Digits', expanded:'Expanded form', word:'Word form', all:'All', value:'Value', placeTable:'Place-value table', selected:'selected', cannotDecompose:'Select exactly one thousand, hundred or ten to decompose.', cannotCompose:'Select exactly ten equal pieces: 10 ones, 10 tens or 10 hundreds.', didDecompose:'Decomposed without changing the value.', didCompose:'Composed without changing the value.'},
-  es: {title:'Material Dienes', subtitle:'Componer, descomponer y conectar representaciones', materialTitle:'MATERIAL DIENES', representationTitle:'REPRESENTACIÓN', helpHtml:'Selecciona piezas en el espacio de trabajo.<br>Usa <strong>Descomponer</strong> para transformar en unidades menores.<br>Usa <strong>Componer</strong> para formar una unidad mayor.', decompose:'Descomponer', compose:'Componer', undo:'Deshacer', clear:'Borrar', empty:'Añade piezas abajo o selecciona piezas para componer/descomponer.', addPieces:'Añadir piezas', add:'Añadir', thousand:'Mil', hundred:'Centena', ten:'Decena', one:'Unidad', statusStart:'Todas las representaciones están conectadas.', placeValue:'Valor posicional', digits:'Número', expanded:'Suma', word:'En palabras', all:'Todas', value:'Valor', placeTable:'Tabla de valor posicional', selected:'seleccionadas', cannotDecompose:'Selecciona exactamente un mil, una centena o una decena para descomponer.', cannotCompose:'Selecciona exactamente diez piezas iguales: 10 unidades, 10 decenas o 10 centenas.', didDecompose:'Se descompuso sin cambiar el valor.', didCompose:'Se compuso sin cambiar el valor.'},
-  de: {title:'Dienes-Material', subtitle:'Bündeln, entbündeln und Darstellungen verbinden', materialTitle:'DIENES-MATERIAL', representationTitle:'DARSTELLUNG', helpHtml:'Wähle Material im Arbeitsfeld aus.<br>Nutze <strong>Entbündeln</strong>, um kleinere Einheiten zu erhalten.<br>Nutze <strong>Bündeln</strong>, um größere Einheiten zu bilden.', decompose:'Entbündeln', compose:'Bündeln', undo:'Rückgängig', clear:'Löschen', empty:'Füge unten Material hinzu oder wähle Teile zum Bündeln/Entbündeln aus.', addPieces:'Material hinzufügen', add:'Hinzufügen', thousand:'Tausender', hundred:'Hunderter', ten:'Zehner', one:'Einer', statusStart:'Alle Darstellungen sind verbunden.', placeValue:'Stellenwert', digits:'Zahl', expanded:'Summe', word:'Wortform', all:'Alle', value:'Wert', placeTable:'Stellenwerttafel', selected:'ausgewählt', cannotDecompose:'Wähle genau einen Tausender, Hunderter oder Zehner zum Entbündeln.', cannotCompose:'Wähle genau zehn gleiche Teile: 10 Einer, 10 Zehner oder 10 Hunderter.', didDecompose:'Entbündelt, ohne den Wert zu verändern.', didCompose:'Gebündelt, ohne den Wert zu verändern.'},
-  it: {title:'Materiale Dienes', subtitle:'Comporre, scomporre e collegare rappresentazioni', materialTitle:'MATERIALE DIENES', representationTitle:'RAPPRESENTAZIONE', helpHtml:'Seleziona pezzi nell’area di lavoro.<br>Usa <strong>Scomponi</strong> per trasformare in unità minori.<br>Usa <strong>Componi</strong> per formare un’unità maggiore.', decompose:'Scomponi', compose:'Componi', undo:'Annulla', clear:'Cancella', empty:'Aggiungi pezzi sotto o seleziona pezzi per comporre/scomporre.', addPieces:'Aggiungi pezzi', add:'Aggiungi', thousand:'Migliaio', hundred:'Centinaio', ten:'Decina', one:'Unità', statusStart:'Tutte le rappresentazioni sono collegate.', placeValue:'Valore posizionale', digits:'Numero', expanded:'Forma sviluppata', word:'Parole', all:'Tutte', value:'Valore', placeTable:'Tabella del valore posizionale', selected:'selezionati', cannotDecompose:'Seleziona esattamente un migliaio, un centinaio o una decina da scomporre.', cannotCompose:'Seleziona esattamente dieci pezzi uguali: 10 unità, 10 decine o 10 centinaia.', didDecompose:'Scomposto senza cambiare il valore.', didCompose:'Composto senza cambiare il valore.'}
+  en: {title:'Dienes material', subtitle:'Compose, decompose and connect representations', materialTitle:'DIENES MATERIAL', representationTitle:'REPRESENTATION', helpHtml:'Select pieces in the workspace.<br>Use <strong>Decompose</strong> to break into smaller units.<br>Use <strong>Compose</strong> to build into larger units.', decompose:'Decompose', compose:'Compose', undo:'Undo', clear:'Clear', empty:'Add pieces below or select pieces to compose/decompose.', addPieces:'Add pieces', add:'Add', thousand:'Thousand', hundred:'Hundred', ten:'Ten', one:'One', statusStart:'All representations are linked.', placeValue:'Place-value', digits:'Digits', expanded:'Expanded form', word:'Word form', all:'All', value:'Value', placeTable:'Place-value table', selected:'selected', cannotDecompose:'Select exactly one thousand, hundred or ten to decompose.', cannotCompose:'Select exactly ten equal pieces: 10 ones, 10 tens or 10 hundreds.', didDecompose:'Decomposed without changing the value.', didCompose:'Composed without changing the value.', materialCount:'Material count', standardReady:'Standard representation available.', standardNeeded:'Equivalent representation. Compose the material to reach standard place-value form.', unavailable:'Standard representation unavailable', composeFirst:'Compose the material first.', materialExpanded:'Material expression', lockedUntilStandard:'Compose the material into standard place-value form first.', lockedAll:'Open Digits, Expanded form and Word form first.', opened:'opened', unlockPath:'First compose the material. Then explore Digits, Expanded form and Word form to unlock All.', speak:'Listen', slow:'Slow', normal:'Normal', repeat:'Repeat ×2', voiceNote:'Native voice preferred: English (United Kingdom).', audioUnavailable:'Audio is not available in this browser.'},
+  es: {title:'Material Dienes', subtitle:'Componer, descomponer y conectar representaciones', materialTitle:'MATERIAL DIENES', representationTitle:'REPRESENTACIÓN', helpHtml:'Selecciona piezas en el espacio de trabajo.<br>Usa <strong>Descomponer</strong> para transformar en unidades menores.<br>Usa <strong>Componer</strong> para formar una unidad mayor.', decompose:'Descomponer', compose:'Componer', undo:'Deshacer', clear:'Borrar', empty:'Añade piezas abajo o selecciona piezas para componer/descomponer.', addPieces:'Añadir piezas', add:'Añadir', thousand:'Mil', hundred:'Centena', ten:'Decena', one:'Unidad', statusStart:'Todas las representaciones están conectadas.', placeValue:'Valor posicional', digits:'Número', expanded:'Suma', word:'En palabras', all:'Todas', value:'Valor', placeTable:'Tabla de valor posicional', selected:'seleccionadas', cannotDecompose:'Selecciona exactamente un mil, una centena o una decena para descomponer.', cannotCompose:'Selecciona exactamente diez piezas iguales: 10 unidades, 10 decenas o 10 centenas.', didDecompose:'Se descompuso sin cambiar el valor.', didCompose:'Se compuso sin cambiar el valor.', materialCount:'Conteo del material', standardReady:'Representación estándar disponible.', standardNeeded:'Representación equivalente. Compón el material para llegar a la forma estándar de valor posicional.', unavailable:'Representación estándar no disponible', composeFirst:'Primero compón el material.', materialExpanded:'Expresión del material', lockedUntilStandard:'Primero compón el material en forma estándar de valor posicional.', lockedAll:'Abre primero Número, Suma y En palabras.', opened:'visto', unlockPath:'Primero compón el material. Luego explora Número, Suma y En palabras para desbloquear Todas.', speak:'Escuchar', slow:'Lento', normal:'Normal', repeat:'Repetir ×2', voiceNote:'Voz nativa preferida: español (España).', audioUnavailable:'El audio no está disponible en este navegador.'},
+  de: {title:'Dienes-Material', subtitle:'Bündeln, entbündeln und Darstellungen verbinden', materialTitle:'DIENES-MATERIAL', representationTitle:'DARSTELLUNG', helpHtml:'Wähle Material im Arbeitsfeld aus.<br>Nutze <strong>Entbündeln</strong>, um kleinere Einheiten zu erhalten.<br>Nutze <strong>Bündeln</strong>, um größere Einheiten zu bilden.', decompose:'Entbündeln', compose:'Bündeln', undo:'Rückgängig', clear:'Löschen', empty:'Füge unten Material hinzu oder wähle Teile zum Bündeln/Entbündeln aus.', addPieces:'Material hinzufügen', add:'Hinzufügen', thousand:'Tausender', hundred:'Hunderter', ten:'Zehner', one:'Einer', statusStart:'Alle Darstellungen sind verbunden.', placeValue:'Stellenwert', digits:'Zahl', expanded:'Summe', word:'Wortform', all:'Alle', value:'Wert', placeTable:'Stellenwerttafel', selected:'ausgewählt', cannotDecompose:'Wähle genau einen Tausender, Hunderter oder Zehner zum Entbündeln.', cannotCompose:'Wähle genau zehn gleiche Teile: 10 Einer, 10 Zehner oder 10 Hunderter.', didDecompose:'Entbündelt, ohne den Wert zu verändern.', didCompose:'Gebündelt, ohne den Wert zu verändern.', materialCount:'Materialanzahl', standardReady:'Standarddarstellung verfügbar.', standardNeeded:'Äquivalente Darstellung. Bündle das Material, um die Standard-Stellenwertform zu erreichen.', unavailable:'Standarddarstellung nicht verfügbar', composeFirst:'Bündle zuerst das Material.', materialExpanded:'Materialausdruck', lockedUntilStandard:'Bündle das Material zuerst in die Standard-Stellenwertform.', lockedAll:'Öffne zuerst Zahl, Summe und Wortform.', opened:'gesehen', unlockPath:'Bündle zuerst das Material. Erkunde dann Zahl, Summe und Wortform, um Alle freizuschalten.', speak:'Anhören', slow:'Langsam', normal:'Normal', repeat:'2× wiederholen', voiceNote:'Bevorzugte native Stimme: Deutsch (Deutschland).', audioUnavailable:'Audio ist in diesem Browser nicht verfügbar.'},
+  it: {title:'Materiale Dienes', subtitle:'Comporre, scomporre e collegare rappresentazioni', materialTitle:'MATERIALE DIENES', representationTitle:'RAPPRESENTAZIONE', helpHtml:'Seleziona pezzi nell’area di lavoro.<br>Usa <strong>Scomponi</strong> per trasformare in unità minori.<br>Usa <strong>Componi</strong> per formare un’unità maggiore.', decompose:'Scomponi', compose:'Componi', undo:'Annulla', clear:'Cancella', empty:'Aggiungi pezzi sotto o seleziona pezzi per comporre/scomporre.', addPieces:'Aggiungi pezzi', add:'Aggiungi', thousand:'Migliaio', hundred:'Centinaio', ten:'Decina', one:'Unità', statusStart:'Tutte le rappresentazioni sono collegate.', placeValue:'Valore posizionale', digits:'Numero', expanded:'Forma sviluppata', word:'Parole', all:'Tutte', value:'Valore', placeTable:'Tabella del valore posizionale', selected:'selezionati', cannotDecompose:'Seleziona esattamente un migliaio, un centinaio o una decina da scomporre.', cannotCompose:'Seleziona esattamente dieci pezzi uguali: 10 unità, 10 decine o 10 centinaia.', didDecompose:'Scomposto senza cambiare il valore.', didCompose:'Composto senza cambiare il valore.', materialCount:'Conteggio del materiale', standardReady:'Rappresentazione standard disponibile.', standardNeeded:'Rappresentazione equivalente. Componi il materiale per ottenere la forma standard del valore posizionale.', unavailable:'Rappresentazione standard non disponibile', composeFirst:'Componi prima il materiale.', materialExpanded:'Espressione del materiale', lockedUntilStandard:'Componi prima il materiale nella forma standard del valore posizionale.', lockedAll:'Apri prima Numero, Forma sviluppata e Parole.', opened:'visto', unlockPath:'Prima componi il materiale. Poi esplora Numero, Forma sviluppata e Parole per sbloccare Tutte.', speak:'Ascolta', slow:'Lento', normal:'Normale', repeat:'Ripeti ×2', voiceNote:'Voce nativa preferita: italiano (Italia).', audioUnavailable:'L’audio non è disponibile in questo browser.'}
 };
 const values={thousand:1000,hundred:100,ten:10,one:1}, order=['thousand','hundred','ten','one'];
 let lang='en', pieces=[], selected=new Set(), history=[], nextId=1, rep='place';
+let visitedReps = new Set();
+let lastMaterialSignature = '';
+const gatedReps = ['digits','expanded','word'];
 const $=sel=>document.querySelector(sel), $$=sel=>[...document.querySelectorAll(sel)];
 function tr(k){ return (I18N[lang]&&I18N[lang][k])||I18N.en[k]||k; }
 function total(){ return pieces.reduce((s,p)=>s+values[p.type],0); }
 function canonical(v=total()){ return {thousand:Math.floor(v/1000), hundred:Math.floor(v%1000/100), ten:Math.floor(v%100/10), one:v%10}; }
 function counts(){ return order.reduce((o,k)=>(o[k]=pieces.filter(p=>p.type===k).length,o),{}); }
+function isStandard(){ const c=counts(); return order.every(k=>c[k] <= 9); }
+function materialSignature(){ const c=counts(); return order.map(k=>c[k]).join('|'); }
+function allUnlocked(){ return gatedReps.every(r=>visitedReps.has(r)); }
+function repAllowed(r){ if(r==='place') return true; if(!isStandard()) return false; if(r==='all') return allUnlocked(); return true; }
+function lockReason(r){ if(!isStandard()) return tr('lockedUntilStandard'); if(r==='all') return tr('lockedAll'); return tr('composeFirst'); }
+function lockHTMLFor(r){ return `<div class="lock-card"><div class="lock">🔒</div><strong>${tr('unavailable')}</strong><div>${lockReason(r)}</div></div>`; }
+function updateAccess(){ const sig=materialSignature(); if(sig!==lastMaterialSignature){ lastMaterialSignature=sig; visitedReps.clear(); } if(!repAllowed(rep)) rep='place'; $$('.rep-tab').forEach(btn=>{ const r=btn.dataset.rep; const allowed=repAllowed(r); btn.classList.toggle('locked', !allowed); btn.classList.toggle('unlocked', allowed && r!=='place'); btn.disabled=false; btn.setAttribute('aria-disabled', allowed?'false':'true'); btn.classList.toggle('active', r===rep); }); }
 function save(){ history.push(JSON.stringify(pieces)); if(history.length>80) history.shift(); }
 function setStatus(msg,err=false,key=null){ const s=$('#status'); s.style.display='block'; s.innerHTML=msg; s.classList.toggle('err',err); currentStatusErr=err; if(key) currentStatusKey=key; }
 function setStatusKey(key,err=false){ setStatus(tr(key),err,key); }
@@ -248,7 +500,100 @@ function wordES(n){ if(n===0)return 'cero'; const u=['','uno','dos','tres','cuat
 function wordDE(n){ const u=['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn']; const t=['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig']; function sub100(x){ if(x<20)return u[x]; const r=x%10; return r? (r===1?'ein':u[r])+'und'+t[Math.floor(x/10)] : t[Math.floor(x/10)]; } function sub1000(x){ if(x>=100)return (Math.floor(x/100)===1?'ein':u[Math.floor(x/100)])+'hundert'+(x%100?sub100(x%100):''); return sub100(x); } if(n===0)return 'null'; if(n>=1000)return (Math.floor(n/1000)===1?'ein':sub1000(Math.floor(n/1000)))+'tausend'+(n%1000?sub1000(n%1000):''); return sub1000(n); }
 function wordIT(n){ const u=['','uno','due','tre','quattro','cinque','sei','sette','otto','nove','dieci','undici','dodici','tredici','quattordici','quindici','sedici','diciassette','diciotto','diciannove']; const d=['','','venti','trenta','quaranta','cinquanta','sessanta','settanta','ottanta','novanta']; function sub100(x){ if(x<20)return u[x]||'zero'; let w=d[Math.floor(x/10)], r=x%10; if(r===1||r===8) w=w.slice(0,-1); return w+(r?u[r]:''); } function sub1000(x){ if(x>=100)return (Math.floor(x/100)===1?'cento':u[Math.floor(x/100)]+'cento')+(x%100?sub100(x%100):''); return sub100(x); } if(n===0)return 'zero'; if(n>=1000)return (Math.floor(n/1000)===1?'mille':sub1000(Math.floor(n/1000))+'mila')+(n%1000?sub1000(n%1000):''); return sub1000(n); }
 function word(n){ return lang==='es'?wordES(n):lang==='de'?wordDE(n):lang==='it'?wordIT(n):wordEN(n); }
+
+let speechRateMode = 'normal';
+let availableVoices = [];
+function desiredVoiceLang(){ return lang==='es' ? 'es-ES' : lang==='de' ? 'de-DE' : lang==='it' ? 'it-IT' : 'en-GB'; }
+function fallbackVoiceLang(){ return lang==='es' ? 'es' : lang==='de' ? 'de' : lang==='it' ? 'it' : 'en'; }
+function refreshVoices(){
+  if(!('speechSynthesis' in window)) return;
+  availableVoices = window.speechSynthesis.getVoices() || [];
+}
+if('speechSynthesis' in window){
+  refreshVoices();
+  window.speechSynthesis.onvoiceschanged = refreshVoices;
+}
+function chooseVoice(){
+  refreshVoices();
+  const exact = desiredVoiceLang().toLowerCase();
+  const generic = fallbackVoiceLang().toLowerCase();
+  return availableVoices.find(v => (v.lang||'').toLowerCase() === exact)
+      || availableVoices.find(v => (v.lang||'').toLowerCase().startsWith(generic))
+      || null;
+}
+function escapeHTML(str){
+  return String(str).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function clearSpeechHighlights(){
+  document.querySelectorAll('.word-part.speaking').forEach(el => el.classList.remove('speaking'));
+}
+function highlightSpeechChunk(index){
+  clearSpeechHighlights();
+  document.querySelectorAll(`[data-word-part="${index}"]`).forEach(el => el.classList.add('speaking'));
+}
+function wordPartsHTML(text){
+  const parts = speechChunks(text);
+  if(!parts.length) return escapeHTML(text);
+  // Keep the written form exactly as it belongs to the language.
+  // German and Italian number words are often written as one compound word;
+  // therefore the visual spans are concatenated without artificial spaces.
+  const joiner = (lang === 'de' || lang === 'it') ? '' : ' ';
+  return `<span class="word-parts">${parts.map((p,i)=>`<span class="word-part" data-word-part="${i}">${escapeHTML(p)}</span>`).join(joiner)}</span>`;
+}
+function speechChunks(text){
+  const clean = String(text).trim();
+  if(!clean) return [];
+  if(lang==='de'){
+    return clean.replace(/tausend/g,'tausend|').replace(/hundert/g,'hundert|').split('|').map(x=>x.trim()).filter(Boolean);
+  }
+  if(lang==='it'){
+    return clean.replace(/mila/g,'mila|').replace(/mille/g,'mille|').replace(/cento/g,'cento|').split('|').map(x=>x.trim()).filter(Boolean);
+  }
+  return clean.split(/\s+/).reduce((chunks,w)=>{
+    const last = chunks[chunks.length-1] || '';
+    if(/^(thousand|hundred|mil|cien|ciento|doscientos|trescientos|cuatrocientos|quinientos|seiscientos|setecientos|ochocientos|novecientos)$/i.test(w)){
+      chunks[chunks.length-1] = (last ? last + ' ' : '') + w;
+      chunks.push('');
+    } else if(last){ chunks[chunks.length-1] = last + ' ' + w; }
+    else chunks[chunks.length-1] = w;
+    return chunks;
+  }, ['']).map(x=>x.trim()).filter(Boolean);
+}
+function speakText(text, repeat=false){
+  if(!('speechSynthesis' in window)){ alert(tr('audioUnavailable')); return; }
+  window.speechSynthesis.cancel();
+  clearSpeechHighlights();
+  const voice = chooseVoice();
+  const rate = speechRateMode === 'slow' ? 0.68 : 0.9;
+  const chunks = speechChunks(text);
+  let i=0;
+  function next(){
+    if(i>=chunks.length){ clearSpeechHighlights(); return; }
+    const part=chunks[i];
+    highlightSpeechChunk(i);
+    i++;
+    const utter=new SpeechSynthesisUtterance(part);
+    utter.lang = desiredVoiceLang();
+    if(voice) utter.voice = voice;
+    utter.rate = rate;
+    utter.pitch = 1;
+    utter.onend = () => setTimeout(next, 160);
+    utter.onerror = () => { clearSpeechHighlights(); };
+    window.speechSynthesis.speak(utter);
+  }
+  next();
+}
+function speakCurrentWord(repeat=false){ speakText(word(total()), repeat); }
 function expanded(v=total()){ const c=canonical(v), parts=[]; if(c.thousand)parts.push(String(c.thousand*1000)); if(c.hundred)parts.push(String(c.hundred*100)); if(c.ten)parts.push(String(c.ten*10)); if(c.one)parts.push(String(c.one)); return parts.length?parts.join(' + '):'0'; }
+function materialExpanded(){
+  const c=counts();
+  const parts=[];
+  if(c.thousand) parts.push(c.thousand===1?'1000':`${c.thousand} × 1000`);
+  if(c.hundred) parts.push(c.hundred===1?'100':`${c.hundred} × 100`);
+  if(c.ten) parts.push(c.ten===1?'10':`${c.ten} × 10`);
+  if(c.one) parts.push(c.one===1?'1':`${c.one} × 1`);
+  return parts.length?parts.join(' + '):'0';
+}
 function placeAbbr(){ return lang==='es'?['M','C','D','U']:lang==='de'?['T','H','Z','E']:lang==='it'?['M','C','D','U']:['Th','H','T','O']; }
 function blockSVG(type, scale=1){
   const s=scale;
@@ -288,25 +633,101 @@ function blockSVG(type, scale=1){
         <rect x="${X}" y="${Y}" width="${W}" height="${H}" fill="url(#${id}Front)" stroke="${edge}" stroke-width="1"/>${frontGrid}
       </g></svg>`;
   }
-  // Dienes material: 1000 = 10x10x10 cube; 100 = 10x10x1 plate; 10 = 10x1x1 bar; 1 = 1x1x1 cube.
-  if(type==='thousand') return prism({cols:10, rows:10, depth:10, unit:10, margin:12, isoX:.42, isoY:.42});
-  if(type==='hundred') return prism({cols:10, rows:10, depth:1, unit:9.5, margin:12, isoX:.55, isoY:.55});
-  if(type==='ten') return prism({cols:10, rows:1, depth:1, unit:10, margin:10, isoX:.55, isoY:.55});
-  return prism({cols:1, rows:1, depth:1, unit:10, margin:10, isoX:.55, isoY:.55});
+  // Dienes material, drawn with one visual unit orientation.
+  // 1000: 10x10x10 cube; 100: one face of the cube (10x10x1);
+  // 10: one horizontal bar of the plate (10x1x1); 1: one cube with the same orientation.
+  if(type==='thousand') return prism({cols:10, rows:10, depth:10, unit:10, margin:4, isoX:.44, isoY:.44});
+  if(type==='hundred') return prism({cols:10, rows:10, depth:1, unit:10, margin:4, isoX:.55, isoY:.55});
+  if(type==='ten') return prism({cols:10, rows:1, depth:1, unit:10, margin:4, isoX:.55, isoY:.55});
+  return prism({cols:1, rows:1, depth:1, unit:10, margin:4, isoX:.55, isoY:.55});
 }
-function renderWorkspace(){ const w=$('#workspace'); w.innerHTML=''; if(pieces.length===0){ w.innerHTML=`<div class="empty">${tr('empty')}</div>`; return; } pieces.forEach(p=>{ const d=document.createElement('div'); d.className='piece'+(selected.has(p.id)?' selected':''); d.dataset.id=p.id; d.innerHTML=blockSVG(p.type, p.type==='thousand'?0.78:p.type==='hundred'?0.72:p.type==='ten'?0.72:0.85); d.addEventListener('click',()=>{ selected.has(p.id)?selected.delete(p.id):selected.add(p.id); renderWorkspace(); updateButtons(); }); w.appendChild(d); }); }
-function renderPreview(){ ['thousand','hundred','ten','one'].forEach(k=>{ const el=document.querySelector(`[data-preview="${k}"]`); if(el) el.innerHTML=blockSVG(k, k==='thousand'?0.55:k==='hundred'?0.55:k==='ten'?0.55:0.75); }); }
+function renderWorkspace(){
+  const w=$('#workspace');
+  const previous = new Map([...w.querySelectorAll('.piece[data-id]')].map(el => [el.dataset.id, el.getBoundingClientRect()]));
+  w.innerHTML='';
+  w.classList.add('sorted');
+  if(pieces.length===0){
+    w.innerHTML=`<div class="empty">${tr('empty')}</div>`;
+    return;
+  }
+  const scales={thousand:0.86,hundred:1.0,ten:1.0,one:1.0};
+  function makePiece(p){
+    const d=document.createElement('div');
+    d.className='piece'+(selected.has(p.id)?' selected':'');
+    d.dataset.id=p.id;
+    d.innerHTML=blockSVG(p.type, scales[p.type]);
+    d.addEventListener('click',()=>{
+      selected.has(p.id)?selected.delete(p.id):selected.add(p.id);
+      renderWorkspace();
+      updateButtons();
+    });
+    return d;
+  }
+  // Thousands and hundreds stay in the same lateral line. If a new thousand is added,
+  // it is inserted before the hundreds and the hundreds move to the side.
+  ['thousand','hundred'].forEach(type=>{
+    pieces.filter(p=>p.type===type).forEach(p=>w.appendChild(makePiece(p)));
+  });
+  // Tens and ones are still lateral, but packed in columns of five to support quick counting.
+  const tenPack=document.createElement('div');
+  tenPack.className='inline-pack ten-pack';
+  pieces.filter(p=>p.type==='ten').forEach(p=>tenPack.appendChild(makePiece(p)));
+  if(tenPack.children.length) w.appendChild(tenPack);
+  const onePack=document.createElement('div');
+  onePack.className='inline-pack one-pack';
+  pieces.filter(p=>p.type==='one').forEach(p=>onePack.appendChild(makePiece(p)));
+  if(onePack.children.length) w.appendChild(onePack);
+
+  // FLIP animation: pieces appear to slide into their new sorted positions.
+  requestAnimationFrame(()=>{
+    w.querySelectorAll('.piece[data-id]').forEach(el=>{
+      const prev=previous.get(el.dataset.id);
+      const now=el.getBoundingClientRect();
+      if(prev){
+        const dx=prev.left-now.left, dy=prev.top-now.top;
+        if(Math.abs(dx)>1 || Math.abs(dy)>1){
+          el.animate([
+            { transform:`translate(${dx}px, ${dy}px)` },
+            { transform:'translate(0, 0)' }
+          ], { duration:280, easing:'ease-out' });
+        }
+      } else {
+        el.classList.add('new-piece');
+        setTimeout(()=>el.classList.remove('new-piece'),260);
+      }
+    });
+  });
+}
+function renderPreview(){ ['thousand','hundred','ten','one'].forEach(k=>{ const el=document.querySelector(`[data-preview="${k}"]`); if(el) el.innerHTML=blockSVG(k, k==='thousand'?0.52:k==='hundred'?0.62:k==='ten'?0.55:1.0); }); }
 function tableHTML(c){
   const a=placeAbbr();
   return `<div style="width:100%"><table class="pv-table"><thead><tr><th><span class="abbr">${a[0]}</span></th><th><span class="abbr">${a[1]}</span></th><th><span class="abbr">${a[2]}</span></th><th><span class="abbr">${a[3]}</span></th></tr></thead><tbody><tr><td>${c.thousand}</td><td>${c.hundred}</td><td>${c.ten}</td><td>${c.one}</td></tr></tbody></table></div>`;
 }
+function lockHTML(){
+  return `<div class="lock-card"><div class="lock">🔒</div><strong>${tr('unavailable')}</strong><div>${tr('composeFirst')}</div></div>`;
+}
+function noteHTML(){
+  return isStandard()
+    ? `<div class="canon-note ok">${tr('standardReady')}</div>`
+    : `<div class="canon-note warn">${tr('standardNeeded')}</div>`;
+}
+function audioControlsHTML(){
+  return `<div class="audio-controls clean-audio">
+    <button type="button" class="speak-btn" data-speak="once" aria-label="${tr('speak')}">🔊 ${tr('speak')}</button>
+  </div>`;
+}
 function renderRepresentation(){
-  const rv=$('#repView'), v=total(), c=canonical(v);
-  if(rep==='digits') rv.innerHTML=`<div class="value-number" style="font-size:clamp(58px,8vw,98px);">${v}</div>`;
-  else if(rep==='expanded') rv.innerHTML=`<div class="expanded">${expanded(v)}</div>`;
-  else if(rep==='word') rv.innerHTML=`<div class="words">${word(v)}</div>`;
-  else if(rep==='all') rv.innerHTML=`<div style="width:100%">${tableHTML(c)}<div class="small-card" style="margin-top:18px"><h3>${tr('digits')}</h3><div class="val big">${v}</div></div><div class="small-card" style="margin-top:14px"><h3>${tr('expanded')}</h3><div class="val">${expanded(v)}</div></div><div class="small-card" style="margin-top:14px"><h3>${tr('word')}</h3><div class="val">${word(v)}</div></div></div>`;
-  else rv.innerHTML=tableHTML(c);
+  clearSpeechHighlights();
+  updateAccess();
+  const rv=$('#repView'), v=total(), m=counts(), standard=isStandard();
+  if(!repAllowed(rep)){ rv.innerHTML = lockHTMLFor(rep); return; }
+  if(gatedReps.includes(rep)) visitedReps.add(rep);
+  if(rep==='digits') rv.innerHTML = `<div class="value-number" style="font-size:clamp(58px,8vw,98px);">${v}</div>`;
+  else if(rep==='expanded') rv.innerHTML=`<div style="width:100%"><div class="value-label">${tr('expanded')}</div><div class="expanded">${expanded(v)}</div>${noteHTML()}</div>`;
+  else if(rep==='word') rv.innerHTML = `<div class="word-box"><div class="words">${wordPartsHTML(word(v))}</div>${audioControlsHTML()}</div>`;
+  else if(rep==='all') rv.innerHTML=`<div style="width:100%"><div class="value-label">${tr('placeTable')}</div>${tableHTML(canonical(v))}<div class="small-card" style="margin-top:14px"><h3>${tr('expanded')}</h3><div class="val">${expanded(v)}</div></div><div class="small-card" style="margin-top:14px"><h3>${tr('digits')}</h3><div class="val big">${v}</div></div><div class="small-card" style="margin-top:14px"><h3>${tr('word')}</h3><div class="val word-small">${wordPartsHTML(word(v))}</div>${audioControlsHTML()}</div></div>`;
+  else rv.innerHTML=`<div style="width:100%"><div class="value-label">${tr('materialCount')}</div>${tableHTML(m)}${noteHTML()}</div>`;
+  updateAccess();
 }
 function updateButtons(){ const sel=pieces.filter(p=>selected.has(p.id)); const types=[...new Set(sel.map(p=>p.type))]; $('#decompose').disabled=!(sel.length===1 && sel[0].type!=='one'); $('#compose').disabled=!(sel.length===10 && types.length===1 && types[0]!=='thousand'); }
 function render(){ renderWorkspace(); renderRepresentation(); updateButtons(); renderPreview(); }
@@ -328,7 +749,12 @@ document.addEventListener('click', (e) => {
   $$('.info-dot').forEach(x => x.classList.remove('showtip'));
 });
 
-document.addEventListener('click',e=>{ const a=e.target.closest('.addbtn'); if(a) addPiece(a.dataset.type); });
+document.addEventListener('click',e=>{
+  const a=e.target.closest('.addbtn'); if(a){ e.stopPropagation(); addPiece(a.dataset.type); return; }
+  const tile=e.target.closest('.tile'); if(tile){ const b=tile.querySelector('.addbtn'); if(b) addPiece(b.dataset.type); return; }
+  const rate=e.target.closest('[data-rate]'); if(rate){ speechRateMode=rate.dataset.rate; renderRepresentation(); return; }
+  const sp=e.target.closest('[data-speak]'); if(sp){ speakCurrentWord(false); return; }
+});
 
 $$('.info-dot').forEach(dot => {
   dot.addEventListener('click', e => {
@@ -343,7 +769,7 @@ $$('.info-dot').forEach(dot => {
 $('#decompose').addEventListener('click',decompose); $('#compose').addEventListener('click',compose);
 $('#undo').addEventListener('click',()=>{ if(history.length){ pieces=JSON.parse(history.pop()); selected.clear(); render(); } });
 $('#clear').addEventListener('click',()=>{ save(); pieces=[]; selected.clear(); setStatusKey('statusStart'); render(); });
-$$('.rep-tab').forEach(b=>b.addEventListener('click',()=>{ rep=b.dataset.rep; $$('.rep-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderRepresentation(); }));
+$$('.rep-tab').forEach(b=>b.addEventListener('click',()=>{ const target=b.dataset.rep; if(!repAllowed(target)){ $('#repView').innerHTML=lockHTMLFor(target); updateAccess(); return; } rep=target; renderRepresentation(); }));
 $('#lang').addEventListener('change',e=>setLang(e.target.value));
 setLang('en'); renderPreview();
 addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
