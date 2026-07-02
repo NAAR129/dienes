@@ -340,10 +340,10 @@ header::after {
   background:linear-gradient(180deg,#fffefb,#fff7e8);
   box-shadow:0 7px 18px rgba(126,83,30,.08);
 }
-.tile:nth-child(1) { border-color:rgba(11,85,160,.25); }
-.tile:nth-child(2) { border-color:rgba(47,125,50,.30); }
-.tile:nth-child(3) { border-color:rgba(240,164,0,.35); }
-.tile:nth-child(4) { border-color:rgba(198,40,40,.22); }
+.tile:nth-child(1) { border-color:rgba(11,85,160,.20); background:linear-gradient(180deg,#f4f9ff,#eaf3ff); }
+.tile:nth-child(2) { border-color:rgba(47,125,50,.22); background:linear-gradient(180deg,#f7fff4,#eaf8e5); }
+.tile:nth-child(3) { border-color:rgba(240,164,0,.25); background:linear-gradient(180deg,#fffaf0,#fff1d6); }
+.tile:nth-child(4) { border-color:rgba(198,40,40,.18); background:linear-gradient(180deg,#fff7f7,#ffecec); }
 .addbtn {
   border:0;
   color:white;
@@ -447,6 +447,123 @@ header::after {
   .lang { padding:6px 6px; font-size:13px; }
 }
 
+/* Teacher mode */
+.teacher-open { border:1px solid #bdd8ad; background:#fff; color:#174313; border-radius:12px; padding:9px 12px; font-weight:800; cursor:pointer; }
+.teacher-open:hover { background:#f3faef; }
+.teacher-modal { position:fixed; inset:0; background:rgba(10,30,20,.38); display:none; align-items:center; justify-content:center; padding:18px; z-index:50; }
+.teacher-modal.show { display:flex; }
+.teacher-box { width:min(760px,96vw); max-height:92vh; overflow:auto; background:#fffefb; border:3px solid var(--green); border-radius:24px; box-shadow:0 20px 70px rgba(0,0,0,.25); padding:22px; }
+.teacher-box h2 { margin:0 0 14px; color:#204d1b; text-align:center; }
+.teacher-login-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; }
+.teacher-login-row input { min-width:220px; border:2px solid #cfe3c3; border-radius:12px; padding:10px 12px; font-size:16px; }
+.teacher-config { display:none; }
+.teacher-config.show { display:block; }
+.teacher-columns { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:18px 0; }
+.teacher-column { border:2px solid #dbe9d1; background:#fbfff7; border-radius:18px; padding:14px; }
+.teacher-column h3 { margin:0 0 12px; color:#56341d; text-align:center; }
+.teacher-check { display:flex; align-items:center; gap:10px; padding:9px 8px; border-radius:12px; cursor:pointer; font-weight:700; }
+.teacher-check:hover { background:#f1f7eb; }
+.teacher-check input { width:18px; height:18px; accent-color:var(--green); }
+.teacher-actions { display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap; margin-top:14px; }
+.teacher-error { color:var(--red); font-weight:800; text-align:center; min-height:22px; margin-top:8px; }
+.teacher-view-stack { display:none; gap:14px; flex-direction:column; }
+.teacher-view-stack.show { display:flex; }
+.teacher-rep-card { border:2px solid #d8e6cf; border-radius:18px; padding:14px; background:#fff; }
+.teacher-rep-card h3 { margin:0 0 10px; text-align:center; color:#204d1b; }
+.material-snapshot { min-height:180px; display:flex; align-items:flex-start; flex-wrap:wrap; gap:10px; padding:12px; background:#fffdf6; border:2px dashed #d8e6cf; border-radius:18px; }
+.material-snapshot .piece { position:relative; left:auto !important; top:auto !important; transform:none !important; }
+.hidden-by-teacher { display:none !important; }
+@media(max-width:700px){ .teacher-columns{grid-template-columns:1fr} .teacher-box{padding:16px} .teacher-open{padding:7px 8px;font-size:13px} }
+
+/* Teacher layout refinements */
+.panel.teacher-active > h2 { display:none; }
+.addbtn[data-type="thousand"] { background:#eaf3ff; border-color:#8bb9ff; color:#064aa5; }
+.addbtn[data-type="hundred"] { background:#ecf8e8; border-color:#8fc982; color:#0c6a22; }
+.addbtn[data-type="ten"] { background:#fff3df; border-color:#f2b35d; color:#b75000; }
+.addbtn[data-type="one"] { background:#fff0f0; border-color:#ef9a9a; color:#b31313; }
+.addbtn[data-type="thousand"]:hover { background:#d9eaff; }
+.addbtn[data-type="hundred"]:hover { background:#dff3d8; }
+.addbtn[data-type="ten"]:hover { background:#ffe5bd; }
+.addbtn[data-type="one"]:hover { background:#ffe0e0; }
+.pv-dynamic { width:100%; }
+.pv-dynamic-grid { display:grid; grid-template-columns:repeat(4, minmax(72px,1fr)); gap:10px; margin-top:10px; }
+.pv-dyn-cell { border:2px solid #82bb6f; border-radius:16px; overflow:hidden; background:#fffefb; text-align:center; }
+.pv-dyn-head { padding:10px 4px; font-weight:900; background:#edf8e8; color:#075c13; border-bottom:2px solid #82bb6f; }
+.pv-dyn-value { font-size:clamp(34px,6vw,60px); font-weight:900; padding:12px 4px; }
+.pv-dyn-controls { display:flex; gap:6px; justify-content:center; padding:0 8px 10px; }
+.pv-dyn-controls button { width:38px; height:34px; border-radius:10px; border:1px solid #bdd8ad; background:#f6fff2; color:#14551b; font-weight:900; cursor:pointer; font-size:18px; }
+.pv-dyn-controls button:hover { background:#e7f6df; }
+.pv-dyn-controls button:disabled { opacity:.4; cursor:not-allowed; }
+
+.teacher-radio input { border-radius:999px; }
+.teacher-editor { display:flex; flex-direction:column; gap:14px; }
+.teacher-input-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+.teacher-input-row input { flex:1; min-width:190px; border:2px solid #cfe3c3; border-radius:14px; padding:12px 14px; font-size:20px; font-weight:800; }
+.teacher-hint { color:#486046; font-weight:700; font-size:14px; }
+.teacher-main-only { min-height:360px; }
+.teacher-rep-card.plain-card { border:0; background:transparent; padding:0; }
+
+@media(max-width:560px){ .pv-dynamic-grid{grid-template-columns:repeat(2, minmax(80px,1fr));} }
+
+
+/* v31 teacher-mode independent dynamic layout */
+.teacher-material-editor { display:flex; flex-direction:column; gap:14px; }
+.teacher-workspace { min-height:360px; border:2px dashed #aacbe8; border-radius:18px; padding:18px; background:#fffdfa; overflow:auto; }
+.teacher-workspace .material-snapshot { align-items:flex-start; }
+.teacher-piece { cursor:pointer; border:3px solid transparent; border-radius:14px; padding:6px; transition:transform .25s ease, border-color .2s ease, background .2s ease; }
+.teacher-piece.selected { border-color:var(--blue); background:#eaf3ff; box-shadow:0 6px 14px rgba(11,85,160,.18); }
+.teacher-palette { display:grid; grid-template-columns:repeat(4,minmax(110px,1fr)); gap:12px; }
+.teacher-tile { position:relative; min-height:140px; border:2px solid #dbe9d1; border-radius:18px; padding:12px; background:#fffdf8; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; overflow:hidden; }
+.teacher-tile::before { content:''; position:absolute; inset:0; opacity:.22; pointer-events:none; }
+.teacher-tile.thousand::before { background:#d9ebff; }
+.teacher-tile.hundred::before { background:#dcf3df; }
+.teacher-tile.ten::before { background:#fff0d7; }
+.teacher-tile.one::before { background:#ffe2e5; }
+.teacher-tile > * { position:relative; z-index:1; }
+.teacher-plus { position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:50%; border:0; background:white; color:#0b55a0; font-size:24px; font-weight:900; box-shadow:0 6px 16px rgba(0,0,0,.12); cursor:pointer; }
+.teacher-mini-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+.teacher-mini-actions .btn { min-width:130px; }
+.teacher-left-panel { min-height:360px; display:flex; flex-direction:column; justify-content:center; }
+.teacher-one-rep { width:100%; }
+.teacher-one-rep .value-number { text-align:center; }
+.teacher-rep-card { overflow:hidden; }
+.teacher-rep-card .word-box { overflow-wrap:anywhere; word-break:normal; }
+@media(max-width:760px){ .teacher-palette{grid-template-columns:repeat(2,1fr)} .teacher-workspace{min-height:280px} }
+
+
+/* v33 robust teacher-mode isolation */
+.panel.teacher-active > .left-top,
+.panel.teacher-active > #workspace,
+.panel.teacher-active > .add-section,
+.panel.teacher-active > #status,
+.panel.teacher-active > .rep-tabs,
+.panel.teacher-active > #repView {
+  display: none !important;
+}
+.panel.teacher-active {
+  display:flex;
+  flex-direction:column;
+}
+.teacher-view-stack.show {
+  display:flex !important;
+  flex:1;
+}
+.teacher-view-stack.teacher-main-only {
+  justify-content:stretch;
+}
+.teacher-rep-card.plain-card {
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+.teacher-rep-card.plain-card > * { flex:1; }
+.teacher-editor.teacher-left-panel {
+  justify-content:center;
+  min-height:360px;
+}
+.teacher-editor .teacher-input-row input {
+  background:#fffefb;
+}
 </style>
 </head>
 <body>
@@ -458,6 +575,7 @@ header::after {
     <p data-i="subtitle">Compose, decompose and connect representations</p>
   </div>
   <div class="controls">
+    <button id="teacherOpen" class="teacher-open" type="button" aria-label="Teacher Mode">⚙︎</button>
     <select id="lang" class="lang"><option value="en">EN</option><option value="es">ES</option><option value="de">DE</option><option value="it">IT</option></select>
   </div>
 </header>
@@ -498,6 +616,39 @@ header::after {
     </div>
   </section>
 </main>
+
+<div id="teacherModal" class="teacher-modal" role="dialog" aria-modal="true" aria-labelledby="teacherTitle">
+  <div class="teacher-box">
+    <h2 id="teacherTitle" data-teacher-i="teacherMode">Teacher Mode</h2>
+    <div id="teacherLogin" class="teacher-login">
+      <div class="teacher-login-row">
+        <label for="teacherPassword" data-teacher-i="password">Password</label>
+        <input id="teacherPassword" type="password" autocomplete="off">
+        <button id="teacherLoginBtn" type="button" class="btn green" data-teacher-i="login">Login</button>
+        <button id="teacherCancelBtn" type="button" class="btn gray" data-teacher-i="cancel">Cancel</button>
+      </div>
+      <div id="teacherError" class="teacher-error"></div>
+    </div>
+    <div id="teacherConfig" class="teacher-config">
+      <div class="teacher-columns">
+        <section class="teacher-column">
+          <h3 data-teacher-i="leftWindow">Left window</h3>
+          <div id="teacherLeftChecks"></div>
+        </section>
+        <section class="teacher-column">
+          <h3 data-teacher-i="rightWindow">Right window</h3>
+          <div id="teacherRightChecks"></div>
+        </section>
+      </div>
+      <div class="teacher-actions">
+        <button id="teacherDefaults" type="button" class="btn gray" data-teacher-i="restoreDefaults">Restore defaults</button>
+        <button id="teacherCloseBtn" type="button" class="btn gray" data-teacher-i="cancel">Cancel</button>
+        <button id="teacherApply" type="button" class="btn green" data-teacher-i="apply">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="footer">Funded by the European Union (grant no. KA220-NW-25-36-358844). Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or Erasmus+ National Agency. Neither the European Union nor the granting authority can be held responsible for them.</div>
 <script>
 const I18N = {
@@ -762,11 +913,244 @@ function renderRepresentation(){
   updateAccess();
 }
 function updateButtons(){ const sel=pieces.filter(p=>selected.has(p.id)); const types=[...new Set(sel.map(p=>p.type))]; $('#decompose').disabled=!(sel.length===1 && sel[0].type!=='one'); $('#compose').disabled=!(sel.length===10 && types.length===1 && types[0]!=='thousand'); }
-function render(){ renderWorkspace(); renderRepresentation(); updateButtons(); renderPreview(); }
-function setLang(l){ lang=l; document.documentElement.lang=l; $$('[data-i]').forEach(el=>{ const key=el.dataset.i; if(key==='helpHtml') el.innerHTML=tr(key); else el.textContent=tr(key); }); const tips={en:['Select one piece to break it into ten smaller pieces.','Select exactly ten equal pieces to build one larger piece.'],es:['Selecciona una pieza para transformarla en diez piezas menores.','Selecciona exactamente diez piezas iguales para formar una pieza mayor.'],de:['Wähle ein Teil, um es in zehn kleinere Teile zu entbündeln.','Wähle genau zehn gleiche Teile, um ein größeres Teil zu bündeln.'],it:['Seleziona un pezzo per trasformarlo in dieci pezzi più piccoli.','Seleziona esattamente dieci pezzi uguali per formare un pezzo più grande.']}; const dots=$$('.info-dot'); if(dots[0]) dots[0].dataset.tip=tips[l][0]; if(dots[1]) dots[1].dataset.tip=tips[l][1]; render(); if(currentStatusKey) setStatus(tr(currentStatusKey), currentStatusErr, currentStatusKey); }
+function render(){ renderWorkspace(); renderRepresentation(); updateButtons(); renderPreview(); renderTeacherViews(); }
+function setLang(l){ lang=l; document.documentElement.lang=l; $$('[data-i]').forEach(el=>{ const key=el.dataset.i; if(key==='helpHtml') el.innerHTML=tr(key); else el.textContent=tr(key); }); updateTeacherTexts(); const tips={en:['Select one piece to break it into ten smaller pieces.','Select exactly ten equal pieces to build one larger piece.'],es:['Selecciona una pieza para transformarla en diez piezas menores.','Selecciona exactamente diez piezas iguales para formar una pieza mayor.'],de:['Wähle ein Teil, um es in zehn kleinere Teile zu entbündeln.','Wähle genau zehn gleiche Teile, um ein größeres Teil zu bündeln.'],it:['Seleziona un pezzo per trasformarlo in dieci pezzi più piccoli.','Seleziona esattamente dieci pezzi uguali per formare un pezzo più grande.']}; const dots=$$('.info-dot'); if(dots[0]) dots[0].dataset.tip=tips[l][0]; if(dots[1]) dots[1].dataset.tip=tips[l][1]; render(); if(currentStatusKey) setStatus(tr(currentStatusKey), currentStatusErr, currentStatusKey); }
 function decompose(){ const sel=pieces.filter(p=>selected.has(p.id)); if(!(sel.length===1 && sel[0].type!=='one')) return setStatusKey('cannotDecompose',true); save(); const p=sel[0]; pieces=pieces.filter(x=>x.id!==p.id); const next=p.type==='thousand'?'hundred':p.type==='hundred'?'ten':'one'; for(let i=0;i<10;i++) pieces.push({id:nextId++,type:next}); selected.clear(); setStatusKey('didDecompose'); render(); }
 function compose(){ const sel=pieces.filter(p=>selected.has(p.id)); const types=[...new Set(sel.map(p=>p.type))]; if(!(sel.length===10 && types.length===1 && types[0]!=='thousand')) return setStatusKey('cannotCompose',true); save(); const type=types[0], next=type==='one'?'ten':type==='ten'?'hundred':'thousand'; const ids=new Set(sel.map(p=>p.id)); pieces=pieces.filter(p=>!ids.has(p.id)); pieces.push({id:nextId++,type:next}); selected.clear(); setStatusKey('didCompose'); render(); }
 function canonicalize(){ const c=canonical(); save(); pieces=[]; order.forEach(k=>{ for(let i=0;i<c[k];i++) pieces.push({id:nextId++,type:k}); }); selected.clear(); render(); }
+
+
+const TEACHER_I18N={
+  en:{teacherMode:'Teacher Mode',password:'Password',login:'Login',cancel:'Cancel',apply:'Apply',restoreDefaults:'Restore defaults',leftWindow:'Main representation',rightWindow:'Representations to compare',wrongPassword:'Wrong password.',chooseOne:'Choose at least one representation.',chooseOneLeft:'Choose exactly one main representation.', materialOption:'Dienes Material', setValue:'Set value', typeDigits:'Write a number', typeExpanded:'Write an expanded form', typeWord:'Write the number in words', cannotReadWord:'This word form is not recognized yet. Try Digits or Expanded form.'},
+  es:{teacherMode:'Modo profesor',password:'Contraseña',login:'Entrar',cancel:'Cancelar',apply:'Aplicar',restoreDefaults:'Restablecer configuración',leftWindow:'Representación principal',rightWindow:'Representaciones para comparar',wrongPassword:'Contraseña incorrecta.',chooseOne:'Elige al menos una representación.',chooseOneLeft:'Elige exactamente una representación principal.', materialOption:'Material Dienes', setValue:'Aplicar valor', typeDigits:'Escribe un número', typeExpanded:'Escribe una forma expandida', typeWord:'Escribe el número con palabras', cannotReadWord:'Todavía no se reconoce esta forma escrita. Prueba con Dígitos o Forma expandida.'},
+  de:{teacherMode:'Lehrkraftmodus',password:'Passwort',login:'Anmelden',cancel:'Abbrechen',apply:'Übernehmen',restoreDefaults:'Standardeinstellungen wiederherstellen',leftWindow:'Hauptdarstellung',rightWindow:'Darstellungen zum Vergleichen',wrongPassword:'Falsches Passwort.',chooseOne:'Wähle mindestens eine Darstellung aus.',chooseOneLeft:'Wähle genau eine Hauptdarstellung aus.', materialOption:'Dienes-Material', setValue:'Wert übernehmen', typeDigits:'Schreibe eine Zahl', typeExpanded:'Schreibe eine erweiterte Form', typeWord:'Schreibe die Zahl in Worten', cannotReadWord:'Diese Wortform wird noch nicht erkannt. Nutze Ziffern oder erweiterte Form.'},
+  it:{teacherMode:'Modalità insegnante',password:'Password',login:'Accedi',cancel:'Annulla',apply:'Applica',restoreDefaults:'Ripristina impostazioni',leftWindow:'Rappresentazione principale',rightWindow:'Rappresentazioni da confrontare',wrongPassword:'Password errata.',chooseOne:'Scegli almeno una rappresentazione.',chooseOneLeft:'Scegli esattamente una rappresentazione principale.', materialOption:'Materiale Dienes', setValue:'Applica valore', typeDigits:'Scrivi un numero', typeExpanded:'Scrivi una forma espansa', typeWord:'Scrivi il numero in parole', cannotReadWord:'Questa forma scritta non è ancora riconosciuta. Prova con Cifre o Forma espansa.'}
+};
+const teacherOptions=['material','place','digits','expanded','word'];
+let teacherLayout={active:false,left:['material'],right:['place']};
+let teacherPieces=[];
+let teacherSelected=new Set();
+let teacherNextId=1;
+let teacherHistory=[];
+let teacherPreviewBackup=null;
+let teacherApplied=false;
+
+function tt(k){ return (TEACHER_I18N[lang]&&TEACHER_I18N[lang][k])||TEACHER_I18N.en[k]||k; }
+function optionLabel(k){ return k==='material'?tt('materialOption'):tr(k==='place'?'placeValue':k); }
+function saveTeacherLayout(){ /* Teacher layout is session-only; closing/reloading restores the original app. */ }
+function loadTeacherLayout(){ teacherLayout={active:false,left:['material'],right:['place']}; resetTeacherState(false); }
+function resetTeacherState(shouldRender=true){
+  teacherPieces=[]; teacherSelected.clear(); teacherHistory=[]; teacherNextId=1;
+  ['thousand','hundred','ten','one'].forEach(type=>teacherPieces.push({id:teacherNextId++,type}));
+  if(shouldRender) render();
+}
+function teacherSave(){ teacherHistory.push(JSON.stringify(teacherPieces)); if(teacherHistory.length>40) teacherHistory.shift(); }
+function teacherCounts(){ const c={thousand:0,hundred:0,ten:0,one:0}; teacherPieces.forEach(p=>c[p.type]++); return c; }
+function teacherTotal(){ const c=teacherCounts(); return c.thousand*1000+c.hundred*100+c.ten*10+c.one; }
+function teacherIsStandard(){ const c=teacherCounts(); return c.thousand<=9 && c.hundred<=9 && c.ten<=9 && c.one<=9; }
+function updateTeacherTexts(){
+  $$('[data-teacher-i]').forEach(el=>{ el.textContent=tt(el.dataset.teacherI); });
+  renderTeacherChecks();
+}
+function renderTeacherChecks(){
+  const makeLeft=()=>teacherOptions.map(opt=>`<label class="teacher-check teacher-radio"><input type="radio" name="teacher-left-main" data-teacher-side="left" value="${opt}" ${teacherLayout.left[0]===opt?'checked':''}> <span>${optionLabel(opt)}</span></label>`).join('');
+  const makeRight=()=>teacherOptions.map(opt=>`<label class="teacher-check"><input type="checkbox" data-teacher-side="right" value="${opt}" ${teacherLayout.right.includes(opt)?'checked':''}> <span>${optionLabel(opt)}</span></label>`).join('');
+  const l=$('#teacherLeftChecks'), r=$('#teacherRightChecks');
+  if(l) l.innerHTML=makeLeft();
+  if(r) r.innerHTML=makeRight();
+}
+function readTeacherSelectionFromModal(){
+  const leftSel=document.querySelector('[data-teacher-side="left"]:checked');
+  const right=$$('[data-teacher-side="right"]:checked').map(x=>x.value);
+  return {leftSel,right};
+}
+function previewTeacherSelection(){
+  const {leftSel,right}=readTeacherSelectionFromModal();
+  if(!leftSel || !right.length) return;
+  teacherLayout={active:true,left:[leftSel.value],right};
+  render();
+}
+function teacherSetFromValue(n){
+  n=Math.max(0,Math.min(9999,Math.floor(Number(n)||0)));
+  teacherSave(); teacherPieces=[]; teacherSelected.clear();
+  const th=Math.floor(n/1000), h=Math.floor((n%1000)/100), t=Math.floor((n%100)/10), o=n%10;
+  [['thousand',th],['hundred',h],['ten',t],['one',o]].forEach(([type,count])=>{ for(let i=0;i<count;i++) teacherPieces.push({id:teacherNextId++,type}); });
+  render();
+}
+
+function normalizeTeacherValue(n){
+  n=Number(n);
+  if(!Number.isFinite(n)) return NaN;
+  return Math.max(0, Math.min(9999, Math.floor(n)));
+}
+function parseExpandedToValue(str){
+  if(str==null) return NaN;
+  const clean=String(str).toLowerCase().replace(/×/g,'*').replace(/,/g,'.').replace(/[^0-9+*x.\-\s]/g,'');
+  if(!clean.trim()) return NaN;
+  // Accept common expanded forms such as 2000+300+40+1, 2*1000 + 3*100 + 4*10 + 1, or 2x1000+3x100.
+  const parts=clean.split('+').map(s=>s.trim()).filter(Boolean);
+  let total=0;
+  for(const p of parts){
+    let val;
+    if(/[x*]/.test(p)){
+      const nums=p.split(/[x*]/).map(x=>Number(x.trim())).filter(x=>Number.isFinite(x));
+      if(nums.length!==2) return NaN;
+      val=nums[0]*nums[1];
+    } else {
+      val=Number(p);
+    }
+    if(!Number.isFinite(val)) return NaN;
+    total+=val;
+  }
+  return normalizeTeacherValue(total);
+}
+const WORD_TO_NUM={
+  en:{zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90,hundred:100,thousand:1000,and:0},
+  es:{cero:0,uno:1,un:1,una:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,once:11,doce:12,trece:13,catorce:14,quince:15,dieciseis:16,dieciséis:16,diecisiete:17,dieciocho:18,diecinueve:19,veinte:20,treinta:30,cuarenta:40,cincuenta:50,sesenta:60,setenta:70,ochenta:80,noventa:90,cien:100,ciento:100,centena:100,centenas:100,mil:1000,y:0},
+  de:{null:0,eins:1,ein:1,eine:1,zwei:2,drei:3,vier:4,fuenf:5,fünf:5,sechs:6,sieben:7,acht:8,neun:9,zehn:10,elf:11,zwoelf:12,zwölf:12,dreizehn:13,vierzehn:14,fuenfzehn:15,fünfzehn:15,sechzehn:16,siebzehn:17,achtzehn:18,neunzehn:19,zwanzig:20,dreissig:30,dreißig:30,vierzig:40,fuenfzig:50,fünfzig:50,sechzig:60,siebzig:70,achtzig:80,neunzig:90,hundert:100,tausend:1000,und:0},
+  it:{zero:0,uno:1,una:1,due:2,tre:3,quattro:4,cinque:5,sei:6,sette:7,otto:8,nove:9,dieci:10,undici:11,dodici:12,tredici:13,quattordici:14,quindici:15,sedici:16,diciassette:17,diciotto:18,diciannove:19,venti:20,trenta:30,quaranta:40,cinquanta:50,sessanta:60,settanta:70,ottanta:80,novanta:90,cento:100,mille:1000,e:0}
+};
+function parseSimpleWordNumber(str){
+  const direct=Number(String(str).replace(/\s/g,''));
+  if(Number.isFinite(direct)) return normalizeTeacherValue(direct);
+  let s=String(str||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  // Try exact known word generated by the app first.
+  for(let i=0;i<=9999;i++){
+    const w=word(i).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[-,]/g,' ').replace(/\s+/g,' ').trim();
+    if(w && w===s.replace(/[-,]/g,' ').replace(/\s+/g,' ').trim()) return i;
+  }
+  s=s.replace(/[-,]/g,' ').replace(/\s+/g,' ').trim();
+  const dict=WORD_TO_NUM[lang]||WORD_TO_NUM.en;
+  const tokens=s.split(' ').filter(Boolean);
+  if(!tokens.length) return NaN;
+  let total=0,current=0;
+  for(const tok of tokens){
+    const v=dict[tok];
+    if(v==null) return NaN;
+    if(v===100){ current=(current||1)*100; }
+    else if(v===1000){ total+=(current||1)*1000; current=0; }
+    else current+=v;
+  }
+  return normalizeTeacherValue(total+current);
+}
+function setPiecesFromValue(n){
+  n=normalizeTeacherValue(n);
+  if(!Number.isFinite(n)) return;
+  save(); pieces=[]; selected.clear();
+  const th=Math.floor(n/1000), h=Math.floor((n%1000)/100), t=Math.floor((n%100)/10), o=n%10;
+  [['thousand',th],['hundred',h],['ten',t],['one',o]].forEach(([type,count])=>{ for(let i=0;i<count;i++) pieces.push({id:nextId++,type}); });
+  render();
+}
+function teacherMaterialSnapshotHTML(selectable=false){
+  if(!teacherPieces.length) return `<div class="empty">${tr('empty')}</div>`;
+  const sorted=[...teacherPieces].sort((a,b)=>order.indexOf(a.type)-order.indexOf(b.type) || a.id-b.id);
+  return `<div class="material-snapshot">${sorted.map(p=>`<div class="${selectable?'teacher-piece ':'piece '}${p.type} ${teacherSelected.has(p.id)?'selected':''}" ${selectable?`data-teacher-piece="${p.id}"`:''}>${blockSVG(p.type, p.type==='thousand'?0.58:p.type==='hundred'?0.70:p.type==='ten'?0.62:0.70)}</div>`).join('')}</div>`;
+}
+function teacherNoteHTML(){
+  return teacherIsStandard()?`<div class="standard-note ok">${tr('standardReady')}</div>`:`<div class="standard-note warn">${tr('standardNeeded')}</div>`;
+}
+function teacherLockHTML(){ return `<div class="locked"><strong>${tr('unavailable')}</strong><br>${tr('composeFirst')}</div>`; }
+function teacherRepBlockHTML(type, interactive=false){
+  const v=teacherTotal();
+  if(type==='material') return teacherMaterialSnapshotHTML(interactive);
+  if(type==='place') return `<div class="teacher-one-rep"><div class="value-label">${tr('materialCount')}</div>${tableHTML(teacherCounts())}${teacherNoteHTML()}</div>`;
+  if(!teacherIsStandard()) return teacherLockHTML();
+  if(type==='digits') return `<div class="teacher-one-rep"><div class="value-number" style="font-size:clamp(46px,7vw,84px);">${v}</div></div>`;
+  if(type==='expanded') return `<div class="teacher-one-rep"><div class="expanded">${expanded(v)}</div></div>`;
+  if(type==='word') return `<div class="teacher-one-rep"><div class="word-box"><div class="words">${wordPartsHTML(word(v))}</div>${audioControlsHTML()}</div></div>`;
+  return '';
+}
+function teacherDynamicPlaceHTML(){
+  const m=teacherCounts();
+  const labels=abbrs[lang];
+  return `<div class="pv-dynamic teacher-one-rep"><div class="pv-dynamic-grid">${order.map((k,i)=>`<div class="pv-dyn-cell"><div class="pv-dyn-head">${labels[i]}</div><div class="pv-dyn-value">${m[k]}</div><div class="pv-dyn-controls"><button type="button" data-tadjust="${k}" data-delta="-1" ${m[k]===0?'disabled':''}>−</button><button type="button" data-tadjust="${k}" data-delta="1">+</button></div></div>`).join('')}</div>${teacherNoteHTML()}</div>`;
+}
+function teacherTileLabel(type){ return tr(type); }
+function teacherEditableRepHTML(type){
+  const v=teacherTotal();
+  if(type==='material') return `<div class="teacher-material-editor"><div class="teacher-workspace">${teacherMaterialSnapshotHTML(true)}</div><div class="teacher-mini-actions"><button type="button" class="btn blue" data-teacher-decompose>${tr('decompose')}</button><button type="button" class="btn green" data-teacher-compose>${tr('compose')}</button><button type="button" class="btn gray" data-teacher-undo>${tr('undo')}</button><button type="button" class="btn red" data-teacher-clear>${tr('clear')}</button></div><div class="teacher-palette">${order.map(type=>`<div class="teacher-tile ${type}" data-teacher-add="${type}"><button class="teacher-plus" type="button">+</button><div>${blockSVG(type, type==='thousand'?0.46:type==='hundred'?0.55:type==='ten'?0.50:0.66)}</div><div class="tile-name">${teacherTileLabel(type)}</div><small>${values[type]}</small></div>`).join('')}</div>${teacherNoteHTML()}</div>`;
+  if(type==='place') return teacherDynamicPlaceHTML();
+  if(type==='digits') return `<div class="teacher-editor teacher-left-panel"><div class="teacher-input-row"><input data-t-digits type="number" min="0" max="9999" value="${v}" aria-label="${tt('typeDigits')}"><button type="button" class="btn green" data-t-set-digits>${tt('setValue')}</button></div>${teacherNoteHTML()}</div>`;
+  if(type==='expanded') return `<div class="teacher-editor teacher-left-panel"><div class="teacher-input-row"><input data-t-expanded type="text" value="${expanded(v).replace(/"/g,'&quot;')}" aria-label="${tt('typeExpanded')}"><button type="button" class="btn green" data-t-set-expanded>${tt('setValue')}</button></div><div class="teacher-hint">300 + 30 + 4</div>${teacherNoteHTML()}</div>`;
+  if(type==='word') return `<div class="teacher-editor teacher-left-panel"><div class="teacher-input-row"><input data-t-word type="text" value="${word(v).replace(/"/g,'&quot;')}" aria-label="${tt('typeWord')}"><button type="button" class="btn green" data-t-set-word>${tt('setValue')}</button></div>${teacherNoteHTML()}</div>`;
+  return '';
+}
+function teacherCompose(){
+  const selectedPieces=teacherPieces.filter(p=>teacherSelected.has(p.id));
+  if(selectedPieces.length!==10){ setStatusKey('cannotCompose',true); return; }
+  const type=selectedPieces[0].type;
+  if(!selectedPieces.every(p=>p.type===type)){ setStatusKey('cannotCompose',true); return; }
+  const map={one:'ten',ten:'hundred',hundred:'thousand'};
+  if(!map[type]){ setStatusKey('cannotCompose',true); return; }
+  teacherSave(); const ids=new Set(selectedPieces.map(p=>p.id)); teacherPieces=teacherPieces.filter(p=>!ids.has(p.id)); teacherPieces.push({id:teacherNextId++,type:map[type]}); teacherSelected.clear(); render();
+}
+function teacherDecompose(){
+  const selectedPieces=teacherPieces.filter(p=>teacherSelected.has(p.id));
+  if(selectedPieces.length!==1){ setStatusKey('cannotDecompose',true); return; }
+  const type=selectedPieces[0].type; const map={thousand:'hundred',hundred:'ten',ten:'one'};
+  if(!map[type]){ setStatusKey('cannotDecompose',true); return; }
+  teacherSave(); const id=selectedPieces[0].id; teacherPieces=teacherPieces.filter(p=>p.id!==id); for(let i=0;i<10;i++) teacherPieces.push({id:teacherNextId++,type:map[type]}); teacherSelected.clear(); render();
+}
+function renderTeacherViews(){
+  const panels=$$('.lab .panel'); if(panels.length<2) return;
+  const left=panels[0], right=panels[1];
+  let leftStack=$('#leftTeacherViews'), rightStack=$('#rightTeacherViews');
+  if(!leftStack){ leftStack=document.createElement('div'); leftStack.id='leftTeacherViews'; leftStack.className='teacher-view-stack teacher-main-only'; left.appendChild(leftStack); }
+  if(!rightStack){ rightStack=document.createElement('div'); rightStack.id='rightTeacherViews'; rightStack.className='teacher-view-stack'; right.appendChild(rightStack); }
+  const leftCore=[left.querySelector('.left-top'), left.querySelector('#workspace'), left.querySelector('.add-section'), left.querySelector('#status')];
+  const rightCore=[right.querySelector('.rep-tabs'), right.querySelector('#repView')];
+  if(!teacherLayout.active){
+    left.classList.remove('teacher-active'); right.classList.remove('teacher-active');
+    left.querySelector('h2').textContent=tr('materialTitle'); right.querySelector('h2').textContent=tr('representationTitle');
+    leftCore.forEach(el=>el&&el.classList.remove('hidden-by-teacher')); rightCore.forEach(el=>el&&el.classList.remove('hidden-by-teacher'));
+    leftStack.classList.remove('show'); rightStack.classList.remove('show'); leftStack.innerHTML=''; rightStack.innerHTML=''; return;
+  }
+  left.classList.add('teacher-active'); right.classList.add('teacher-active'); left.querySelector('h2').textContent=''; right.querySelector('h2').textContent='';
+  leftCore.forEach(el=>el&&el.classList.add('hidden-by-teacher')); rightCore.forEach(el=>el&&el.classList.add('hidden-by-teacher'));
+  const leftType=teacherLayout.left[0] || 'material';
+  leftStack.innerHTML=`<section class="teacher-rep-card plain-card">${teacherEditableRepHTML(leftType)}</section>`; leftStack.classList.add('show');
+  rightStack.innerHTML=teacherLayout.right.map(type=>`<section class="teacher-rep-card">${teacherRepBlockHTML(type,false)}</section>`).join('') || `<section class="teacher-rep-card">${tt('chooseOne')}</section>`;
+  rightStack.classList.add('show');
+}
+function openTeacherModal(){
+  teacherPreviewBackup=JSON.stringify(teacherLayout);
+  teacherApplied=false;
+  updateTeacherTexts();
+  $('#teacherModal').classList.add('show');
+  $('#teacherLogin').style.display='block';
+  $('#teacherConfig').classList.remove('show');
+  $('#teacherPassword').value='';
+  $('#teacherError').textContent='';
+  setTimeout(()=>$('#teacherPassword').focus(),50);
+}
+function showTeacherConfig(){
+  $('#teacherLogin').style.display='none';
+  $('#teacherConfig').classList.add('show');
+  renderTeacherChecks();
+}
+function closeTeacherModal(){
+  $('#teacherModal').classList.remove('show');
+  if(!teacherApplied && teacherPreviewBackup){
+    try{ teacherLayout=JSON.parse(teacherPreviewBackup); }catch(e){ teacherLayout={active:false,left:['material'],right:['place']}; }
+    render();
+  }
+  teacherPreviewBackup=null;
+  teacherApplied=false;
+}
+function applyTeacherConfig(){
+  const {leftSel,right}=readTeacherSelectionFromModal();
+  if(!leftSel){ $('#teacherError').textContent=tt('chooseOneLeft'); return; }
+  if(!right.length){ $('#teacherError').textContent=tt('chooseOne'); return; }
+  teacherLayout={active:true,left:[leftSel.value],right};
+  if(!teacherPieces.length) resetTeacherState(false);
+  teacherApplied=true;
+  saveTeacherLayout();
+  $('#teacherModal').classList.remove('show');
+  teacherPreviewBackup=null;
+  render();
+}
+function restoreTeacherDefaults(){ teacherLayout={active:false,left:['material'],right:['place']}; resetTeacherState(false); teacherApplied=true; saveTeacherLayout(); $('#teacherModal').classList.remove('show'); teacherPreviewBackup=null; render(); }
+loadTeacherLayout();
 
 // Touch-friendly tooltip behavior for tablets and phones.
 document.addEventListener('click', (e) => {
@@ -782,6 +1166,34 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('click',e=>{
+  const tp=e.target.closest('[data-teacher-piece]');
+  if(tp){ e.stopPropagation(); const id=Number(tp.dataset.teacherPiece); if(teacherSelected.has(id)) teacherSelected.delete(id); else teacherSelected.add(id); render(); return; }
+  const ta=e.target.closest('[data-teacher-add]');
+  if(ta){ e.stopPropagation(); teacherSave(); teacherPieces.push({id:teacherNextId++,type:ta.dataset.teacherAdd}); teacherSelected.clear(); render(); return; }
+  const tadj=e.target.closest('[data-tadjust]');
+  if(tadj){ e.stopPropagation(); const type=tadj.dataset.tadjust; const delta=Number(tadj.dataset.delta||0); if(delta>0){ teacherSave(); teacherPieces.push({id:teacherNextId++,type}); } else { const idx=teacherPieces.findIndex(p=>p.type===type); if(idx>=0){ teacherSave(); teacherPieces.splice(idx,1); } } teacherSelected.clear(); render(); return; }
+  if(e.target.closest('[data-teacher-compose]')){ e.stopPropagation(); teacherCompose(); return; }
+  if(e.target.closest('[data-teacher-decompose]')){ e.stopPropagation(); teacherDecompose(); return; }
+  if(e.target.closest('[data-teacher-undo]')){ e.stopPropagation(); if(teacherHistory.length){ teacherPieces=JSON.parse(teacherHistory.pop()); teacherSelected.clear(); render(); } return; }
+  if(e.target.closest('[data-teacher-clear]')){ e.stopPropagation(); teacherSave(); teacherPieces=[]; teacherSelected.clear(); render(); return; }
+  const tdig=e.target.closest('[data-t-set-digits]'); if(tdig){ e.stopPropagation(); const inp=document.querySelector('[data-t-digits]'); teacherSetFromValue(inp?inp.value:0); return; }
+  const texp=e.target.closest('[data-t-set-expanded]'); if(texp){ e.stopPropagation(); const inp=document.querySelector('[data-t-expanded]'); const val=parseExpandedToValue(inp?inp.value:''); if(Number.isFinite(val)) teacherSetFromValue(val); else setStatusKey('cannotCompose',true); return; }
+  const tw=e.target.closest('[data-t-set-word]'); if(tw){ e.stopPropagation(); const inp=document.querySelector('[data-t-word]'); const val=parseSimpleWordNumber(inp?inp.value:''); if(Number.isFinite(val)) teacherSetFromValue(val); else setStatus(tt('cannotReadWord'),true); return; }
+  const adj=e.target.closest('[data-adjust]');
+  if(adj){
+    e.stopPropagation();
+    const type=adj.dataset.adjust;
+    const delta=Number(adj.dataset.delta||0);
+    if(delta>0){ addPiece(type,1); return; }
+    if(delta<0){
+      const idx=pieces.findIndex(p=>p.type===type);
+      if(idx>=0){ save(); pieces.splice(idx,1); selected.clear(); render(); }
+      return;
+    }
+  }
+  const sd=e.target.closest('[data-set-digits]'); if(sd){ const inp=document.querySelector('[data-left-digits]'); setPiecesFromValue(inp?inp.value:0); return; }
+  const se=e.target.closest('[data-set-expanded]'); if(se){ const inp=document.querySelector('[data-left-expanded]'); const val=parseExpandedToValue(inp?inp.value:''); if(Number.isFinite(val)) setPiecesFromValue(val); else setStatusKey('cannotCompose',true); return; }
+  const sw=e.target.closest('[data-set-word]'); if(sw){ const inp=document.querySelector('[data-left-word]'); const val=parseSimpleWordNumber(inp?inp.value:''); if(Number.isFinite(val)) setPiecesFromValue(val); else setStatus(tt('cannotReadWord'),true); return; }
   const a=e.target.closest('.addbtn'); if(a){ e.stopPropagation(); addPiece(a.dataset.type); return; }
   const tile=e.target.closest('.tile'); if(tile){ const b=tile.querySelector('.addbtn'); if(b) addPiece(b.dataset.type); return; }
   const rate=e.target.closest('[data-rate]'); if(rate){ speechRateMode=rate.dataset.rate; renderRepresentation(); return; }
@@ -803,8 +1215,446 @@ $('#undo').addEventListener('click',()=>{ if(history.length){ pieces=JSON.parse(
 $('#clear').addEventListener('click',()=>{ save(); pieces=[]; selected.clear(); setStatusKey('statusStart'); render(); });
 $$('.rep-tab').forEach(b=>b.addEventListener('click',()=>{ const target=b.dataset.rep; if(!repAllowed(target)){ $('#repView').innerHTML=lockHTMLFor(target); updateAccess(); return; } rep=target; renderRepresentation(); }));
 $('#lang').addEventListener('change',e=>setLang(e.target.value));
+
+$('#teacherOpen').addEventListener('click', openTeacherModal);
+$('#teacherCancelBtn').addEventListener('click', closeTeacherModal);
+$('#teacherCloseBtn').addEventListener('click', closeTeacherModal);
+$('#teacherConfig').addEventListener('change',()=>{});
+$('#teacherLoginBtn').addEventListener('click',()=>{ if($('#teacherPassword').value==='tetom') showTeacherConfig(); else $('#teacherError').textContent=tt('wrongPassword'); });
+$('#teacherPassword').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#teacherLoginBtn').click(); });
+$('#teacherApply').addEventListener('click', applyTeacherConfig);
+$('#teacherDefaults').addEventListener('click', restoreTeacherDefaults);
+$('#teacherModal').addEventListener('click',e=>{ if(e.target.id==='teacherModal') closeTeacherModal(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    if(e.target.matches('[data-t-digits]')){ e.preventDefault(); document.querySelector('[data-t-set-digits]')?.click(); }
+    if(e.target.matches('[data-t-expanded]')){ e.preventDefault(); document.querySelector('[data-t-set-expanded]')?.click(); }
+    if(e.target.matches('[data-t-word]')){ e.preventDefault(); document.querySelector('[data-t-set-word]')?.click(); }
+    if(e.target.matches('[data-left-digits]')){ e.preventDefault(); document.querySelector('[data-set-digits]')?.click(); }
+    if(e.target.matches('[data-left-expanded]')){ e.preventDefault(); document.querySelector('[data-set-expanded]')?.click(); }
+    if(e.target.matches('[data-left-word]')){ e.preventDefault(); document.querySelector('[data-set-word]')?.click(); }
+  }
+});
+
 setLang('en'); renderPreview();
 addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
 </script>
+
+<script>
+/* v34 repair: independent teacher mode, visible main representation, teacher-scoped speech */
+(function(){
+  const css = document.createElement('style');
+  css.textContent = `
+    .panel.teacher-active { min-height: 520px; }
+    .teacher-view-stack.show { width:100%; }
+    .teacher-rep-card.plain-card { border:0 !important; background:transparent !important; padding:0 !important; min-height:360px; }
+    .teacher-rep-card.plain-card > * { flex: unset !important; }
+    .teacher-editor.teacher-left-panel, .teacher-left-panel { min-height:360px; display:flex; flex-direction:column; justify-content:center; gap:16px; }
+    .teacher-place-editor { width:100%; display:flex; flex-direction:column; justify-content:center; gap:16px; }
+    .teacher-place-grid { display:grid; grid-template-columns:repeat(4, minmax(74px,1fr)); gap:10px; width:100%; }
+    .teacher-place-cell { border:2px solid #a6ce92; border-radius:18px; background:#fffefb; overflow:hidden; text-align:center; }
+    .teacher-place-head { padding:10px 4px; font-weight:900; font-size:22px; border-bottom:2px solid #a6ce92; }
+    .teacher-place-cell:nth-child(1) .teacher-place-head { color:#064aa5; background:#edf6ff; }
+    .teacher-place-cell:nth-child(2) .teacher-place-head { color:#006b22; background:#eff9ef; }
+    .teacher-place-cell:nth-child(3) .teacher-place-head { color:#c45500; background:#fff5e7; }
+    .teacher-place-cell:nth-child(4) .teacher-place-head { color:#b00020; background:#fff1f3; }
+    .teacher-place-num { font-size:clamp(46px,8vw,82px); font-weight:900; line-height:1; padding:18px 6px 14px; }
+    .teacher-place-controls { display:flex; justify-content:center; gap:8px; padding:0 8px 12px; }
+    .teacher-place-controls button { width:42px; height:38px; border-radius:12px; border:1px solid #9ec98a; background:#f5fff0; color:#145a1a; font-size:24px; font-weight:900; cursor:pointer; }
+    .teacher-place-controls button:disabled { opacity:.35; cursor:not-allowed; }
+    .teacher-material-editor .teacher-workspace { min-height:260px; }
+    .teacher-input-row input { max-width:100%; }
+    .teacher-rep-card .word-box, .teacher-one-rep .word-box { width:100%; }
+    .teacher-rep-card .words, .teacher-one-rep .words { overflow-wrap:anywhere; word-break:normal; }
+  `;
+  document.head.appendChild(css);
+
+  function escAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+  function escText(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function teacherAbbr(){ return (typeof placeAbbr==='function') ? placeAbbr() : ['Th','H','T','O']; }
+  function teacherTable(c){
+    const a=teacherAbbr();
+    return `<div style="width:100%"><table class="pv-table"><thead><tr>${a.map(x=>`<th><span class="abbr">${x}</span></th>`).join('')}</tr></thead><tbody><tr><td>${c.thousand}</td><td>${c.hundred}</td><td>${c.ten}</td><td>${c.one}</td></tr></tbody></table></div>`;
+  }
+  window.teacherMaterialSnapshotHTML = function(selectable=false){
+    if(!teacherPieces.length) return `<div class="empty">${tr('empty')}</div>`;
+    const sorted=[...teacherPieces].sort((a,b)=>order.indexOf(a.type)-order.indexOf(b.type) || a.id-b.id);
+    return `<div class="material-snapshot">${sorted.map(p=>`<div class="${selectable?'teacher-piece ':'piece '}${p.type} ${teacherSelected.has(p.id)?'selected':''}" ${selectable?`data-teacher-piece="${p.id}"`:''}>${blockSVG(p.type, p.type==='thousand'?0.58:p.type==='hundred'?0.70:p.type==='ten'?0.62:0.70)}</div>`).join('')}</div>`;
+  };
+  window.teacherNoteHTML = function(){
+    return teacherIsStandard()?`<div class="standard-note ok">${tr('standardReady')}</div>`:`<div class="standard-note warn">${tr('standardNeeded')}</div>`;
+  };
+  window.teacherLockHTML = function(){ return `<div class="locked"><strong>${tr('unavailable')}</strong><br>${tr('composeFirst')}</div>`; };
+  function teacherAudioControls(){ return `<div class="audio-controls clean-audio"><button type="button" class="speak-btn" data-teacher-speak="1" aria-label="${tr('speak')}">🔊 ${tr('speak')}</button></div>`; }
+  window.teacherRepBlockHTML = function(type, interactive=false){
+    const v=teacherTotal();
+    if(type==='material') return teacherMaterialSnapshotHTML(interactive);
+    if(type==='place') return `<div class="teacher-one-rep"><div class="value-label">${tr('materialCount')}</div>${teacherTable(teacherCounts())}${teacherNoteHTML()}</div>`;
+    if(!teacherIsStandard()) return teacherLockHTML();
+    if(type==='digits') return `<div class="teacher-one-rep"><div class="value-number" style="font-size:clamp(46px,7vw,84px); text-align:center;">${v}</div></div>`;
+    if(type==='expanded') return `<div class="teacher-one-rep"><div class="expanded">${expanded(v)}</div></div>`;
+    if(type==='word') return `<div class="teacher-one-rep"><div class="word-box"><div class="words">${wordPartsHTML(word(v))}</div>${teacherAudioControls()}</div></div>`;
+    return '';
+  };
+  window.teacherDynamicPlaceHTML = function(){
+    const m=teacherCounts();
+    const labels=teacherAbbr();
+    return `<div class="teacher-place-editor">
+      <div class="teacher-place-grid">
+        ${order.map((k,i)=>`<div class="teacher-place-cell"><div class="teacher-place-head">${labels[i]}</div><div class="teacher-place-num">${m[k]}</div><div class="teacher-place-controls"><button type="button" data-tadjust="${k}" data-delta="-1" ${m[k]===0?'disabled':''}>−</button><button type="button" data-tadjust="${k}" data-delta="1">+</button></div></div>`).join('')}
+      </div>
+      ${teacherNoteHTML()}
+    </div>`;
+  };
+  window.teacherEditableRepHTML = function(type){
+    const v=teacherTotal();
+    if(type==='material') return `<div class="teacher-material-editor"><div class="teacher-workspace">${teacherMaterialSnapshotHTML(true)}</div><div class="teacher-mini-actions"><button type="button" class="btn blue" data-teacher-decompose>${tr('decompose')}</button><button type="button" class="btn green" data-teacher-compose>${tr('compose')}</button><button type="button" class="btn gray" data-teacher-undo>${tr('undo')}</button><button type="button" class="btn red" data-teacher-clear>${tr('clear')}</button></div><div class="teacher-palette">${order.map(type=>`<div class="teacher-tile ${type}" data-teacher-add="${type}"><button class="teacher-plus" type="button">+</button><div>${blockSVG(type, type==='thousand'?0.46:type==='hundred'?0.55:type==='ten'?0.50:0.66)}</div><div class="tile-name">${tr(type)}</div><small>${values[type]}</small></div>`).join('')}</div>${teacherNoteHTML()}</div>`;
+    if(type==='place') return teacherDynamicPlaceHTML();
+    if(type==='digits') return `<div class="teacher-editor teacher-left-panel"><div class="teacher-input-row"><input data-t-digits type="number" min="0" max="9999" value="${v}" aria-label="${tt('typeDigits')}"><button type="button" class="btn green" data-t-set-digits>${tt('setValue')}</button></div>${teacherNoteHTML()}</div>`;
+    if(type==='expanded') return `<div class="teacher-editor teacher-left-panel"><div class="teacher-input-row"><input data-t-expanded type="text" value="${escAttr(expanded(v))}" aria-label="${tt('typeExpanded')}"><button type="button" class="btn green" data-t-set-expanded>${tt('setValue')}</button></div><div class="teacher-hint">300 + 30 + 4</div>${teacherNoteHTML()}</div>`;
+    if(type==='word') return `<div class="teacher-editor teacher-left-panel"><div class="teacher-input-row"><input data-t-word type="text" value="${escAttr(word(v))}" aria-label="${tt('typeWord')}"><button type="button" class="btn green" data-t-set-word>${tt('setValue')}</button></div>${teacherNoteHTML()}</div>`;
+    return '';
+  };
+  window.renderTeacherViews = function(){
+    const panels=$$('.lab .panel'); if(panels.length<2) return;
+    const left=panels[0], right=panels[1];
+    let leftStack=$('#leftTeacherViews'), rightStack=$('#rightTeacherViews');
+    if(!leftStack){ leftStack=document.createElement('div'); leftStack.id='leftTeacherViews'; leftStack.className='teacher-view-stack teacher-main-only'; left.appendChild(leftStack); }
+    if(!rightStack){ rightStack=document.createElement('div'); rightStack.id='rightTeacherViews'; rightStack.className='teacher-view-stack'; right.appendChild(rightStack); }
+    const leftCore=[left.querySelector('.left-top'), left.querySelector('#workspace'), left.querySelector('.add-section'), left.querySelector('#status')];
+    const rightCore=[right.querySelector('.rep-tabs'), right.querySelector('#repView')];
+    if(!teacherLayout.active){
+      left.classList.remove('teacher-active'); right.classList.remove('teacher-active');
+      const lh=left.querySelector('h2'), rh=right.querySelector('h2'); if(lh) lh.textContent=tr('materialTitle'); if(rh) rh.textContent=tr('representationTitle');
+      leftCore.forEach(el=>el&&el.classList.remove('hidden-by-teacher')); rightCore.forEach(el=>el&&el.classList.remove('hidden-by-teacher'));
+      leftStack.classList.remove('show'); rightStack.classList.remove('show'); leftStack.innerHTML=''; rightStack.innerHTML=''; return;
+    }
+    left.classList.add('teacher-active'); right.classList.add('teacher-active');
+    const lh=left.querySelector('h2'), rh=right.querySelector('h2'); if(lh) lh.textContent=''; if(rh) rh.textContent='';
+    leftCore.forEach(el=>el&&el.classList.add('hidden-by-teacher')); rightCore.forEach(el=>el&&el.classList.add('hidden-by-teacher'));
+    const leftType=(teacherLayout.left && teacherLayout.left[0]) || 'material';
+    leftStack.innerHTML=`<section class="teacher-rep-card plain-card">${teacherEditableRepHTML(leftType)}</section>`; leftStack.classList.add('show');
+    const rights=(teacherLayout.right && teacherLayout.right.length)?teacherLayout.right:['place'];
+    rightStack.innerHTML=rights.map(type=>`<section class="teacher-rep-card">${teacherRepBlockHTML(type,false)}</section>`).join('');
+    rightStack.classList.add('show');
+  };
+  function speakTeacherWord(){
+    if(typeof speakText==='function') speakText(word(teacherTotal()), false);
+  }
+  document.addEventListener('click', function(e){
+    const b=e.target.closest('[data-teacher-speak]');
+    if(b){ e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation(); speakTeacherWord(); }
+  }, true);
+  // Re-render once after installing repaired functions.
+  try { render(); } catch(err) { console.error('v34 teacher repair render failed', err); }
+})();
+</script>
+
+
+<script>
+(function(){
+  /* v35: editable place-value main representation for Teacher Mode */
+  const css=document.createElement('style');
+  css.textContent=`
+    .teacher-place-table-edit { width:100%; max-width:760px; margin:0 auto; }
+    .teacher-place-table-edit .value-label { font-size:clamp(20px,2.4vw,28px); margin:0 0 10px; color:#075c13; font-weight:900; }
+    .teacher-place-table-edit table { width:100%; border-collapse:collapse; table-layout:fixed; text-align:center; }
+    .teacher-place-table-edit th { border:3px solid #d8e9cd; padding:16px 4px; font-size:clamp(24px,3vw,34px); font-weight:900; background:#edf8e8; }
+    .teacher-place-table-edit th:nth-child(1) { color:#064aa5; background:#eef6ff; }
+    .teacher-place-table-edit th:nth-child(2) { color:#006414; background:#edf8e8; }
+    .teacher-place-table-edit th:nth-child(3) { color:#d45e00; background:#fff6e8; }
+    .teacher-place-table-edit th:nth-child(4) { color:#bc1616; background:#fff0f0; }
+    .teacher-place-table-edit td { border:3px solid #d8e9cd; height:clamp(118px,14vw,190px); background:#fff; padding:6px; }
+    .teacher-place-input { width:100%; height:100%; border:0; background:transparent; text-align:center; font-size:clamp(56px,10vw,116px); font-weight:900; color:#050505; outline:0; -moz-appearance:textfield; }
+    .teacher-place-input::-webkit-outer-spin-button, .teacher-place-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+    .teacher-place-input:focus { background:#f6fff2; box-shadow:inset 0 0 0 4px #bfe5b8; border-radius:10px; }
+    .standard-note, .canon-note { margin:18px auto 0; padding:18px 22px; border-radius:18px; font-weight:900; text-align:center; font-size:clamp(18px,2.1vw,26px); max-width:760px; }
+    .standard-note.ok, .canon-note.ok { background:#eaffea; border:1px solid #a9dfa7; color:#075c13; }
+    .standard-note.warn, .canon-note.warn { background:#fff6df; border:1px solid #efd38a; color:#7c5600; }
+    @media(max-width:560px){
+      .teacher-place-table-edit th { font-size:18px; padding:12px 2px; }
+      .teacher-place-table-edit td { height:100px; }
+      .teacher-place-input { font-size:52px; }
+      .standard-note, .canon-note { font-size:17px; padding:14px 12px; }
+    }
+  `;
+  document.head.appendChild(css);
+
+  function teacherAbbrSafe(){ return (typeof placeAbbr==='function') ? placeAbbr() : ['Th','H','T','O']; }
+  function setTeacherCount(type, raw){
+    let n=parseInt(String(raw).replace(/[^0-9]/g,''),10);
+    if(!Number.isFinite(n) || n<0) n=0;
+    n=Math.min(n,99);
+    if(typeof teacherSave==='function') teacherSave();
+    teacherPieces = teacherPieces.filter(p=>p.type!==type);
+    for(let i=0;i<n;i++) teacherPieces.push({id:teacherNextId++, type});
+    if(teacherSelected && typeof teacherSelected.clear==='function') teacherSelected.clear();
+    if(typeof render==='function') render();
+  }
+  window.teacherNoteHTML = function(){
+    return teacherIsStandard()
+      ? `<div class="standard-note ok">${tr('standardReady')}</div>`
+      : `<div class="standard-note warn">${tr('standardNeeded')}</div>`;
+  };
+  window.teacherDynamicPlaceHTML = function(){
+    const m=teacherCounts();
+    const labels=teacherAbbrSafe();
+    return `<div class="teacher-place-table-edit teacher-one-rep">
+      <div class="value-label">${tr('materialCount')}</div>
+      <table aria-label="${tr('materialCount')}">
+        <thead><tr>${labels.map(x=>`<th>${x}</th>`).join('')}</tr></thead>
+        <tbody><tr>${order.map((k)=>`<td><input class="teacher-place-input" data-t-place-input="${k}" inputmode="numeric" pattern="[0-9]*" value="${m[k]}" aria-label="${k}"></td>`).join('')}</tr></tbody>
+      </table>
+      ${teacherNoteHTML()}
+    </div>`;
+  };
+  document.addEventListener('change', function(e){
+    const inp=e.target.closest('[data-t-place-input]');
+    if(!inp) return;
+    e.stopPropagation();
+    setTeacherCount(inp.dataset.tPlaceInput, inp.value);
+  }, true);
+  document.addEventListener('keydown', function(e){
+    const inp=e.target.closest('[data-t-place-input]');
+    if(!inp) return;
+    if(e.key==='Enter'){
+      e.preventDefault();
+      setTeacherCount(inp.dataset.tPlaceInput, inp.value);
+    }
+  }, true);
+  try { if(typeof render==='function') render(); } catch(e) { console.error('v35 place value patch failed', e); }
+})();
+</script>
+
 </body>
 </html>
+
+<script>
+(function(){
+  /* v36: clean and reactive editable Place-value in Teacher Mode */
+  const css=document.createElement('style');
+  css.textContent=`
+    .teacher-place-table-edit.clean-teacher-pv {
+      width:100%;
+      max-width:820px;
+      margin:0 auto;
+      min-height:360px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .teacher-place-table-edit.clean-teacher-pv table {
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+      text-align:center;
+    }
+    .teacher-place-table-edit.clean-teacher-pv th {
+      border:3px solid #d8e9cd;
+      padding:18px 4px;
+      font-size:clamp(26px,3.2vw,38px);
+      font-weight:900;
+    }
+    .teacher-place-table-edit.clean-teacher-pv th:nth-child(1) { color:#064aa5; background:#eef6ff; }
+    .teacher-place-table-edit.clean-teacher-pv th:nth-child(2) { color:#006414; background:#edf8e8; }
+    .teacher-place-table-edit.clean-teacher-pv th:nth-child(3) { color:#d45e00; background:#fff6e8; }
+    .teacher-place-table-edit.clean-teacher-pv th:nth-child(4) { color:#bc1616; background:#fff0f0; }
+    .teacher-place-table-edit.clean-teacher-pv td {
+      border:3px solid #d8e9cd;
+      height:clamp(134px,16vw,210px);
+      background:#fff;
+      padding:6px;
+    }
+    .teacher-place-table-edit.clean-teacher-pv .teacher-place-input {
+      width:100%;
+      height:100%;
+      border:0;
+      background:transparent;
+      text-align:center;
+      font-size:clamp(64px,11vw,126px);
+      font-weight:900;
+      color:#050505;
+      outline:0;
+      -moz-appearance:textfield;
+    }
+    .teacher-place-table-edit.clean-teacher-pv .teacher-place-input::-webkit-outer-spin-button,
+    .teacher-place-table-edit.clean-teacher-pv .teacher-place-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+    .teacher-place-table-edit.clean-teacher-pv .teacher-place-input:focus {
+      background:#f6fff2;
+      box-shadow:inset 0 0 0 4px #bfe5b8;
+      border-radius:10px;
+    }
+    @media(max-width:560px){
+      .teacher-place-table-edit.clean-teacher-pv { min-height:250px; }
+      .teacher-place-table-edit.clean-teacher-pv th { font-size:20px; padding:12px 2px; }
+      .teacher-place-table-edit.clean-teacher-pv td { height:110px; }
+      .teacher-place-table-edit.clean-teacher-pv .teacher-place-input { font-size:56px; }
+    }
+  `;
+  document.head.appendChild(css);
+
+  function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function labels(){ return (typeof placeAbbr==='function') ? placeAbbr() : ['Th','H','T','O']; }
+  function pvTableHTML(editable){
+    const m=teacherCounts();
+    const labs=labels();
+    return `<div class="teacher-place-table-edit clean-teacher-pv teacher-one-rep">
+      <table aria-label="Place-value">
+        <thead><tr>${labs.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead>
+        <tbody><tr>${order.map(k=> editable
+          ? `<td><input class="teacher-place-input" data-t-place-live="${k}" inputmode="numeric" pattern="[0-9]*" value="${m[k]}" aria-label="${k}"></td>`
+          : `<td><div class="teacher-place-input" style="display:grid;place-items:center;">${m[k]}</div></td>`
+        ).join('')}</tr></tbody>
+      </table>
+    </div>`;
+  }
+  function setCountNoRender(type, raw){
+    let n=parseInt(String(raw).replace(/[^0-9]/g,''),10);
+    if(!Number.isFinite(n) || n<0) n=0;
+    n=Math.min(n,99);
+    teacherPieces = teacherPieces.filter(p=>p.type!==type);
+    for(let i=0;i<n;i++) teacherPieces.push({id:teacherNextId++, type});
+    if(teacherSelected && typeof teacherSelected.clear==='function') teacherSelected.clear();
+  }
+  function updateRightOnly(){
+    const rightStack=document.getElementById('rightTeacherViews');
+    if(!rightStack || !teacherLayout || !teacherLayout.active) return;
+    const rights=(teacherLayout.right && teacherLayout.right.length)?teacherLayout.right:['place'];
+    rightStack.innerHTML=rights.map(type=>`<section class="teacher-rep-card">${teacherRepBlockHTML(type,false)}</section>`).join('');
+  }
+
+  // Remove Teacher Mode notes/labels. Normal student mode still keeps its own messages.
+  window.teacherNoteHTML = function(){ return ''; };
+  window.teacherDynamicPlaceHTML = function(){ return pvTableHTML(true); };
+
+  const prevRepBlock = window.teacherRepBlockHTML;
+  window.teacherRepBlockHTML = function(type, interactive=false){
+    const v=teacherTotal();
+    if(type==='place') return pvTableHTML(false);
+    if(type==='material') return teacherMaterialSnapshotHTML(interactive);
+    if(!teacherIsStandard()) return teacherLockHTML();
+    if(type==='digits') return `<div class="teacher-one-rep"><div class="value-number" style="font-size:clamp(46px,7vw,84px);">${v}</div></div>`;
+    if(type==='expanded') return `<div class="teacher-one-rep"><div class="expanded">${expanded(v)}</div></div>`;
+    if(type==='word') return `<div class="teacher-one-rep"><div class="word-box"><div class="words">${wordPartsHTML(word(v))}</div>${(typeof teacherAudioControls==='function'?teacherAudioControls():audioControlsHTML())}</div></div>`;
+    return prevRepBlock ? prevRepBlock(type, interactive) : '';
+  };
+
+  document.addEventListener('input', function(e){
+    const inp=e.target.closest('[data-t-place-live]');
+    if(!inp) return;
+    setCountNoRender(inp.dataset.tPlaceLive, inp.value);
+    updateRightOnly();
+  }, true);
+  document.addEventListener('change', function(e){
+    const inp=e.target.closest('[data-t-place-live]');
+    if(!inp) return;
+    setCountNoRender(inp.dataset.tPlaceLive, inp.value);
+    updateRightOnly();
+  }, true);
+  document.addEventListener('keydown', function(e){
+    const inp=e.target.closest('[data-t-place-live]');
+    if(!inp) return;
+    if(e.key==='Enter'){
+      e.preventDefault();
+      setCountNoRender(inp.dataset.tPlaceLive, inp.value);
+      updateRightOnly();
+    }
+  }, true);
+  try { if(typeof render==='function') render(); } catch(e) { console.error('v36 teacher PV patch failed', e); }
+})();
+</script>
+
+
+<script>
+(function(){
+  /* v37: visible representation titles in Teacher Mode windows */
+  const css=document.createElement('style');
+  css.textContent=`
+    .teacher-window-title {
+      margin:0 0 16px;
+      text-align:center;
+      color:#204d1b;
+      font-size:clamp(18px,2.2vw,28px);
+      font-weight:900;
+      letter-spacing:.01em;
+    }
+    .teacher-view-stack.teacher-main-only .teacher-window-title {
+      margin-top:2px;
+      margin-bottom:18px;
+    }
+    .teacher-rep-card:not(.plain-card) .teacher-window-title {
+      margin-bottom:12px;
+      padding-bottom:8px;
+      border-bottom:2px solid #e4efd9;
+    }
+    .teacher-rep-card.plain-card {
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+    }
+    .teacher-rep-card.plain-card .teacher-editor.teacher-left-panel,
+    .teacher-rep-card.plain-card .teacher-place-table-edit.clean-teacher-pv {
+      flex:1;
+    }
+    .teacher-rep-card.plain-card .teacher-place-table-edit.clean-teacher-pv {
+      min-height:300px;
+      align-items:flex-start;
+      padding-top:4px;
+    }
+    @media(max-width:560px){
+      .teacher-window-title { font-size:18px; margin-bottom:10px; }
+      .teacher-rep-card.plain-card .teacher-place-table-edit.clean-teacher-pv { min-height:230px; }
+    }
+  `;
+  document.head.appendChild(css);
+  function escTitle(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function titleFor(type){
+    if(type==='material') return (typeof tt==='function' ? tt('materialOption') : tr('materialTitle'));
+    if(type==='place') return tr('placeValue');
+    if(type==='digits') return tr('digits');
+    if(type==='expanded') return tr('expanded');
+    if(type==='word') return tr('word');
+    return type;
+  }
+  function titleHTML(type){ return `<h3 class="teacher-window-title">${escTitle(titleFor(type))}</h3>`; }
+  const previousRender = window.renderTeacherViews;
+  window.renderTeacherViews = function(){
+    const panels=$$('.lab .panel'); if(panels.length<2) return;
+    const left=panels[0], right=panels[1];
+    let leftStack=$('#leftTeacherViews'), rightStack=$('#rightTeacherViews');
+    if(!leftStack){ leftStack=document.createElement('div'); leftStack.id='leftTeacherViews'; leftStack.className='teacher-view-stack teacher-main-only'; left.appendChild(leftStack); }
+    if(!rightStack){ rightStack=document.createElement('div'); rightStack.id='rightTeacherViews'; rightStack.className='teacher-view-stack'; right.appendChild(rightStack); }
+    const leftCore=[left.querySelector('.left-top'), left.querySelector('#workspace'), left.querySelector('.add-section'), left.querySelector('#status')];
+    const rightCore=[right.querySelector('.rep-tabs'), right.querySelector('#repView')];
+    if(!teacherLayout || !teacherLayout.active){
+      left.classList.remove('teacher-active'); right.classList.remove('teacher-active');
+      const lh=left.querySelector('h2'), rh=right.querySelector('h2');
+      if(lh) lh.textContent=tr('materialTitle'); if(rh) rh.textContent=tr('representationTitle');
+      leftCore.forEach(el=>el&&el.classList.remove('hidden-by-teacher'));
+      rightCore.forEach(el=>el&&el.classList.remove('hidden-by-teacher'));
+      leftStack.classList.remove('show'); rightStack.classList.remove('show');
+      leftStack.innerHTML=''; rightStack.innerHTML='';
+      return;
+    }
+    left.classList.add('teacher-active'); right.classList.add('teacher-active');
+    const lh=left.querySelector('h2'), rh=right.querySelector('h2'); if(lh) lh.textContent=''; if(rh) rh.textContent='';
+    leftCore.forEach(el=>el&&el.classList.add('hidden-by-teacher'));
+    rightCore.forEach(el=>el&&el.classList.add('hidden-by-teacher'));
+    const leftType=(teacherLayout.left && teacherLayout.left[0]) || 'material';
+    leftStack.innerHTML=`<section class="teacher-rep-card plain-card">${titleHTML(leftType)}${teacherEditableRepHTML(leftType)}</section>`;
+    leftStack.classList.add('show');
+    const rights=(teacherLayout.right && teacherLayout.right.length)?teacherLayout.right:['place'];
+    rightStack.innerHTML=rights.map(type=>`<section class="teacher-rep-card">${titleHTML(type)}${teacherRepBlockHTML(type,false)}</section>`).join('');
+    rightStack.classList.add('show');
+  };
+  // Also update the right side live when editing the clean place-value table.
+  const prevUpdate = window.updateRightOnly;
+  window.updateRightOnly = function(){
+    const rightStack=document.getElementById('rightTeacherViews');
+    if(!rightStack || !teacherLayout || !teacherLayout.active) return;
+    const rights=(teacherLayout.right && teacherLayout.right.length)?teacherLayout.right:['place'];
+    rightStack.innerHTML=rights.map(type=>`<section class="teacher-rep-card">${titleHTML(type)}${teacherRepBlockHTML(type,false)}</section>`).join('');
+  };
+  try { if(typeof render==='function') render(); } catch(e) { console.error('v37 teacher titles patch failed', e); }
+})();
+</script>
