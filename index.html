@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TeToM Dienes material – Representation Lab</title>
+<!-- GitHub Pages friendly single-file HTML. Upload as index.html. -->
 <style>
 :root {
   --blue:#0b55a0; --green:#2f7d32; --orange:#f0a400; --red:#c62828;
@@ -1426,8 +1427,7 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
 })();
 </script>
 
-</body>
-</html>
+
 
 <script>
 (function(){
@@ -1757,5 +1757,42 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
   try { if(typeof render === 'function') render(); } catch(err) { console.error('v38 patch failed', err); }
 })();
 </script>
+
+
+<script>
+(function(){
+  /* v40: GitHub-safe structure + fixed Teacher Mode audio.
+     The earlier audio interceptor checked window.teacherLayout, but teacherLayout is a top-level let,
+     so the condition was always false. This listener uses the actual teacherLayout state and stops
+     the normal student-mode speaker handler from reading total() = 0. */
+  function isTeacherAudioContext(){
+    try {
+      return !!(teacherLayout && teacherLayout.active &&
+        (document.getElementById('rightTeacherViews')?.classList.contains('show') ||
+         document.getElementById('leftTeacherViews')?.classList.contains('show')));
+    } catch(err) { return false; }
+  }
+  function getTeacherSpeechValue(){
+    try {
+      if (typeof teacherTotal === 'function') return teacherTotal();
+    } catch(err) {}
+    return 0;
+  }
+  function speakTeacherValue(){
+    if (typeof speakText !== 'function' || typeof word !== 'function') return;
+    const value = getTeacherSpeechValue();
+    speakText(word(value), false);
+  }
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('#rightTeacherViews [data-speak], #rightTeacherViews [data-teacher-speak], #leftTeacherViews [data-speak], #leftTeacherViews [data-teacher-speak]');
+    if(!btn || !isTeacherAudioContext()) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+    speakTeacherValue();
+  }, true);
+})();
+</script>
+
 </body>
 </html>
