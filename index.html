@@ -1794,5 +1794,407 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
 })();
 </script>
 
+<!-- v41: teacher-selected representation exercises -->
+<script>
+(function(){
+  'use strict';
+
+  const EX_I18N = {
+    en: {
+      launcher:'Exercises', title:'Exercises', subtitle:'Complete the selected representations.',
+      given:'Given representation', complete:'Complete', verify:'Check', newSet:'New exercises', back:'Back to the application',
+      result:'Result', correct:'correct out of', excellent:'Excellent work!', good:'Well done!', retry:'Review the marked answers and try again.',
+      correctAnswer:'Correct', exercise:'Exercise', material:'Dienes material', place:'Place-value table', digits:'Number', expanded:'Expanded form', word:'Word form',
+      noExercises:'At least two different representations are needed for the exercises.'
+    },
+    es: {
+      launcher:'Ejercicios', title:'Ejercicios', subtitle:'Completa las representaciones seleccionadas por el profesor.',
+      given:'Representación dada', complete:'Completa', verify:'Verificar', newSet:'Nuevos ejercicios', back:'Volver a la aplicación',
+      result:'Resultado', correct:'correctos de', excellent:'¡Excelente trabajo!', good:'¡Muy bien!', retry:'Revisa las respuestas marcadas e inténtalo nuevamente.',
+      correctAnswer:'Correcto', exercise:'Ejercicio', material:'Material Dienes', place:'Tabla de valor posicional', digits:'Número', expanded:'Suma', word:'En palabras',
+      noExercises:'Para los ejercicios se necesitan al menos dos representaciones distintas.'
+    },
+    de: {
+      launcher:'Übungen', title:'Übungen', subtitle:'Vervollständige die von der Lehrkraft ausgewählten Darstellungen.',
+      given:'Gegebene Darstellung', complete:'Ergänze', verify:'Überprüfen', newSet:'Neue Übungen', back:'Zur Anwendung',
+      result:'Ergebnis', correct:'richtig von', excellent:'Sehr gut!', good:'Gut gemacht!', retry:'Überprüfe die markierten Antworten und versuche es noch einmal.',
+      correctAnswer:'Richtig', exercise:'Aufgabe', material:'Dienes-Material', place:'Stellenwerttafel', digits:'Zahl', expanded:'Summe', word:'Wortform',
+      noExercises:'Für die Übungen werden mindestens zwei verschiedene Darstellungen benötigt.'
+    },
+    it: {
+      launcher:'Esercizi', title:'Esercizi', subtitle:'Completa le rappresentazioni selezionate dall’insegnante.',
+      given:'Rappresentazione data', complete:'Completa', verify:'Verifica', newSet:'Nuovi esercizi', back:'Torna all’applicazione',
+      result:'Risultato', correct:'corretti su', excellent:'Ottimo lavoro!', good:'Ben fatto!', retry:'Controlla le risposte evidenziate e riprova.',
+      correctAnswer:'Corretto', exercise:'Esercizio', material:'Materiale Dienes', place:'Tabella del valore posizionale', digits:'Numero', expanded:'Forma sviluppata', word:'In parole',
+      noExercises:'Per gli esercizi sono necessarie almeno due rappresentazioni diverse.'
+    }
+  };
+
+  let exerciseSet = [];
+  let exerciseLanguage = 'en';
+
+  function exT(key){ return (EX_I18N[exerciseLanguage] || EX_I18N.en)[key] || key; }
+  function escEx(value){
+    return String(value == null ? '' : value)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  }
+  function normalizeExText(value){
+    return String(value == null ? '' : value)
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[\s\-–—,.;:!?¿¡'’]/g,'');
+  }
+  function getSelectedExerciseReps(){
+    try {
+      if(!teacherLayout || !teacherLayout.active) return [];
+      return [...new Set([...(teacherLayout.left || []), ...(teacherLayout.right || [])])]
+        .filter(rep => ['material','place','digits','expanded','word'].includes(rep));
+    } catch(err) {
+      return [];
+    }
+  }
+  function exerciseRepLabel(rep){ return exT(rep); }
+  function shuffleEx(list){
+    const arr = [...list];
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  }
+  function nextExerciseValue(seen){
+    let value=0, guard=0;
+    do {
+      const th=1+Math.floor(Math.random()*4);
+      const h=Math.floor(Math.random()*6);
+      const t=Math.floor(Math.random()*9);
+      const o=Math.floor(Math.random()*10);
+      value=th*1000+h*100+t*10+o;
+      guard++;
+    } while(seen.has(value) && guard<120);
+    return value;
+  }
+  function makeExerciseSet(){
+    const reps = getSelectedExerciseReps();
+    if(reps.length<2){ exerciseSet=[]; return []; }
+    const givenCycle=[];
+    while(givenCycle.length<10) givenCycle.push(...shuffleEx(reps));
+    const seen=new Set();
+    const list=[];
+    for(let index=0; index<10; index++){
+      const value=nextExerciseValue(seen); seen.add(value);
+      const given=givenCycle[index];
+      list.push({
+        id:index,
+        value,
+        given,
+        reps:[...reps],
+        canonical:canonical(value),
+        expandedText:expanded(value),
+        wordText:word(value)
+      });
+    }
+    exerciseSet=list;
+    return list;
+  }
+  function placeDisplayHTML(c, inputId){
+    const labels = typeof placeAbbr === 'function' ? placeAbbr() : ['T','H','Z','E'];
+    const positions=['thousand','hundred','ten','one'];
+    const headers=labels.map(l=>`<th><span class="abbr">${escEx(l)}</span></th>`).join('');
+    const cells=positions.map(pos=>{
+      if(inputId == null) return `<td>${c[pos]}</td>`;
+      return `<td><input class="ex-place-input" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="${escEx(labels[positions.indexOf(pos)])}" data-ex-place="${inputId}" data-ex-pos="${pos}"></td>`;
+    }).join('');
+    return `<div class="ex-place-wrap"><table class="pv-table ex-pv-table"><thead><tr>${headers}</tr></thead><tbody><tr>${cells}</tr></tbody></table></div>`;
+  }
+  function materialDisplayHTML(c){
+    const scales={thousand:.33,hundred:.39,ten:.42,one:.54};
+    return `<div class="ex-material-display">${order.map(type=>{
+      const pieces=Array.from({length:c[type]},()=>`<span class="ex-material-piece ex-${type}">${blockSVG(type,scales[type])}</span>`).join('');
+      return `<div class="ex-material-group ex-${type}-group">${pieces || '<span class="ex-zero">0</span>'}</div>`;
+    }).join('')}</div>`;
+  }
+  function materialInputHTML(id){
+    const labels = typeof placeAbbr === 'function' ? placeAbbr() : ['T','H','Z','E'];
+    const positions=['thousand','hundred','ten','one'];
+    return `<div class="ex-material-builder" data-ex-material-builder="${id}">${positions.map((type,i)=>`
+      <div class="ex-material-control">
+        <div class="ex-material-head">${escEx(labels[i])}</div>
+        <div class="ex-material-preview" data-ex-material-preview="${id}-${type}"><span class="ex-zero">0</span></div>
+        <div class="ex-material-counter">
+          <button type="button" class="ex-adjust ex-minus" data-ex-adjust="${id}" data-ex-type="${type}" data-ex-delta="-1" aria-label="${escEx(labels[i])} minus">−</button>
+          <output data-ex-material-count="${id}-${type}">0</output>
+          <button type="button" class="ex-adjust ex-plus" data-ex-adjust="${id}" data-ex-type="${type}" data-ex-delta="1" aria-label="${escEx(labels[i])} plus">+</button>
+        </div>
+      </div>`).join('')}</div>`;
+  }
+  function givenHTML(ex){
+    const c=ex.canonical;
+    if(ex.given==='material') return materialDisplayHTML(c);
+    if(ex.given==='place') return placeDisplayHTML(c);
+    if(ex.given==='digits') return `<div class="ex-value ex-digits-value">${ex.value}</div>`;
+    if(ex.given==='expanded') return `<div class="ex-value ex-expanded-value">${escEx(ex.expandedText)}</div>`;
+    return `<div class="ex-value ex-word-value">${escEx(ex.wordText)}</div>`;
+  }
+  function answerHTML(ex, rep){
+    const title=exerciseRepLabel(rep);
+    let control='';
+    if(rep==='material') control=materialInputHTML(ex.id);
+    else if(rep==='place') control=placeDisplayHTML(ex.canonical,ex.id);
+    else if(rep==='digits') control=`<input class="ex-text-input ex-number-input" inputmode="numeric" pattern="[0-9]*" data-ex-digits="${ex.id}" aria-label="${escEx(title)}">`;
+    else if(rep==='expanded') control=`<input class="ex-text-input" data-ex-expanded="${ex.id}" aria-label="${escEx(title)}">`;
+    else control=`<input class="ex-text-input" data-ex-word="${ex.id}" aria-label="${escEx(title)}">`;
+    return `<section class="ex-answer" data-ex-answer="${ex.id}-${rep}">
+      <div class="ex-answer-title">${escEx(title)} <span class="ex-answer-mark" aria-hidden="true"></span></div>
+      ${control}
+      <div class="ex-correct-answer" aria-live="polite"></div>
+    </section>`;
+  }
+  function exerciseCardHTML(ex){
+    const targets=ex.reps.filter(rep=>rep!==ex.given);
+    return `<article class="exercise-card" data-ex-card="${ex.id}">
+      <div class="exercise-card-top"><h2>${exT('exercise')} ${ex.id+1}</h2><span class="ex-card-status" aria-live="polite"></span></div>
+      <section class="ex-given"><div class="ex-section-label">${exT('given')}: <strong>${escEx(exerciseRepLabel(ex.given))}</strong></div>${givenHTML(ex)}</section>
+      <div class="ex-complete-label">${exT('complete')}</div>
+      <div class="ex-answers">${targets.map(rep=>answerHTML(ex,rep)).join('')}</div>
+    </article>`;
+  }
+  function renderExercises(){
+    const screen=document.getElementById('exerciseScreen');
+    if(!screen) return;
+    const list=makeExerciseSet();
+    if(!list.length){
+      screen.innerHTML=`<div class="exercise-empty"><h1>${escEx(exT('title'))}</h1><p>${escEx(exT('noExercises'))}</p><button type="button" class="btn gray" data-ex-back>${escEx(exT('back'))}</button></div>`;
+      return;
+    }
+    const reps=getSelectedExerciseReps();
+    screen.innerHTML=`<div class="exercise-shell">
+      <div class="exercise-hero">
+        <div><h1>${escEx(exT('title'))}</h1><p>${escEx(exT('subtitle'))}</p></div>
+        <div class="ex-selected-reps">${reps.map(rep=>`<span>${escEx(exerciseRepLabel(rep))}</span>`).join('')}</div>
+      </div>
+      <div id="exerciseResult" class="exercise-result" aria-live="polite"></div>
+      <div class="exercise-list">${list.map(exerciseCardHTML).join('')}</div>
+      <div class="exercise-actions">
+        <button type="button" class="btn ex-verify" data-ex-verify>✓ ${escEx(exT('verify'))}</button>
+        <button type="button" class="btn ex-new" data-ex-new>↻ ${escEx(exT('newSet'))}</button>
+        <button type="button" class="btn ex-back" data-ex-back>← ${escEx(exT('back'))}</button>
+      </div>
+    </div>`;
+  }
+  function materialCountFor(id,type){
+    const count=document.querySelector(`[data-ex-material-count="${id}-${type}"]`);
+    return count ? Number(count.textContent || 0) : 0;
+  }
+  function setMaterialCount(id,type,value){
+    const n=Math.max(0,Math.min(9,Number(value)||0));
+    const count=document.querySelector(`[data-ex-material-count="${id}-${type}"]`);
+    const preview=document.querySelector(`[data-ex-material-preview="${id}-${type}"]`);
+    if(count) count.textContent=String(n);
+    if(preview){
+      const scale={thousand:.24,hundred:.29,ten:.34,one:.40}[type] || .34;
+      preview.innerHTML=n ? Array.from({length:n},()=>`<span class="ex-material-piece ex-${type}">${blockSVG(type,scale)}</span>`).join('') : '<span class="ex-zero">0</span>';
+    }
+  }
+  function correctAnswerHTML(ex,rep){
+    if(rep==='material') return materialDisplayHTML(ex.canonical);
+    if(rep==='place') return placeDisplayHTML(ex.canonical);
+    if(rep==='digits') return `<strong>${ex.value}</strong>`;
+    if(rep==='expanded') return `<strong>${escEx(ex.expandedText)}</strong>`;
+    return `<strong>${escEx(ex.wordText)}</strong>`;
+  }
+  function evaluateAnswer(ex,rep){
+    if(rep==='material') return order.every(type=>materialCountFor(ex.id,type)===ex.canonical[type]);
+    if(rep==='place') return order.every(type=>{
+      const input=document.querySelector(`[data-ex-place="${ex.id}"][data-ex-pos="${type}"]`);
+      return !!input && input.value.trim()!=='' && Number(input.value)===ex.canonical[type];
+    });
+    if(rep==='digits'){
+      const input=document.querySelector(`[data-ex-digits="${ex.id}"]`);
+      return !!input && input.value.trim()!=='' && Number(input.value)===ex.value;
+    }
+    if(rep==='expanded'){
+      const input=document.querySelector(`[data-ex-expanded="${ex.id}"]`);
+      return !!input && input.value.trim()!=='' && Number.isFinite(parseExpandedToValue(input.value)) && parseExpandedToValue(input.value)===ex.value;
+    }
+    const input=document.querySelector(`[data-ex-word="${ex.id}"]`);
+    return !!input && input.value.trim()!=='' && normalizeExText(input.value)===normalizeExText(ex.wordText);
+  }
+  function verifyExercises(){
+    let correctExercises=0;
+    exerciseSet.forEach(ex=>{
+      const card=document.querySelector(`[data-ex-card="${ex.id}"]`);
+      const targets=ex.reps.filter(rep=>rep!==ex.given);
+      let allCorrect=true;
+      targets.forEach(rep=>{
+        const ok=evaluateAnswer(ex,rep);
+        const answer=document.querySelector(`[data-ex-answer="${ex.id}-${rep}"]`);
+        if(answer){
+          answer.classList.toggle('ex-answer-correct',ok);
+          answer.classList.toggle('ex-answer-incorrect',!ok);
+          const mark=answer.querySelector('.ex-answer-mark');
+          if(mark) mark.textContent=ok?'✓':'✕';
+          const feedback=answer.querySelector('.ex-correct-answer');
+          if(feedback) feedback.innerHTML=ok ? '' : `<span>${escEx(exT('correctAnswer'))}: </span>${correctAnswerHTML(ex,rep)}`;
+        }
+        if(!ok) allCorrect=false;
+      });
+      if(card){
+        card.classList.toggle('exercise-correct',allCorrect);
+        card.classList.toggle('exercise-incorrect',!allCorrect);
+        const marker=card.querySelector('.ex-card-status');
+        if(marker) marker.textContent=allCorrect?'✓':'✕';
+      }
+      if(allCorrect) correctExercises++;
+    });
+    const result=document.getElementById('exerciseResult');
+    if(result){
+      const message=correctExercises>=9?exT('excellent'):correctExercises>=6?exT('good'):exT('retry');
+      result.className='exercise-result show';
+      result.innerHTML=`<strong>${escEx(exT('result'))}: ${correctExercises} / ${exerciseSet.length}</strong><span>${escEx(exT('correct'))} ${exerciseSet.length}. ${escEx(message)}</span>`;
+      result.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+  }
+  function openExercises(){
+    const reps=getSelectedExerciseReps();
+    if(reps.length<2) return;
+    exerciseLanguage=lang || 'en';
+    document.body.classList.add('exercise-open');
+    renderExercises();
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+  function closeExercises(){
+    document.body.classList.remove('exercise-open');
+    const screen=document.getElementById('exerciseScreen');
+    if(screen) screen.innerHTML='';
+    try { render(); } catch(err) { console.error('Exercise return render failed',err); }
+  }
+  function updateExerciseLauncher(){
+    const button=document.getElementById('exerciseLauncher');
+    if(!button) return;
+    const reps=getSelectedExerciseReps();
+    button.style.display=reps.length>=2 && !document.body.classList.contains('exercise-open') ? 'inline-flex' : 'none';
+    button.textContent='📚 '+((EX_I18N[lang] || EX_I18N.en).launcher);
+    button.setAttribute('aria-label',(EX_I18N[lang] || EX_I18N.en).launcher);
+  }
+
+  const css=document.createElement('style');
+  css.textContent=`
+    #exerciseLauncher{
+      position:fixed; left:18px; bottom:18px; z-index:45; display:none; align-items:center; gap:8px;
+      min-height:48px; border:0; border-radius:15px; padding:12px 16px; font:800 16px system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:#fff; background:linear-gradient(135deg,#d08400,#f0a400); box-shadow:0 10px 24px rgba(160,101,0,.30); cursor:pointer;
+    }
+    #exerciseLauncher:hover{ transform:translateY(-2px); box-shadow:0 13px 27px rgba(160,101,0,.34); }
+    #exerciseScreen{display:none; max-width:1400px; margin:18px auto 28px; padding:0 18px;}
+    body.exercise-open #exerciseScreen{display:block;}
+    body.exercise-open main.app, body.exercise-open .footer, body.exercise-open #exerciseLauncher{display:none !important;}
+    body.exercise-open #teacherOpen, body.exercise-open #lang{pointer-events:none; opacity:.45;}
+    .exercise-shell{display:flex; flex-direction:column; gap:18px;}
+    .exercise-hero{display:flex; align-items:center; justify-content:space-between; gap:18px; padding:20px 22px; border-radius:22px; color:#183d19; background:linear-gradient(120deg,#f6fff2,#fff8e7); box-shadow:inset 0 0 0 2px rgba(47,125,50,.20),0 12px 28px rgba(28,70,20,.08);}
+    .exercise-hero h1{margin:0 0 5px; font-size:clamp(28px,4vw,42px); color:#1e6b25;}
+    .exercise-hero p{margin:0; max-width:780px; color:#405c3e; font-weight:650; line-height:1.4;}
+    .ex-selected-reps{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;}
+    .ex-selected-reps span{padding:7px 10px; border-radius:999px; background:#fff; border:1px solid #d8e6cf; color:#285b29; font-weight:800; white-space:nowrap;}
+    .exercise-list{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px;}
+    .exercise-card{position:relative; min-width:0; padding:16px; border-radius:20px; background:#fffefb; border:2px solid #dce9d5; box-shadow:0 9px 22px rgba(27,72,23,.07); transition:border-color .18s, box-shadow .18s;}
+    .exercise-card.exercise-correct{border-color:#65af58; box-shadow:0 0 0 3px rgba(72,160,67,.10),0 9px 22px rgba(27,72,23,.07);}
+    .exercise-card.exercise-incorrect{border-color:#e69a8d; box-shadow:0 0 0 3px rgba(212,79,58,.08),0 9px 22px rgba(27,72,23,.07);}
+    .exercise-card-top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:11px;}
+    .exercise-card h2{margin:0; color:#174f1b; font-size:20px;}
+    .ex-card-status{display:grid; place-items:center; width:28px; height:28px; border-radius:999px; font-weight:1000; font-size:19px;}
+    .exercise-correct .ex-card-status{color:#fff;background:#2f7d32;}
+    .exercise-incorrect .ex-card-status{color:#fff;background:#c62828;}
+    .ex-given{padding:12px; min-height:164px; border-radius:15px; background:linear-gradient(135deg,#f5fbf2,#fff9ed); border:1px solid #d9e7d1; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden;}
+    .ex-section-label{width:100%; margin-bottom:8px; color:#50684c; font-size:13px; font-weight:750; text-align:left;}
+    .ex-complete-label{margin:13px 0 8px; color:#174f1b; font-weight:900; font-size:15px;}
+    .ex-answers{display:flex; flex-direction:column; gap:10px;}
+    .ex-answer{padding:10px; border-radius:14px; background:#fff; border:1px solid #dce9d5; transition:background .18s,border-color .18s; overflow:hidden;}
+    .ex-answer.ex-answer-correct{border-color:#73bc69; background:#f5fff2;}
+    .ex-answer.ex-answer-incorrect{border-color:#efb4ab; background:#fff8f6;}
+    .ex-answer-title{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px; color:#365d36; font-weight:900;}
+    .ex-answer-mark{font-weight:1000; font-size:18px;}
+    .ex-answer-correct .ex-answer-mark{color:#2f7d32;}.ex-answer-incorrect .ex-answer-mark{color:#c62828;}
+    .ex-text-input{width:100%; min-height:44px; padding:9px 11px; border-radius:10px; border:2px solid #cfe3c3; background:#fffefb; color:#172617; font:700 17px system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; outline:none;}
+    .ex-text-input:focus,.ex-place-input:focus{border-color:#4f8dd6; box-shadow:0 0 0 3px rgba(79,141,214,.14);}
+    .ex-number-input{font-size:24px;}
+    .ex-value{width:100%; text-align:center; color:#111; font-weight:900; overflow-wrap:anywhere;}
+    .ex-digits-value{font-size:clamp(44px,7vw,75px);}.ex-expanded-value{font-size:clamp(24px,3.1vw,42px);line-height:1.2;}.ex-word-value{font-size:clamp(24px,3vw,38px);line-height:1.2;}
+    .ex-pv-table{margin:0;}.ex-pv-table td{height:76px;font-size:clamp(30px,4vw,48px);}.ex-pv-table th{padding:7px 3px;}.ex-place-input{width:100%; height:68px; border:0; outline:none; background:transparent; text-align:center; font:900 clamp(30px,4vw,48px) system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:#101010;}
+    .ex-material-display{width:100%; display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center; gap:7px 9px; padding:2px;}.ex-material-group{display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:2px; min-width:34px;}.ex-material-piece{display:inline-flex; align-items:flex-start; justify-content:center;}.ex-material-piece svg{display:block;max-width:100%;}.ex-thousand-group{max-width:230px;}.ex-hundred-group{max-width:210px;}.ex-ten-group{max-width:170px;}.ex-one-group{max-width:120px;}.ex-zero{display:inline-grid;place-items:center;min-width:24px;min-height:28px;color:#8a9786;font-weight:850;}
+    .ex-material-builder{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;}.ex-material-control{min-width:0;padding:6px;border-radius:10px;background:#fffdf8;border:1px solid #dce9d5;text-align:center;}.ex-material-head{font-size:14px;font-weight:900;color:#285b29;margin-bottom:3px;}.ex-material-preview{min-height:62px;display:flex;justify-content:center;align-items:flex-start;flex-wrap:wrap;gap:1px;overflow:hidden;}.ex-material-preview .ex-material-piece{transform:scale(.92);transform-origin:top center;}.ex-material-counter{display:flex;justify-content:center;align-items:center;gap:4px;margin-top:3px;}.ex-material-counter output{width:24px;font-size:18px;font-weight:900;color:#152315;}.ex-adjust{width:29px;height:29px;border:0;border-radius:9px;font-size:20px;font-weight:900;line-height:1;color:#fff;cursor:pointer;}.ex-minus{background:linear-gradient(135deg,#0b55a0,#4f8dd6);}.ex-plus{background:linear-gradient(135deg,#2f7d32,#57a64a);}.ex-adjust:active{transform:scale(.95);}
+    .ex-correct-answer{margin-top:8px;display:flex;align-items:flex-start;flex-wrap:wrap;gap:6px;color:#a12c1f;font-weight:800;font-size:13px;line-height:1.3;}.ex-correct-answer .ex-material-display{justify-content:flex-start;transform:scale(.66);transform-origin:left top;width:150%;max-height:85px;overflow:hidden;}.ex-correct-answer .ex-pv-table{max-width:260px;}.ex-correct-answer .ex-pv-table td{height:40px;font-size:23px;}.ex-correct-answer .ex-pv-table th{padding:4px;font-size:12px;}
+    .exercise-actions{position:sticky;bottom:0;z-index:10;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:14px;background:linear-gradient(180deg,rgba(251,250,246,.68),rgba(251,250,246,.96));backdrop-filter:blur(7px);}.exercise-actions .btn{min-width:190px;}.ex-verify{border:0 !important;color:#fff !important;background:linear-gradient(135deg,#2f7d32,#57a64a) !important;}.ex-new{border:0 !important;color:#fff !important;background:linear-gradient(135deg,#0b55a0,#4f8dd6) !important;}.ex-back{border:1px solid #d6d6d6 !important;color:#505050 !important;background:#fffdf7 !important;}.exercise-result{display:none;align-items:center;gap:10px;flex-wrap:wrap;padding:15px 18px;border-radius:16px;background:#fff8df;border:1px solid #ecd696;color:#715113;}.exercise-result.show{display:flex;}.exercise-result strong{font-size:20px;}.exercise-empty{max-width:700px;margin:50px auto;padding:28px;text-align:center;border-radius:20px;background:#fffefb;border:2px solid #dce9d5;}.exercise-empty h1{margin-top:0;color:#1e6b25;}
+    @media(max-width:920px){.exercise-list{grid-template-columns:1fr;}.exercise-hero{align-items:flex-start;flex-direction:column;}.ex-selected-reps{justify-content:flex-start;}.exercise-actions .btn{min-width:min(100%,240px);}.ex-given{min-height:150px;}}
+    @media(max-width:560px){#exerciseLauncher{left:10px;bottom:10px;padding:11px 13px;font-size:15px;}#exerciseScreen{margin:10px auto 22px;padding:0 9px;}.exercise-hero{padding:16px;border-radius:18px;}.exercise-hero h1{font-size:28px;}.exercise-card{padding:12px;border-radius:17px;}.ex-given{padding:10px;}.ex-material-builder{gap:4px;}.ex-material-control{padding:4px;}.ex-material-head{font-size:12px;}.ex-material-preview{min-height:54px;}.ex-adjust{width:27px;height:27px;}.ex-place-input{height:56px;}.ex-pv-table td{height:62px;}.exercise-actions{gap:8px;padding:10px 4px;}.exercise-actions .btn{width:100%;}.ex-selected-reps span{font-size:12px;}.ex-correct-answer .ex-material-display{display:none;}}
+  `;
+  document.head.appendChild(css);
+
+  function clearExerciseFeedback(id, answer){
+    if(answer){
+      answer.classList.remove('ex-answer-correct','ex-answer-incorrect');
+      const mark=answer.querySelector('.ex-answer-mark'); if(mark) mark.textContent='';
+      const feedback=answer.querySelector('.ex-correct-answer'); if(feedback) feedback.innerHTML='';
+    }
+    const card=document.querySelector(`[data-ex-card="${id}"]`);
+    if(card){
+      card.classList.remove('exercise-correct','exercise-incorrect');
+      const status=card.querySelector('.ex-card-status'); if(status) status.textContent='';
+    }
+    const result=document.getElementById('exerciseResult');
+    if(result){ result.className='exercise-result'; result.innerHTML=''; }
+  }
+
+  const launcher=document.createElement('button');
+  launcher.id='exerciseLauncher';
+  launcher.type='button';
+  document.body.appendChild(launcher);
+  const screen=document.createElement('section');
+  screen.id='exerciseScreen';
+  screen.setAttribute('aria-live','polite');
+  const footer=document.querySelector('.footer');
+  if(footer && footer.parentNode) footer.parentNode.insertBefore(screen,footer); else document.body.appendChild(screen);
+
+  launcher.addEventListener('click',openExercises);
+  document.addEventListener('click',function(event){
+    const adjust=event.target.closest('[data-ex-adjust]');
+    if(adjust){
+      const id=Number(adjust.dataset.exAdjust);
+      const type=adjust.dataset.exType;
+      const delta=Number(adjust.dataset.exDelta || 0);
+      setMaterialCount(id,type,materialCountFor(id,type)+delta);
+      clearExerciseFeedback(id,adjust.closest('.ex-answer'));
+      return;
+    }
+    if(event.target.closest('[data-ex-verify]')){ verifyExercises(); return; }
+    if(event.target.closest('[data-ex-new]')){ renderExercises(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+    if(event.target.closest('[data-ex-back]')){ closeExercises(); return; }
+  });
+  document.addEventListener('input',function(event){
+    const placeInput=event.target.closest('.ex-place-input');
+    if(placeInput) placeInput.value=placeInput.value.replace(/[^0-9]/g,'').slice(0,1);
+    if(event.target.closest('.ex-text-input') || placeInput){
+      const answer=event.target.closest('.ex-answer');
+      const idFromAnswer=answer ? Number((answer.dataset.exAnswer || '').split('-')[0]) : NaN;
+      if(answer && Number.isFinite(idFromAnswer)) clearExerciseFeedback(idFromAnswer,answer);
+    }
+  });
+
+  const originalRender=window.render;
+  if(typeof originalRender==='function'){
+    window.render=function(){
+      const output=originalRender.apply(this,arguments);
+      updateExerciseLauncher();
+      return output;
+    };
+  }
+  document.getElementById('lang')?.addEventListener('change',function(){
+    setTimeout(updateExerciseLauncher,0);
+  });
+  updateExerciseLauncher();
+})();
+</script>
+
 </body>
 </html>
