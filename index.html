@@ -2646,5 +2646,560 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
   }
 </style>
 
+
+
+<!-- v48: accessible place-value digits and coloured first exercise set -->
+<style>
+  /* Accessible place-value palette: deep blue, dark teal, burnt orange and purple.
+     All four text colours have at least 5.3:1 contrast on white and avoid a red/green-only pairing. */
+  :root {
+    --pv-thousand-access:#005F9E;
+    --pv-hundred-access:#006D6A;
+    --pv-ten-access:#A84300;
+    --pv-one-access:#6A2C91;
+    --pv-thousand-soft:#E7F2F8;
+    --pv-hundred-soft:#E7F4F2;
+    --pv-ten-soft:#FFF0E8;
+    --pv-one-soft:#F4EAF8;
+  }
+
+  .pv-text.pv-thousand { color:var(--pv-thousand-access) !important; }
+  .pv-text.pv-hundred { color:var(--pv-hundred-access) !important; }
+  .pv-text.pv-ten { color:var(--pv-ten-access) !important; }
+  .pv-text.pv-one { color:var(--pv-one-access) !important; }
+
+  .pv-digits { display:inline-flex; align-items:baseline; white-space:nowrap; letter-spacing:.035em; }
+  .pv-digits .pv-text { display:inline-block; }
+
+  /* Main application and Teacher Mode: headings and digits share the same code. */
+  .pv-table th:nth-child(1), .pv-table tbody td:nth-child(1) { color:var(--pv-thousand-access); }
+  .pv-table th:nth-child(2), .pv-table tbody td:nth-child(2) { color:var(--pv-hundred-access); }
+  .pv-table th:nth-child(3), .pv-table tbody td:nth-child(3) { color:var(--pv-ten-access); }
+  .pv-table th:nth-child(4), .pv-table tbody td:nth-child(4) { color:var(--pv-one-access); }
+  .pv-table th:nth-child(1) { background:var(--pv-thousand-soft); }
+  .pv-table th:nth-child(2) { background:var(--pv-hundred-soft); }
+  .pv-table th:nth-child(3) { background:var(--pv-ten-soft); }
+  .pv-table th:nth-child(4) { background:var(--pv-one-soft); }
+
+  .teacher-place-cell:nth-child(1) .teacher-place-head,
+  .teacher-place-table-edit td:nth-child(1) .teacher-place-input,
+  .teacher-place-table-edit.clean-teacher-pv td:nth-child(1) .teacher-place-input { color:var(--pv-thousand-access) !important; }
+  .teacher-place-cell:nth-child(2) .teacher-place-head,
+  .teacher-place-table-edit td:nth-child(2) .teacher-place-input,
+  .teacher-place-table-edit.clean-teacher-pv td:nth-child(2) .teacher-place-input { color:var(--pv-hundred-access) !important; }
+  .teacher-place-cell:nth-child(3) .teacher-place-head,
+  .teacher-place-table-edit td:nth-child(3) .teacher-place-input,
+  .teacher-place-table-edit.clean-teacher-pv td:nth-child(3) .teacher-place-input { color:var(--pv-ten-access) !important; }
+  .teacher-place-cell:nth-child(4) .teacher-place-head,
+  .teacher-place-table-edit td:nth-child(4) .teacher-place-input,
+  .teacher-place-table-edit.clean-teacher-pv td:nth-child(4) .teacher-place-input { color:var(--pv-one-access) !important; }
+  .pv-dyn-cell:nth-child(1) .pv-dyn-head, .pv-dyn-cell:nth-child(1) .pv-dyn-value { color:var(--pv-thousand-access); }
+  .pv-dyn-cell:nth-child(2) .pv-dyn-head, .pv-dyn-cell:nth-child(2) .pv-dyn-value { color:var(--pv-hundred-access); }
+  .pv-dyn-cell:nth-child(3) .pv-dyn-head, .pv-dyn-cell:nth-child(3) .pv-dyn-value { color:var(--pv-ten-access); }
+  .pv-dyn-cell:nth-child(4) .pv-dyn-head, .pv-dyn-cell:nth-child(4) .pv-dyn-value { color:var(--pv-one-access); }
+
+  /* Exercise mode: the first set keeps the application’s colour scaffolding.
+     Later sets remain intentionally neutral. */
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table th:nth-child(1) {
+    color:var(--pv-thousand-access) !important; background:var(--pv-thousand-soft) !important; border-color:#AFCFE1 !important;
+  }
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table th:nth-child(2) {
+    color:var(--pv-hundred-access) !important; background:var(--pv-hundred-soft) !important; border-color:#A9D5CD !important;
+  }
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table th:nth-child(3) {
+    color:var(--pv-ten-access) !important; background:var(--pv-ten-soft) !important; border-color:#E2C09F !important;
+  }
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table th:nth-child(4) {
+    color:var(--pv-one-access) !important; background:var(--pv-one-soft) !important; border-color:#DAB8D4 !important;
+  }
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table tbody td:nth-child(1),
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table tbody td:nth-child(1) .ex-place-input { color:var(--pv-thousand-access) !important; }
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table tbody td:nth-child(2),
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table tbody td:nth-child(2) .ex-place-input { color:var(--pv-hundred-access) !important; }
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table tbody td:nth-child(3),
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table tbody td:nth-child(3) .ex-place-input { color:var(--pv-ten-access) !important; }
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table tbody td:nth-child(4),
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table tbody td:nth-child(4) .ex-place-input { color:var(--pv-one-access) !important; }
+  #exerciseScreen.ex-colour-scaffold .ex-material-control:nth-child(1) { border-color:#AFCFE1; background:var(--pv-thousand-soft); }
+  #exerciseScreen.ex-colour-scaffold .ex-material-control:nth-child(2) { border-color:#A9D5CD; background:var(--pv-hundred-soft); }
+  #exerciseScreen.ex-colour-scaffold .ex-material-control:nth-child(3) { border-color:#E2C09F; background:var(--pv-ten-soft); }
+  #exerciseScreen.ex-colour-scaffold .ex-material-control:nth-child(4) { border-color:#DAB8D4; background:var(--pv-one-soft); }
+  #exerciseScreen.ex-colour-scaffold .ex-material-control:nth-child(1) .ex-material-head { color:var(--pv-thousand-access); }
+  #exerciseScreen.ex-colour-scaffold .ex-material-control:nth-child(2) .ex-material-head { color:var(--pv-hundred-access); }
+  #exerciseScreen.ex-colour-scaffold .ex-material-control:nth-child(3) .ex-material-head { color:var(--pv-ten-access); }
+  #exerciseScreen.ex-colour-scaffold .ex-material-control:nth-child(4) .ex-material-head { color:var(--pv-one-access); }
+</style>
+<script>
+(function(){
+  'use strict';
+
+  function escV48(value){
+    return String(value == null ? '' : value).replace(/[&<>'"]/g, function(ch){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'})[ch];
+    });
+  }
+  function v48Span(place,text){
+    return `<span class="pv-text pv-${place}">${escV48(text)}</span>`;
+  }
+  function v48Connector(text){ return `<span class="pv-connector">${escV48(text)}</span>`; }
+  function v48Canonical(value){
+    const n=Math.max(0,Math.min(9999,Math.floor(Number(value)||0)));
+    return {
+      thousand:Math.floor(n/1000),
+      hundred:Math.floor((n%1000)/100),
+      ten:Math.floor((n%100)/10),
+      one:n%10
+    };
+  }
+  function colouredDigitsV48(value){
+    const n=Math.max(0,Math.min(9999,Math.floor(Number(value)||0)));
+    const chars=String(n).split('');
+    const places=['thousand','hundred','ten','one'].slice(4-chars.length);
+    return `<span class="pv-digits" aria-label="${escV48(String(n))}">${chars.map(function(d,i){ return v48Span(places[i],d); }).join('')}</span>`;
+  }
+  function colouredExpandedV48(value){
+    const c=v48Canonical(value), parts=[];
+    if(c.thousand) parts.push(v48Span('thousand',String(c.thousand*1000)));
+    if(c.hundred) parts.push(v48Span('hundred',String(c.hundred*100)));
+    if(c.ten) parts.push(v48Span('ten',String(c.ten*10)));
+    if(c.one) parts.push(v48Span('one',String(c.one)));
+    return parts.length ? parts.join('<span class="pv-operator"> + </span>') : v48Span('one','0');
+  }
+
+  const V48_EN_ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  const V48_EN_TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  const V48_ES_UNITS=['','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve'];
+  const V48_ES_TEENS=['diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve'];
+  const V48_ES_TENS=['','','veinte','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+  const V48_ES_HUNDREDS=['','ciento','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
+  const V48_DE_UNITS=['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'];
+  const V48_DE_TENS=['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
+  const V48_IT_UNITS=['','uno','due','tre','quattro','cinque','sei','sette','otto','nove','dieci','undici','dodici','tredici','quattordici','quindici','sedici','diciassette','diciotto','diciannove'];
+  const V48_IT_TENS=['','','venti','trenta','quaranta','cinquanta','sessanta','settanta','ottanta','novanta'];
+
+  function colouredWordV48(value){
+    const n=Math.max(0,Math.min(9999,Math.floor(Number(value)||0)));
+    const c=v48Canonical(n), locale=(typeof lang==='string'?lang:'en');
+    if(n===0){
+      const zero=locale==='de'?'null':locale==='es'?'cero':'zero';
+      return `<span class="word-parts">${v48Span('one',zero)}</span>`;
+    }
+    function englishLow(t,o){
+      if(t===0) return o?v48Span('one',V48_EN_ONES[o]):'';
+      if(t===1) return v48Span('ten',V48_EN_ONES[10+o]);
+      return v48Span('ten',V48_EN_TENS[t])+(o?`${v48Connector('-')}${v48Span('one',V48_EN_ONES[o])}`:'');
+    }
+    function spanishLow(t,o){
+      if(t===0) return o?v48Span('one',V48_ES_UNITS[o]):'';
+      if(t===1) return v48Span('ten',V48_ES_TEENS[o]);
+      if(t===2) return o===0?v48Span('ten','veinte'):v48Span('ten','veinti')+v48Span('one',V48_ES_UNITS[o]);
+      return v48Span('ten',V48_ES_TENS[t])+(o?`${v48Connector(' y ')}${v48Span('one',V48_ES_UNITS[o])}`:'');
+    }
+    function germanLow(t,o){
+      if(t===0) return o?v48Span('one',V48_DE_UNITS[o]):'';
+      if(t===1) return v48Span('ten',V48_DE_UNITS[10+o]);
+      if(o===0) return v48Span('ten',V48_DE_TENS[t]);
+      return v48Span('one',o===1?'ein':V48_DE_UNITS[o])+v48Connector('und')+v48Span('ten',V48_DE_TENS[t]);
+    }
+    function italianLow(t,o){
+      if(t===0) return o?v48Span('one',V48_IT_UNITS[o]):'';
+      if(t===1) return v48Span('ten',V48_IT_UNITS[10+o]);
+      let tens=V48_IT_TENS[t]; if(o===1||o===8) tens=tens.slice(0,-1);
+      return v48Span('ten',tens)+(o?v48Span('one',V48_IT_UNITS[o]):'');
+    }
+    if(locale==='de'){
+      let out='';
+      if(c.thousand) out+=v48Span('thousand',(c.thousand===1?'ein':V48_DE_UNITS[c.thousand])+'tausend');
+      if(c.hundred) out+=v48Span('hundred',(c.hundred===1?'ein':V48_DE_UNITS[c.hundred])+'hundert');
+      if(c.ten||c.one) out+=germanLow(c.ten,c.one);
+      return `<span class="word-parts">${out}</span>`;
+    }
+    if(locale==='it'){
+      const parts=[];
+      if(c.thousand) parts.push(v48Span('thousand',c.thousand===1?'mille':V48_IT_UNITS[c.thousand]+'mila'));
+      if(c.hundred) parts.push(v48Span('hundred',c.hundred===1?'cento':V48_IT_UNITS[c.hundred]+'cento'));
+      if(c.ten||c.one) parts.push(italianLow(c.ten,c.one));
+      return `<span class="word-parts">${parts.join('')}</span>`;
+    }
+    if(locale==='es'){
+      const parts=[];
+      if(c.thousand) parts.push(v48Span('thousand',c.thousand===1?'mil':V48_ES_UNITS[c.thousand]+' mil'));
+      if(c.hundred) parts.push(v48Span('hundred',c.hundred===1?(c.ten||c.one?'ciento':'cien'):V48_ES_HUNDREDS[c.hundred]));
+      if(c.ten||c.one) parts.push(spanishLow(c.ten,c.one));
+      return `<span class="word-parts">${parts.join(' ')}</span>`;
+    }
+    const parts=[];
+    if(c.thousand) parts.push(v48Span('thousand',V48_EN_ONES[c.thousand]+' thousand'));
+    if(c.hundred) parts.push(v48Span('hundred',V48_EN_ONES[c.hundred]+' hundred'));
+    if(c.ten||c.one){
+      const lower=englishLow(c.ten,c.one);
+      parts.push(c.hundred ? `${v48Connector('and')} ${lower}` : lower);
+    }
+    return `<span class="word-parts">${parts.join(' ')}</span>`;
+  }
+
+  /* Digit representation in the main app and comparison cards. */
+  const previousRepresentationV48=window.renderRepresentation;
+  window.renderRepresentation=function(){
+    const result=previousRepresentationV48 ? previousRepresentationV48.apply(this,arguments) : undefined;
+    try {
+      if(typeof rep==='undefined' || typeof total!=='function') return result;
+      const root=document.getElementById('repView'); if(!root) return result;
+      if(rep==='digits'){
+        const target=root.querySelector('.value-number');
+        if(target) target.innerHTML=colouredDigitsV48(total());
+      } else if(rep==='all'){
+        const cards=root.querySelectorAll('.small-card .val.big');
+        cards.forEach(function(target){ target.innerHTML=colouredDigitsV48(total()); });
+      }
+    } catch(error){ console.error('v48 digit colour patch failed',error); }
+    return result;
+  };
+
+  const previousTeacherRepBlockV48=window.teacherRepBlockHTML;
+  window.teacherRepBlockHTML=function(type,interactive){
+    if(type==='digits' && typeof teacherTotal==='function' && typeof teacherIsStandard==='function' && teacherIsStandard()){
+      return `<div class="teacher-one-rep"><div class="value-number" style="font-size:clamp(46px,7vw,84px); text-align:center;">${colouredDigitsV48(teacherTotal())}</div></div>`;
+    }
+    return previousTeacherRepBlockV48 ? previousTeacherRepBlockV48.apply(this,arguments) : '';
+  };
+
+  function valueFromMaterial(given){
+    const names=['thousand','hundred','ten','one'];
+    const multipliers=[1000,100,10,1];
+    return names.reduce(function(sum,name,index){
+      return sum + given.querySelectorAll(`.ex-material-group.ex-${name}-group .ex-material-piece`).length*multipliers[index];
+    },0);
+  }
+  function valueFromExerciseCard(card){
+    const given=card.querySelector('.ex-given'); if(!given) return NaN;
+    const digits=given.querySelector('.ex-digits-value');
+    if(digits) return Number(digits.textContent.trim());
+    const expanded=given.querySelector('.ex-expanded-value');
+    if(expanded && typeof parseExpandedToValue==='function') return parseExpandedToValue(expanded.textContent);
+    const wordValue=given.querySelector('.ex-word-value');
+    if(wordValue && typeof parseSimpleWordNumber==='function') return parseSimpleWordNumber(wordValue.textContent);
+    const table=given.querySelector('.ex-pv-table');
+    if(table){
+      const cells=[...table.querySelectorAll('tbody td')];
+      if(cells.length===4){
+        const d=cells.map(function(cell){ return Number(cell.textContent.trim())||0; });
+        return d[0]*1000+d[1]*100+d[2]*10+d[3];
+      }
+    }
+    if(given.querySelector('.ex-material-display')) return valueFromMaterial(given);
+    return NaN;
+  }
+  function decorateFirstExerciseSet(){
+    const screen=document.getElementById('exerciseScreen');
+    if(!screen || !screen.classList.contains('ex-colour-scaffold')) return;
+    screen.querySelectorAll('.exercise-card').forEach(function(card){
+      const value=valueFromExerciseCard(card);
+      if(!Number.isFinite(value)) return;
+      const given=card.querySelector('.ex-given');
+      const digits=given && given.querySelector('.ex-digits-value');
+      const expanded=given && given.querySelector('.ex-expanded-value');
+      const wordValue=given && given.querySelector('.ex-word-value');
+      if(digits) digits.innerHTML=colouredDigitsV48(value);
+      if(expanded) expanded.innerHTML=colouredExpandedV48(value);
+      if(wordValue) wordValue.innerHTML=colouredWordV48(value);
+
+      card.querySelectorAll('.ex-correct-answer').forEach(function(feedback){
+        const answer=feedback.closest('.ex-answer');
+        const repName=((answer && answer.dataset.exAnswer) || '').split('-').pop();
+        const strong=feedback.querySelector('strong');
+        if(!strong) return;
+        if(repName==='digits') strong.innerHTML=colouredDigitsV48(value);
+        else if(repName==='expanded') strong.innerHTML=colouredExpandedV48(value);
+        else if(repName==='word') strong.innerHTML=colouredWordV48(value);
+      });
+    });
+  }
+
+  let firstExerciseRoundV48=true;
+  function setExerciseRoundStyleV48(firstRound){
+    firstExerciseRoundV48=firstRound;
+    const screen=document.getElementById('exerciseScreen'); if(!screen) return;
+    screen.classList.toggle('ex-colour-scaffold',firstRound);
+    if(firstRound) decorateFirstExerciseSet();
+  }
+
+  /* Set the round state before the original exercise handlers render their cards. */
+  document.addEventListener('click',function(event){
+    if(event.target.closest('#exerciseLauncher')) setExerciseRoundStyleV48(true);
+    if(event.target.closest('[data-ex-new]')) setExerciseRoundStyleV48(false);
+  },true);
+  /* Decorate after the original handlers have finished creating or checking the cards. */
+  document.addEventListener('click',function(event){
+    if(event.target.closest('#exerciseLauncher') || event.target.closest('[data-ex-new]') || event.target.closest('[data-ex-verify]')){
+      requestAnimationFrame(function(){
+        if(firstExerciseRoundV48) decorateFirstExerciseSet();
+      });
+    }
+  });
+
+  try { if(typeof window.render==='function') window.render(); } catch(error) { console.error('v48 initial render failed',error); }
+})();
+</script>
+
+<!-- v49: refined accessible palette. The first 10 exercises retain the application colours; each later set generated with “New exercises” remains neutral. -->
+<style>
+  /* Non-colour cues are kept through the fixed Th/H/T/O order and labels. */
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table th:nth-child(1),
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table th:nth-child(2),
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table th:nth-child(3),
+  #exerciseScreen.ex-colour-scaffold .ex-pv-table th:nth-child(4){ font-weight:900; }
+</style>
+
+<!-- v50: coloured first exercise set for all given representations; Dienes palette aligns with place-value colours -->
+<style>
+  /* The Dienes selection cards use exactly the same soft backgrounds as the place-value columns. */
+  .palette .tile:nth-child(1) {
+    background:linear-gradient(180deg,#ffffff 0%,var(--pv-thousand-soft) 100%) !important;
+    border-color:#AFCFE1 !important;
+  }
+  .palette .tile:nth-child(2) {
+    background:linear-gradient(180deg,#ffffff 0%,var(--pv-hundred-soft) 100%) !important;
+    border-color:#A9D5CD !important;
+  }
+  .palette .tile:nth-child(3) {
+    background:linear-gradient(180deg,#ffffff 0%,var(--pv-ten-soft) 100%) !important;
+    border-color:#E2C09F !important;
+  }
+  .palette .tile:nth-child(4) {
+    background:linear-gradient(180deg,#ffffff 0%,var(--pv-one-soft) 100%) !important;
+    border-color:#DAB8D4 !important;
+  }
+  .palette .tile:nth-child(1) .addbtn { color:var(--pv-thousand-access) !important; border:2px solid #AFCFE1 !important; background:#fff !important; }
+  .palette .tile:nth-child(2) .addbtn { color:var(--pv-hundred-access) !important; border:2px solid #A9D5CD !important; background:#fff !important; }
+  .palette .tile:nth-child(3) .addbtn { color:var(--pv-ten-access) !important; border:2px solid #E2C09F !important; background:#fff !important; }
+  .palette .tile:nth-child(4) .addbtn { color:var(--pv-one-access) !important; border:2px solid #DAB8D4 !important; background:#fff !important; }
+  .palette .tile:nth-child(1) .addbtn:hover { background:var(--pv-thousand-soft) !important; }
+  .palette .tile:nth-child(2) .addbtn:hover { background:var(--pv-hundred-soft) !important; }
+  .palette .tile:nth-child(3) .addbtn:hover { background:var(--pv-ten-soft) !important; }
+  .palette .tile:nth-child(4) .addbtn:hover { background:var(--pv-one-soft) !important; }
+
+  /* Keep the teacher's material palette consistent with the application as well. */
+  .teacher-tile.thousand::before { background:var(--pv-thousand-soft) !important; opacity:.88 !important; }
+  .teacher-tile.hundred::before { background:var(--pv-hundred-soft) !important; opacity:.88 !important; }
+  .teacher-tile.ten::before { background:var(--pv-ten-soft) !important; opacity:.88 !important; }
+  .teacher-tile.one::before { background:var(--pv-one-soft) !important; opacity:.88 !important; }
+</style>
+<script>
+(function(){
+  'use strict';
+
+  function escV50(value){
+    return String(value == null ? '' : value).replace(/[&<>'"]/g, function(ch){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'})[ch];
+    });
+  }
+  function spanV50(place,text){ return '<span class="pv-text pv-'+place+'">'+escV50(text)+'</span>'; }
+  function connectorV50(text){ return '<span class="pv-connector">'+escV50(text)+'</span>'; }
+  function canonicalV50(value){
+    var n=Math.max(0,Math.min(9999,Math.floor(Number(value)||0)));
+    return {thousand:Math.floor(n/1000),hundred:Math.floor((n%1000)/100),ten:Math.floor((n%100)/10),one:n%10};
+  }
+  function digitsV50(value){
+    var n=Math.max(0,Math.min(9999,Math.floor(Number(value)||0)));
+    var chars=String(n).split('');
+    var places=['thousand','hundred','ten','one'].slice(4-chars.length);
+    return '<span class="pv-digits" aria-label="'+escV50(String(n))+'">'+chars.map(function(d,i){return spanV50(places[i],d);}).join('')+'</span>';
+  }
+  function expandedV50(value){
+    var c=canonicalV50(value), parts=[];
+    if(c.thousand) parts.push(spanV50('thousand',String(c.thousand*1000)));
+    if(c.hundred) parts.push(spanV50('hundred',String(c.hundred*100)));
+    if(c.ten) parts.push(spanV50('ten',String(c.ten*10)));
+    if(c.one) parts.push(spanV50('one',String(c.one)));
+    return parts.length ? parts.join('<span class="pv-operator"> + </span>') : spanV50('one','0');
+  }
+
+  var EN_ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  var EN_TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  var ES_UNITS=['','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve'];
+  var ES_TEENS=['diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve'];
+  var ES_TENS=['','','veinte','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+  var ES_HUNDREDS=['','ciento','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
+  var DE_UNITS=['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'];
+  var DE_TENS=['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
+  var IT_UNITS=['','uno','due','tre','quattro','cinque','sei','sette','otto','nove','dieci','undici','dodici','tredici','quattordici','quindici','sedici','diciassette','diciotto','diciannove'];
+  var IT_TENS=['','','venti','trenta','quaranta','cinquanta','sessanta','settanta','ottanta','novanta'];
+
+  function currentLanguageV50(){
+    try { return typeof lang==='string' ? lang : 'en'; } catch(err) { return 'en'; }
+  }
+  function wordsV50(value){
+    var n=Math.max(0,Math.min(9999,Math.floor(Number(value)||0))), c=canonicalV50(n), locale=currentLanguageV50();
+    if(n===0){ return '<span class="word-parts">'+spanV50('one',locale==='de'?'null':locale==='es'?'cero':locale==='it'?'zero':'zero')+'</span>'; }
+    function englishLow(t,o){
+      if(t===0) return o?spanV50('one',EN_ONES[o]):'';
+      if(t===1) return spanV50('ten',EN_ONES[10+o]);
+      return spanV50('ten',EN_TENS[t])+(o?connectorV50('-')+spanV50('one',EN_ONES[o]):'');
+    }
+    function spanishLow(t,o){
+      if(t===0) return o?spanV50('one',ES_UNITS[o]):'';
+      if(t===1) return spanV50('ten',ES_TEENS[o]);
+      if(t===2) return o===0?spanV50('ten','veinte'):spanV50('ten','veinti')+spanV50('one',ES_UNITS[o]);
+      return spanV50('ten',ES_TENS[t])+(o?connectorV50(' y ')+spanV50('one',ES_UNITS[o]):'');
+    }
+    function germanLow(t,o){
+      if(t===0) return o?spanV50('one',DE_UNITS[o]):'';
+      if(t===1) return spanV50('ten',DE_UNITS[10+o]);
+      if(o===0) return spanV50('ten',DE_TENS[t]);
+      return spanV50('one',o===1?'ein':DE_UNITS[o])+connectorV50('und')+spanV50('ten',DE_TENS[t]);
+    }
+    function italianLow(t,o){
+      if(t===0) return o?spanV50('one',IT_UNITS[o]):'';
+      if(t===1) return spanV50('ten',IT_UNITS[10+o]);
+      var tens=IT_TENS[t]; if(o===1||o===8) tens=tens.slice(0,-1);
+      return spanV50('ten',tens)+(o?spanV50('one',IT_UNITS[o]):'');
+    }
+    if(locale==='de'){
+      var de='';
+      if(c.thousand) de+=spanV50('thousand',(c.thousand===1?'ein':DE_UNITS[c.thousand])+'tausend');
+      if(c.hundred) de+=spanV50('hundred',(c.hundred===1?'ein':DE_UNITS[c.hundred])+'hundert');
+      if(c.ten||c.one) de+=germanLow(c.ten,c.one);
+      return '<span class="word-parts">'+de+'</span>';
+    }
+    if(locale==='it'){
+      var it=[];
+      if(c.thousand) it.push(spanV50('thousand',c.thousand===1?'mille':IT_UNITS[c.thousand]+'mila'));
+      if(c.hundred) it.push(spanV50('hundred',c.hundred===1?'cento':IT_UNITS[c.hundred]+'cento'));
+      if(c.ten||c.one) it.push(italianLow(c.ten,c.one));
+      return '<span class="word-parts">'+it.join('')+'</span>';
+    }
+    if(locale==='es'){
+      var es=[];
+      if(c.thousand) es.push(spanV50('thousand',c.thousand===1?'mil':ES_UNITS[c.thousand]+' mil'));
+      if(c.hundred) es.push(spanV50('hundred',c.hundred===1?(c.ten||c.one?'ciento':'cien'):ES_HUNDREDS[c.hundred]));
+      if(c.ten||c.one) es.push(spanishLow(c.ten,c.one));
+      return '<span class="word-parts">'+es.join(' ')+'</span>';
+    }
+    var en=[];
+    if(c.thousand) en.push(spanV50('thousand',EN_ONES[c.thousand]+' thousand'));
+    if(c.hundred) en.push(spanV50('hundred',EN_ONES[c.hundred]+' hundred'));
+    if(c.ten||c.one){ var low=englishLow(c.ten,c.one); en.push(c.hundred?connectorV50('and')+' '+low:low); }
+    return '<span class="word-parts">'+en.join(' ')+'</span>';
+  }
+
+  function valueFromCardV50(card){
+    var given=card.querySelector('.ex-given'); if(!given) return NaN;
+    var digits=given.querySelector('.ex-digits-value');
+    if(digits){ var d=Number(digits.textContent.trim()); if(Number.isFinite(d)) return d; }
+    var expanded=given.querySelector('.ex-expanded-value');
+    if(expanded){
+      var nums=expanded.textContent.match(/\d+/g) || [];
+      if(nums.length) return nums.reduce(function(sum,item){ return sum+Number(item); },0);
+    }
+    var table=given.querySelector('.ex-pv-table');
+    if(table){
+      var cells=Array.prototype.slice.call(table.querySelectorAll('tbody td'));
+      if(cells.length===4) return Number(cells[0].textContent.trim()||0)*1000+Number(cells[1].textContent.trim()||0)*100+Number(cells[2].textContent.trim()||0)*10+Number(cells[3].textContent.trim()||0);
+    }
+    var wordValue=given.querySelector('.ex-word-value');
+    if(wordValue && typeof parseSimpleWordNumber==='function'){
+      var w=parseSimpleWordNumber(wordValue.textContent); if(Number.isFinite(w)) return w;
+    }
+    if(given.querySelector('.ex-material-display')){
+      var names=['thousand','hundred','ten','one'], multipliers=[1000,100,10,1];
+      return names.reduce(function(sum,name,index){ return sum+given.querySelectorAll('.ex-material-group.ex-'+name+'-group .ex-material-piece').length*multipliers[index]; },0);
+    }
+    return NaN;
+  }
+  function representationFromAnswerV50(answer){
+    var raw=answer && answer.getAttribute('data-ex-answer') || '';
+    var parts=raw.split('-'); return parts[parts.length-1] || '';
+  }
+  function decorateFirstSetV50(){
+    var screen=document.getElementById('exerciseScreen');
+    if(!screen || !screen.classList.contains('ex-colour-scaffold')) return;
+    Array.prototype.slice.call(screen.querySelectorAll('.exercise-card')).forEach(function(card){
+      var value=valueFromCardV50(card);
+      if(!Number.isFinite(value)) return;
+      var given=card.querySelector('.ex-given');
+      if(!given) return;
+      var digits=given.querySelector('.ex-digits-value');
+      var expanded=given.querySelector('.ex-expanded-value');
+      var wordValue=given.querySelector('.ex-word-value');
+      if(digits) digits.innerHTML=digitsV50(value);
+      if(expanded) expanded.innerHTML=expandedV50(value);
+      if(wordValue) wordValue.innerHTML=wordsV50(value);
+      Array.prototype.slice.call(card.querySelectorAll('.ex-correct-answer')).forEach(function(feedback){
+        var answer=feedback.closest('.ex-answer');
+        var rep=representationFromAnswerV50(answer);
+        var strong=feedback.querySelector('strong');
+        if(!strong) return;
+        if(rep==='digits') strong.innerHTML=digitsV50(value);
+        if(rep==='expanded') strong.innerHTML=expandedV50(value);
+        if(rep==='word') strong.innerHTML=wordsV50(value);
+      });
+    });
+  }
+  var frame=0;
+  function scheduleV50(){
+    if(frame) cancelAnimationFrame(frame);
+    frame=requestAnimationFrame(function(){ frame=0; decorateFirstSetV50(); });
+  }
+  function initV50(){
+    var screen=document.getElementById('exerciseScreen');
+    if(!screen) return;
+    new MutationObserver(scheduleV50).observe(screen,{childList:true,subtree:true});
+    document.addEventListener('click',function(event){
+      if(event.target.closest('#exerciseLauncher, [data-ex-new], [data-ex-verify]')){
+        scheduleV50();
+        setTimeout(scheduleV50,0);
+        setTimeout(scheduleV50,40);
+      }
+    });
+    scheduleV50();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initV50); else initV50();
+})();
+</script>
+
+
+<!-- v51: show the colour scaffold in every representation during the first 10 exercises only -->
+<style>
+  /*
+    v43 deliberately neutralised exercise text with !important rules.
+    These more specific rules restore the application palette only while
+    #exerciseScreen has the .ex-colour-scaffold class (the first exercise set).
+    Subsequent sets remain neutral because they do not receive that class.
+  */
+  #exerciseScreen.ex-colour-scaffold .ex-digits-value .pv-thousand,
+  #exerciseScreen.ex-colour-scaffold .ex-expanded-value .pv-thousand,
+  #exerciseScreen.ex-colour-scaffold .ex-word-value .pv-thousand,
+  #exerciseScreen.ex-colour-scaffold .ex-correct-answer .pv-thousand {
+    color: var(--pv-thousand-access) !important;
+  }
+  #exerciseScreen.ex-colour-scaffold .ex-digits-value .pv-hundred,
+  #exerciseScreen.ex-colour-scaffold .ex-expanded-value .pv-hundred,
+  #exerciseScreen.ex-colour-scaffold .ex-word-value .pv-hundred,
+  #exerciseScreen.ex-colour-scaffold .ex-correct-answer .pv-hundred {
+    color: var(--pv-hundred-access) !important;
+  }
+  #exerciseScreen.ex-colour-scaffold .ex-digits-value .pv-ten,
+  #exerciseScreen.ex-colour-scaffold .ex-expanded-value .pv-ten,
+  #exerciseScreen.ex-colour-scaffold .ex-word-value .pv-ten,
+  #exerciseScreen.ex-colour-scaffold .ex-correct-answer .pv-ten {
+    color: var(--pv-ten-access) !important;
+  }
+  #exerciseScreen.ex-colour-scaffold .ex-digits-value .pv-one,
+  #exerciseScreen.ex-colour-scaffold .ex-expanded-value .pv-one,
+  #exerciseScreen.ex-colour-scaffold .ex-word-value .pv-one,
+  #exerciseScreen.ex-colour-scaffold .ex-correct-answer .pv-one {
+    color: var(--pv-one-access) !important;
+  }
+
+  /* Operators and word connectors remain neutral so the positional parts stand out clearly. */
+  #exerciseScreen.ex-colour-scaffold .ex-expanded-value .pv-operator,
+  #exerciseScreen.ex-colour-scaffold .ex-word-value .pv-connector,
+  #exerciseScreen.ex-colour-scaffold .ex-correct-answer .pv-operator,
+  #exerciseScreen.ex-colour-scaffold .ex-correct-answer .pv-connector {
+    color: #46564b !important;
+  }
+</style>
+
 </body>
 </html>
