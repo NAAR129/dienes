@@ -565,6 +565,49 @@ header::after {
 .teacher-editor .teacher-input-row input {
   background:#fffefb;
 }
+
+
+/* v43: exercises stay neutral; positional colours are reserved for the main application. */
+#exerciseScreen .ex-expanded-value .pv-thousand,
+#exerciseScreen .ex-expanded-value .pv-hundred,
+#exerciseScreen .ex-expanded-value .pv-ten,
+#exerciseScreen .ex-expanded-value .pv-one,
+#exerciseScreen .ex-word-value .pv-thousand,
+#exerciseScreen .ex-word-value .pv-hundred,
+#exerciseScreen .ex-word-value .pv-ten,
+#exerciseScreen .ex-word-value .pv-one,
+#exerciseScreen .ex-correct-answer .pv-thousand,
+#exerciseScreen .ex-correct-answer .pv-hundred,
+#exerciseScreen .ex-correct-answer .pv-ten,
+#exerciseScreen .ex-correct-answer .pv-one,
+#exerciseScreen .ex-correct-answer .pv-connector,
+#exerciseScreen .ex-correct-answer .pv-operator {
+  color: inherit !important;
+}
+#exerciseScreen .ex-pv-table th,
+#exerciseScreen .ex-pv-table th:nth-child(1),
+#exerciseScreen .ex-pv-table th:nth-child(2),
+#exerciseScreen .ex-pv-table th:nth-child(3),
+#exerciseScreen .ex-pv-table th:nth-child(4) {
+  color:#172617 !important;
+  background:#f7f7f5 !important;
+  border-color:#cfd7cc !important;
+}
+#exerciseScreen .ex-pv-table td {
+  color:#111 !important;
+  background:#fff !important;
+  border-color:#cfd7cc !important;
+}
+#exerciseScreen .ex-material-head { color:#172617 !important; }
+.footer-credit a {
+  color:inherit;
+  font-weight:800;
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+.footer-credit a:hover,
+.footer-credit a:focus { color:#0b55a0; }
+
 </style>
 </head>
 <body>
@@ -650,7 +693,7 @@ header::after {
   </div>
 </div>
 
-<div class="footer">Funded by the European Union (grant no. KA220-NW-25-36-358844). Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or Erasmus+ National Agency. Neither the European Union nor the granting authority can be held responsible for them.</div>
+<div class="footer">Funded by the European Union (grant no. KA220-NW-25-36-358844). Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or Erasmus+ National Agency. Neither the European Union nor the granting authority can be held responsible for them.<span class="footer-credit" id="footerCredit">© 2026 · Developed by Nicolás Alarcón-Relmucao · <a href="mailto:nicolas.alarcon@uni-bielefeld.de" aria-label="Contact: nicolas.alarcon@uni-bielefeld.de">Contact: nicolas.alarcon@uni-bielefeld.de</a></span></div>
 <script>
 const I18N = {
   en: {title:'Dienes material', subtitle:'Compose, decompose and connect representations', materialTitle:'DIENES MATERIAL', representationTitle:'REPRESENTATION', helpHtml:'Select pieces in the workspace.<br>Use <strong>Decompose</strong> to break into smaller units.<br>Use <strong>Compose</strong> to build into larger units.', decompose:'Decompose', compose:'Compose', undo:'Undo', clear:'Clear', empty:'Add pieces below or select pieces to compose/decompose.', addPieces:'Add pieces', add:'Add', thousand:'Thousand', hundred:'Hundred', ten:'Ten', one:'One', statusStart:'All representations are linked.', placeValue:'Place-value', digits:'Digits', expanded:'Expanded form', word:'Word form', all:'All', value:'Value', placeTable:'Place-value table', selected:'selected', cannotDecompose:'Select exactly one thousand, hundred or ten to decompose.', cannotCompose:'Select exactly ten equal pieces: 10 ones, 10 tens or 10 hundreds.', didDecompose:'Decomposed without changing the value.', didCompose:'Composed without changing the value.', materialCount:'Material count', standardReady:'Standard representation available.', standardNeeded:'Equivalent representation. Compose the material to reach standard place-value form.', unavailable:'Standard representation unavailable', composeFirst:'Compose the material first.', materialExpanded:'Material expression', lockedUntilStandard:'Compose the material into standard place-value form first.', lockedAll:'Open Digits, Expanded form and Word form first.', opened:'opened', unlockPath:'First compose the material. Then explore Digits, Expanded form and Word form to unlock All.', speak:'Listen', slow:'Slow', normal:'Normal', repeat:'Repeat ×2', voiceNote:'Native voice preferred: English (United Kingdom).', audioUnavailable:'Audio is not available in this browser.'},
@@ -1794,7 +1837,7 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
 })();
 </script>
 
-<!-- v41: teacher-selected representation exercises -->
+<!-- v43: teacher-selected representation exercises (neutral exercise visuals) -->
 <script>
 (function(){
   'use strict';
@@ -2195,6 +2238,383 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
   updateExerciseLauncher();
 })();
 </script>
+
+
+
+<!-- v42: teacher selection, place-value colours and copyright -->
+<script>
+(function(){
+  'use strict';
+
+  const v42Style = document.createElement('style');
+  v42Style.textContent = `
+    /* Teacher setup: the left/main representation cannot be duplicated on the right. */
+    .teacher-check.is-unavailable {
+      opacity:.48;
+      cursor:not-allowed;
+      background:#f3f4f1;
+      box-shadow:inset 0 0 0 1px rgba(0,0,0,.05);
+    }
+    .teacher-check.is-unavailable input { cursor:not-allowed; }
+    .teacher-check.is-unavailable span::after {
+      content:' ·';
+      color:#8c9689;
+    }
+
+    /* Shared place-value colour system: thousands, hundreds, tens, ones. */
+    .pv-text { font-weight:900; }
+    .pv-thousand { color:#064aa5; }
+    .pv-hundred { color:#006b22; }
+    .pv-ten { color:#d45e00; }
+    .pv-one { color:#bc1616; }
+    .pv-connector { color:#57635a; font-weight:800; }
+    .pv-operator { color:#3d4b40; font-weight:900; padding:0 .12em; }
+    .expanded .pv-text, .small-card .val .pv-text, .ex-expanded-value .pv-text,
+    .ex-correct-answer .pv-text { white-space:nowrap; }
+    .words .pv-text, .word-small .pv-text, .ex-word-value .pv-text,
+    .ex-correct-answer .word-part { display:inline; }
+    .words .word-part.speaking, .word-small .word-part.speaking {
+      background:rgba(240,164,0,.26);
+      border-radius:.14em;
+    }
+
+    /* TeToM multicolour exercise launcher. */
+    #exerciseLauncher {
+      color:#fff !important;
+      border:2px solid rgba(255,255,255,.94) !important;
+      background:
+        radial-gradient(circle at 13% 20%, rgba(255,255,255,.30) 0 5%, transparent 6%),
+        linear-gradient(135deg,#0b55a0 0%,#2f7d32 34%,#f0a400 67%,#c62828 100%) !important;
+      box-shadow:0 10px 24px rgba(35,83,45,.31), inset 0 1px 0 rgba(255,255,255,.34) !important;
+      text-shadow:0 1px 2px rgba(0,0,0,.25);
+    }
+    #exerciseLauncher:hover {
+      background:
+        radial-gradient(circle at 14% 19%, rgba(255,255,255,.38) 0 5%, transparent 6%),
+        linear-gradient(135deg,#084886 0%,#256b2b 34%,#d98f00 67%,#a91f1f 100%) !important;
+      box-shadow:0 13px 28px rgba(35,83,45,.38), inset 0 1px 0 rgba(255,255,255,.34) !important;
+    }
+    .footer-credit {
+      display:block;
+      margin-top:8px;
+      color:#245f25;
+      font-weight:800;
+    }
+  `;
+  document.head.appendChild(v42Style);
+
+  function escV42(value){
+    return String(value == null ? '' : value).replace(/[&<>'"]/g, ch => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'
+    }[ch]));
+  }
+  function spanV42(place, text, group){
+    if(text == null || text === '') return '';
+    const data = Number.isFinite(group) ? ` data-word-part="${group}"` : '';
+    const wordClass = Number.isFinite(group) ? ' word-part' : '';
+    return `<span class="pv-text pv-${place}${wordClass}"${data}>${escV42(text)}</span>`;
+  }
+  function connectorV42(text){ return `<span class="pv-connector">${escV42(text)}</span>`; }
+
+  function colouredExpandedHTML(value){
+    const c=canonical(value);
+    const items=[];
+    if(c.thousand) items.push(spanV42('thousand', String(c.thousand*1000)));
+    if(c.hundred) items.push(spanV42('hundred', String(c.hundred*100)));
+    if(c.ten) items.push(spanV42('ten', String(c.ten*10)));
+    if(c.one) items.push(spanV42('one', String(c.one)));
+    return items.length ? items.join('<span class="pv-operator"> + </span>') : spanV42('one','0');
+  }
+
+  const EN_ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+  const EN_TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+  const ES_UNITS=['','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve'];
+  const ES_TEENS=['diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve'];
+  const ES_TENS=['','','veinte','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+  const ES_HUNDREDS=['','ciento','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
+  const DE_UNITS=['null','eins','zwei','drei','vier','fünf','sechs','sieben','acht','neun','zehn','elf','zwölf','dreizehn','vierzehn','fünfzehn','sechzehn','siebzehn','achtzehn','neunzehn'];
+  const DE_TENS=['','','zwanzig','dreißig','vierzig','fünfzig','sechzig','siebzig','achtzig','neunzig'];
+  const IT_UNITS=['','uno','due','tre','quattro','cinque','sei','sette','otto','nove','dieci','undici','dodici','tredici','quattordici','quindici','sedici','diciassette','diciotto','diciannove'];
+  const IT_TENS=['','','venti','trenta','quaranta','cinquanta','sessanta','settanta','ottanta','novanta'];
+
+  function englishLowHTML(t,o,group){
+    if(t===0) return o ? spanV42('one',EN_ONES[o],group) : '';
+    if(t===1) return spanV42('ten',EN_ONES[10+o],group);
+    const tens=spanV42('ten',EN_TENS[t],group);
+    return o ? `${tens}${connectorV42('-')}${spanV42('one',EN_ONES[o],group)}` : tens;
+  }
+  function spanishLowHTML(t,o,group){
+    if(t===0) return o ? spanV42('one',ES_UNITS[o],group) : '';
+    if(t===1) return spanV42('ten',ES_TEENS[o],group);
+    if(t===2){
+      if(o===0) return spanV42('ten','veinte',group);
+      return `${spanV42('ten','veinti',group)}${spanV42('one',ES_UNITS[o],group)}`;
+    }
+    return `${spanV42('ten',ES_TENS[t],group)}${o ? `${connectorV42(' y ')}${spanV42('one',ES_UNITS[o],group)}` : ''}`;
+  }
+  function germanLowHTML(t,o,group){
+    if(t===0) return o ? spanV42('one',DE_UNITS[o],group) : '';
+    if(t===1) return spanV42('ten',DE_UNITS[10+o],group);
+    if(o===0) return spanV42('ten',DE_TENS[t],group);
+    // In German compounds, keep the unit, connector and tens visually separate:
+    // vier + und + sechzig (not a red “vierund” block).
+    const unit=(o===1?'ein':DE_UNITS[o]);
+    return `${spanV42('one',unit,group)}${connectorV42('und')}${spanV42('ten',DE_TENS[t],group)}`;
+  }
+  function italianLowHTML(t,o,group){
+    if(t===0) return o ? spanV42('one',IT_UNITS[o],group) : '';
+    if(t===1) return spanV42('ten',IT_UNITS[10+o],group);
+    let tens=IT_TENS[t];
+    if(o===1 || o===8) tens=tens.slice(0,-1);
+    return `${spanV42('ten',tens,group)}${o ? spanV42('one',IT_UNITS[o],group) : ''}`;
+  }
+
+  function colouredWordHTML(value){
+    const n=Math.max(0,Math.min(9999,Math.floor(Number(value)||0)));
+    const c=canonical(n);
+    if(n===0){
+      const zero=lang==='de'?'null':lang==='es'?'cero':'zero';
+      return `<span class="word-parts">${spanV42('one',zero,0)}</span>`;
+    }
+    let idx=0;
+    const add=(place,text)=>{
+      const out=spanV42(place,text,idx);
+      idx+=1;
+      return out;
+    };
+
+    if(lang==='de'){
+      let out='';
+      if(c.thousand) out += add('thousand',(c.thousand===1?'ein':DE_UNITS[c.thousand])+'tausend');
+      if(c.hundred) out += add('hundred',(c.hundred===1?'ein':DE_UNITS[c.hundred])+'hundert');
+      if(c.ten || c.one) {
+        const g=idx;
+        out += germanLowHTML(c.ten,c.one,g);
+        idx+=1;
+      }
+      return `<span class="word-parts">${out}</span>`;
+    }
+
+    if(lang==='it'){
+      const parts=[];
+      if(c.thousand) parts.push(add('thousand',c.thousand===1?'mille':IT_UNITS[c.thousand]+'mila'));
+      if(c.hundred) parts.push(add('hundred',c.hundred===1?'cento':IT_UNITS[c.hundred]+'cento'));
+      if(c.ten || c.one){
+        const g=idx;
+        parts.push(italianLowHTML(c.ten,c.one,g));
+        idx+=1;
+      }
+      return `<span class="word-parts">${parts.join('')}</span>`;
+    }
+
+    if(lang==='es'){
+      const parts=[];
+      if(c.thousand) parts.push(add('thousand',c.thousand===1?'mil':ES_UNITS[c.thousand]+' mil'));
+      if(c.hundred) parts.push(add('hundred',c.hundred===1?(c.ten||c.one?'ciento':'cien'):ES_HUNDREDS[c.hundred]));
+      if(c.ten || c.one){
+        const g=idx;
+        parts.push(spanishLowHTML(c.ten,c.one,g));
+        idx+=1;
+      }
+      return `<span class="word-parts">${parts.join(' ')}</span>`;
+    }
+
+    const parts=[];
+    if(c.thousand) parts.push(add('thousand',EN_ONES[c.thousand]+' thousand'));
+    if(c.hundred) parts.push(add('hundred',EN_ONES[c.hundred]+' hundred'));
+    if(c.ten || c.one){
+      const g=idx;
+      const lower=englishLowHTML(c.ten,c.one,g);
+      idx+=1;
+      if(c.hundred) parts.push(connectorV42('and')+ ' ' + lower);
+      else parts.push(lower);
+    }
+    return `<span class="word-parts">${parts.join(' ')}</span>`;
+  }
+
+  function colouredTeacherAudioControls(){
+    return `<div class="audio-controls clean-audio"><button type="button" class="speak-btn" data-teacher-speak="1" aria-label="${escV42(tr('speak'))}">🔊 ${escV42(tr('speak'))}</button></div>`;
+  }
+
+  // Normal student representation view.
+  window.renderRepresentation = function(){
+    clearSpeechHighlights();
+    updateAccess();
+    const rv=$('#repView'), v=total(), m=counts();
+    if(!repAllowed(rep)){ rv.innerHTML=lockHTMLFor(rep); return; }
+    if(gatedReps.includes(rep)) visitedReps.add(rep);
+    if(rep==='digits') rv.innerHTML=`<div class="value-number" style="font-size:clamp(58px,8vw,98px);">${v}</div>`;
+    else if(rep==='expanded') rv.innerHTML=`<div style="width:100%"><div class="value-label">${tr('expanded')}</div><div class="expanded">${colouredExpandedHTML(v)}</div>${noteHTML()}</div>`;
+    else if(rep==='word') rv.innerHTML=`<div class="word-box"><div class="words">${colouredWordHTML(v)}</div>${audioControlsHTML()}</div>`;
+    else if(rep==='all') rv.innerHTML=`<div style="width:100%"><div class="value-label">${tr('placeTable')}</div>${tableHTML(canonical(v))}<div class="small-card" style="margin-top:14px"><h3>${tr('expanded')}</h3><div class="val">${colouredExpandedHTML(v)}</div></div><div class="small-card" style="margin-top:14px"><h3>${tr('digits')}</h3><div class="val big">${v}</div></div><div class="small-card" style="margin-top:14px"><h3>${tr('word')}</h3><div class="val word-small">${colouredWordHTML(v)}</div>${audioControlsHTML()}</div></div>`;
+    else rv.innerHTML=`<div style="width:100%"><div class="value-label">${tr('materialCount')}</div>${tableHTML(m)}${noteHTML()}</div>`;
+    updateAccess();
+  };
+
+  // Teacher comparison cards use the same positional colours.
+  const previousTeacherRepBlock = window.teacherRepBlockHTML;
+  window.teacherRepBlockHTML = function(type, interactive=false){
+    if((type==='expanded' || type==='word') && typeof teacherIsStandard==='function' && teacherIsStandard()){
+      const v=teacherTotal();
+      if(type==='expanded') return `<div class="teacher-one-rep"><div class="expanded">${colouredExpandedHTML(v)}</div></div>`;
+      return `<div class="teacher-one-rep"><div class="word-box"><div class="words">${colouredWordHTML(v)}</div>${colouredTeacherAudioControls()}</div></div>`;
+    }
+    return previousTeacherRepBlock ? previousTeacherRepBlock(type,interactive) : '';
+  };
+
+  // Updated selector renderer: a representation selected on the left is disabled on the right.
+  window.renderTeacherChecks = function(){
+    const selectedLeft=(teacherLayout && teacherLayout.left && teacherLayout.left[0]) || 'material';
+    if(teacherLayout && Array.isArray(teacherLayout.right)){
+      teacherLayout.right=[...new Set(teacherLayout.right)].filter(rep=>rep!==selectedLeft);
+    }
+    const makeLeft=()=>teacherOptions.map(opt=>`<label class="teacher-check teacher-radio"><input type="radio" name="teacher-left-main" data-teacher-side="left" value="${opt}" ${selectedLeft===opt?'checked':''}> <span>${optionLabel(opt)}</span></label>`).join('');
+    const makeRight=()=>teacherOptions.map(opt=>{
+      const disabled=opt===selectedLeft;
+      const checked=!disabled && teacherLayout.right.includes(opt);
+      return `<label class="teacher-check${disabled?' is-unavailable':''}" ${disabled?'aria-disabled="true"':''}><input type="checkbox" data-teacher-side="right" value="${opt}" ${checked?'checked':''} ${disabled?'disabled':''}> <span>${optionLabel(opt)}</span></label>`;
+    }).join('');
+    const l=$('#teacherLeftChecks'), r=$('#teacherRightChecks');
+    if(l) l.innerHTML=makeLeft();
+    if(r) r.innerHTML=makeRight();
+  };
+
+  function enforceTeacherSelections(){
+    const selected=document.querySelector('[data-teacher-side="left"]:checked');
+    if(!selected) return;
+    const selectedValue=selected.value;
+    document.querySelectorAll('[data-teacher-side="right"]').forEach(input=>{
+      const label=input.closest('.teacher-check');
+      const isDuplicate=input.value===selectedValue;
+      if(isDuplicate) input.checked=false;
+      input.disabled=isDuplicate;
+      if(label){ label.classList.toggle('is-unavailable',isDuplicate); label.setAttribute('aria-disabled',isDuplicate?'true':'false'); }
+    });
+  }
+  document.addEventListener('change',function(event){
+    if(event.target && event.target.matches('[data-teacher-side="left"]')) enforceTeacherSelections();
+  },true);
+  document.addEventListener('click',function(event){
+    if(event.target.closest('#teacherApply')) enforceTeacherSelections();
+  },true);
+
+  // Exercise representations intentionally remain neutral. Positional colours are reserved for the main application and the teacher view.
+  // Ensure normal and teacher views are re-rendered with the colour-aware outputs after any state change.
+  const previousRender=window.render;
+  window.render=function(){
+    const result=previousRender ? previousRender.apply(this,arguments) : undefined;
+    try {
+      if(teacherLayout && teacherLayout.active){
+        if(typeof window.renderTeacherViews==='function') window.renderTeacherViews();
+      } else {
+        window.renderRepresentation();
+      }
+      if(typeof window.updateExerciseLauncher==='function') window.updateExerciseLauncher();
+    } catch(err) { console.error('v42 render patch failed',err); }
+    return result;
+  };
+
+  // Apply the refined layout immediately when the file opens.
+  try { renderTeacherChecks(); render(); } catch(err) { console.error('v42 initialisation failed',err); }
+})();
+</script>
+
+
+<!-- v44: multilingual credit and coloured place-value table in exercises -->
+<style>
+  /* In exercises, only the place-value table keeps the application’s original colour code. */
+  #exerciseScreen .ex-pv-table th {
+    color:#075c13 !important;
+    background:#edf8e8 !important;
+    border-color:#82bb6f !important;
+  }
+  #exerciseScreen .ex-pv-table th:nth-child(1) {
+    color:#064aa5 !important;
+    background:#eef6ff !important;
+  }
+  #exerciseScreen .ex-pv-table th:nth-child(2) {
+    color:#075c13 !important;
+    background:#edf8e8 !important;
+  }
+  #exerciseScreen .ex-pv-table th:nth-child(3) {
+    color:#d45e00 !important;
+    background:#fff6e8 !important;
+  }
+  #exerciseScreen .ex-pv-table th:nth-child(4) {
+    color:#bc1616 !important;
+    background:#fff0f0 !important;
+  }
+  #exerciseScreen .ex-pv-table td {
+    color:#111 !important;
+    background:#fff !important;
+    border-color:#82bb6f !important;
+  }
+</style>
+<script>
+(function(){
+  'use strict';
+
+  const CREDIT_I18N = {
+    en: { developed:'Developed by', contact:'Contact' },
+    es: { developed:'Desarrollado por', contact:'Contacto' },
+    de: { developed:'Entwickelt von', contact:'Kontakt' },
+    it: { developed:'Sviluppato da', contact:'Contatto' }
+  };
+
+  function updateFooterCredit(){
+    const select = document.getElementById('lang');
+    const language = (select && select.value) || (typeof lang !== 'undefined' ? lang : 'en');
+    const text = CREDIT_I18N[language] || CREDIT_I18N.en;
+    const credit = document.getElementById('footerCredit');
+    if(!credit) return;
+
+    const email = 'nicolas.alarcon@uni-bielefeld.de';
+    credit.replaceChildren();
+    credit.append(document.createTextNode(`© 2026 · ${text.developed} Nicolás Alarcón-Relmucao · `));
+    const link = document.createElement('a');
+    link.href = `mailto:${email}`;
+    link.textContent = `${text.contact}: ${email}`;
+    link.setAttribute('aria-label', `${text.contact}: ${email}`);
+    credit.append(link);
+  }
+
+  const select = document.getElementById('lang');
+  if(select) select.addEventListener('change', updateFooterCredit);
+  updateFooterCredit();
+})();
+</script>
+
+
+
+<!-- v46: coloured place-value digits; author/contact retained only in footer -->
+<style>
+  /* Place-value digits use the same consistent colours as their headings. */
+  .pv-table tbody td:nth-child(1) { color:#064aa5; }
+  .pv-table tbody td:nth-child(2) { color:#006b22; }
+  .pv-table tbody td:nth-child(3) { color:#d45e00; }
+  .pv-table tbody td:nth-child(4) { color:#bc1616; }
+
+  /* Apply the same colour code to the interactive inputs in the teacher view. */
+  .teacher-place-table-edit.clean-teacher-pv td:nth-child(1) .teacher-place-input,
+  .teacher-place-table-edit td:nth-child(1) .teacher-place-input { color:#064aa5; }
+  .teacher-place-table-edit.clean-teacher-pv td:nth-child(2) .teacher-place-input,
+  .teacher-place-table-edit td:nth-child(2) .teacher-place-input { color:#006b22; }
+  .teacher-place-table-edit.clean-teacher-pv td:nth-child(3) .teacher-place-input,
+  .teacher-place-table-edit td:nth-child(3) .teacher-place-input { color:#d45e00; }
+  .teacher-place-table-edit.clean-teacher-pv td:nth-child(4) .teacher-place-input,
+  .teacher-place-table-edit td:nth-child(4) .teacher-place-input { color:#bc1616; }
+
+  /* Exercises keep their neutral wording and sums, while the place-value table
+     retains the original application colour code for headings and digits. */
+  #exerciseScreen .ex-pv-table tbody td:nth-child(1),
+  #exerciseScreen .ex-pv-table tbody td:nth-child(1) .ex-place-input { color:#064aa5 !important; }
+  #exerciseScreen .ex-pv-table tbody td:nth-child(2),
+  #exerciseScreen .ex-pv-table tbody td:nth-child(2) .ex-place-input { color:#006b22 !important; }
+  #exerciseScreen .ex-pv-table tbody td:nth-child(3),
+  #exerciseScreen .ex-pv-table tbody td:nth-child(3) .ex-place-input { color:#d45e00 !important; }
+  #exerciseScreen .ex-pv-table tbody td:nth-child(4),
+  #exerciseScreen .ex-pv-table tbody td:nth-child(4) .ex-place-input { color:#bc1616 !important; }
+</style>
 
 </body>
 </html>
