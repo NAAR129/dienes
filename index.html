@@ -2616,5 +2616,35 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
   #exerciseScreen .ex-pv-table tbody td:nth-child(4) .ex-place-input { color:#bc1616 !important; }
 </style>
 
+
+
+<!-- v47: exercises use neutral place-value styling -->
+<style>
+  /* The exercise section is intentionally neutral: colours remain a scaffold
+     in the main application, not a cue during independent practice. */
+  #exerciseScreen .ex-pv-table th,
+  #exerciseScreen .ex-pv-table th:nth-child(1),
+  #exerciseScreen .ex-pv-table th:nth-child(2),
+  #exerciseScreen .ex-pv-table th:nth-child(3),
+  #exerciseScreen .ex-pv-table th:nth-child(4) {
+    color:#152315 !important;
+    background:#fffdf8 !important;
+    border-color:#dce9d5 !important;
+  }
+  #exerciseScreen .ex-pv-table td,
+  #exerciseScreen .ex-pv-table tbody td:nth-child(1),
+  #exerciseScreen .ex-pv-table tbody td:nth-child(2),
+  #exerciseScreen .ex-pv-table tbody td:nth-child(3),
+  #exerciseScreen .ex-pv-table tbody td:nth-child(4),
+  #exerciseScreen .ex-pv-table tbody td:nth-child(1) .ex-place-input,
+  #exerciseScreen .ex-pv-table tbody td:nth-child(2) .ex-place-input,
+  #exerciseScreen .ex-pv-table tbody td:nth-child(3) .ex-place-input,
+  #exerciseScreen .ex-pv-table tbody td:nth-child(4) .ex-place-input {
+    color:#111 !important;
+    background:#fff !important;
+    border-color:#dce9d5 !important;
+  }
+</style>
+
 </body>
 </html>
