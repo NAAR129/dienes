@@ -650,7 +650,7 @@ header::after {
     <div class="panel">
       <h2 data-i="representationTitle">REPRESENTATION</h2>
       <div class="rep-tabs">
-        <button class="rep-tab active" data-rep="place" data-i="placeValue">Place-value</button>
+        <button class="rep-tab active" data-rep="place" data-i="placeValue">Table</button>
         <button class="rep-tab" data-rep="digits" data-i="digits">Digits</button>
         <button class="rep-tab" data-rep="expanded" data-i="expanded">Expanded form</button>
         <button class="rep-tab" data-rep="word" data-i="word">Word form</button>
@@ -696,10 +696,10 @@ header::after {
 <div class="footer">Funded by the European Union (grant no. KA220-NW-25-36-358844). Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or Erasmus+ National Agency. Neither the European Union nor the granting authority can be held responsible for them.<span class="footer-credit" id="footerCredit">© 2026 · Developed by Nicolás Alarcón-Relmucao · <a href="mailto:nicolas.alarcon@uni-bielefeld.de" aria-label="Contact: nicolas.alarcon@uni-bielefeld.de">Contact: nicolas.alarcon@uni-bielefeld.de</a></span></div>
 <script>
 const I18N = {
-  en: {title:'Dienes material', subtitle:'Compose, decompose and connect representations', materialTitle:'DIENES MATERIAL', representationTitle:'REPRESENTATION', helpHtml:'Select pieces in the workspace.<br>Use <strong>Decompose</strong> to break into smaller units.<br>Use <strong>Compose</strong> to build into larger units.', decompose:'Decompose', compose:'Compose', undo:'Undo', clear:'Clear', empty:'Add pieces below or select pieces to compose/decompose.', addPieces:'Add pieces', add:'Add', thousand:'Thousand', hundred:'Hundred', ten:'Ten', one:'One', statusStart:'All representations are linked.', placeValue:'Place-value', digits:'Digits', expanded:'Expanded form', word:'Word form', all:'All', value:'Value', placeTable:'Place-value table', selected:'selected', cannotDecompose:'Select exactly one thousand, hundred or ten to decompose.', cannotCompose:'Select exactly ten equal pieces: 10 ones, 10 tens or 10 hundreds.', didDecompose:'Decomposed without changing the value.', didCompose:'Composed without changing the value.', materialCount:'Material count', standardReady:'Standard representation available.', standardNeeded:'Equivalent representation. Compose the material to reach standard place-value form.', unavailable:'Standard representation unavailable', composeFirst:'Compose the material first.', materialExpanded:'Material expression', lockedUntilStandard:'Compose the material into standard place-value form first.', lockedAll:'Open Digits, Expanded form and Word form first.', opened:'opened', unlockPath:'First compose the material. Then explore Digits, Expanded form and Word form to unlock All.', speak:'Listen', slow:'Slow', normal:'Normal', repeat:'Repeat ×2', voiceNote:'Native voice preferred: English (United Kingdom).', audioUnavailable:'Audio is not available in this browser.'},
-  es: {title:'Material Dienes', subtitle:'Componer, descomponer y conectar representaciones', materialTitle:'MATERIAL DIENES', representationTitle:'REPRESENTACIÓN', helpHtml:'Selecciona piezas en el espacio de trabajo.<br>Usa <strong>Descomponer</strong> para transformar en unidades menores.<br>Usa <strong>Componer</strong> para formar una unidad mayor.', decompose:'Descomponer', compose:'Componer', undo:'Deshacer', clear:'Borrar', empty:'Añade piezas abajo o selecciona piezas para componer/descomponer.', addPieces:'Añadir piezas', add:'Añadir', thousand:'Mil', hundred:'Centena', ten:'Decena', one:'Unidad', statusStart:'Todas las representaciones están conectadas.', placeValue:'Valor posicional', digits:'Número', expanded:'Suma', word:'En palabras', all:'Todas', value:'Valor', placeTable:'Tabla de valor posicional', selected:'seleccionadas', cannotDecompose:'Selecciona exactamente un mil, una centena o una decena para descomponer.', cannotCompose:'Selecciona exactamente diez piezas iguales: 10 unidades, 10 decenas o 10 centenas.', didDecompose:'Se descompuso sin cambiar el valor.', didCompose:'Se compuso sin cambiar el valor.', materialCount:'Conteo del material', standardReady:'Representación estándar disponible.', standardNeeded:'Representación equivalente. Compón el material para llegar a la forma estándar de valor posicional.', unavailable:'Representación estándar no disponible', composeFirst:'Primero compón el material.', materialExpanded:'Expresión del material', lockedUntilStandard:'Primero compón el material en forma estándar de valor posicional.', lockedAll:'Abre primero Número, Suma y En palabras.', opened:'visto', unlockPath:'Primero compón el material. Luego explora Número, Suma y En palabras para desbloquear Todas.', speak:'Escuchar', slow:'Lento', normal:'Normal', repeat:'Repetir ×2', voiceNote:'Voz nativa preferida: español (España).', audioUnavailable:'El audio no está disponible en este navegador.'},
-  de: {title:'Dienes-Material', subtitle:'Bündeln, entbündeln und Darstellungen verbinden', materialTitle:'DIENES-MATERIAL', representationTitle:'DARSTELLUNG', helpHtml:'Wähle Material im Arbeitsfeld aus.<br>Nutze <strong>Entbündeln</strong>, um kleinere Einheiten zu erhalten.<br>Nutze <strong>Bündeln</strong>, um größere Einheiten zu bilden.', decompose:'Entbündeln', compose:'Bündeln', undo:'Rückgängig', clear:'Löschen', empty:'Füge unten Material hinzu oder wähle Teile zum Bündeln/Entbündeln aus.', addPieces:'Material hinzufügen', add:'Hinzufügen', thousand:'Tausender', hundred:'Hunderter', ten:'Zehner', one:'Einer', statusStart:'Alle Darstellungen sind verbunden.', placeValue:'Stellenwert', digits:'Zahl', expanded:'Summe', word:'Wortform', all:'Alle', value:'Wert', placeTable:'Stellenwerttafel', selected:'ausgewählt', cannotDecompose:'Wähle genau einen Tausender, Hunderter oder Zehner zum Entbündeln.', cannotCompose:'Wähle genau zehn gleiche Teile: 10 Einer, 10 Zehner oder 10 Hunderter.', didDecompose:'Entbündelt, ohne den Wert zu verändern.', didCompose:'Gebündelt, ohne den Wert zu verändern.', materialCount:'Materialanzahl', standardReady:'Standarddarstellung verfügbar.', standardNeeded:'Äquivalente Darstellung. Bündle das Material, um die Standard-Stellenwertform zu erreichen.', unavailable:'Standarddarstellung nicht verfügbar', composeFirst:'Bündle zuerst das Material.', materialExpanded:'Materialausdruck', lockedUntilStandard:'Bündle das Material zuerst in die Standard-Stellenwertform.', lockedAll:'Öffne zuerst Zahl, Summe und Wortform.', opened:'gesehen', unlockPath:'Bündle zuerst das Material. Erkunde dann Zahl, Summe und Wortform, um Alle freizuschalten.', speak:'Anhören', slow:'Langsam', normal:'Normal', repeat:'2× wiederholen', voiceNote:'Bevorzugte native Stimme: Deutsch (Deutschland).', audioUnavailable:'Audio ist in diesem Browser nicht verfügbar.'},
-  it: {title:'Materiale Dienes', subtitle:'Comporre, scomporre e collegare rappresentazioni', materialTitle:'MATERIALE DIENES', representationTitle:'RAPPRESENTAZIONE', helpHtml:'Seleziona pezzi nell’area di lavoro.<br>Usa <strong>Scomponi</strong> per trasformare in unità minori.<br>Usa <strong>Componi</strong> per formare un’unità maggiore.', decompose:'Scomponi', compose:'Componi', undo:'Annulla', clear:'Cancella', empty:'Aggiungi pezzi sotto o seleziona pezzi per comporre/scomporre.', addPieces:'Aggiungi pezzi', add:'Aggiungi', thousand:'Migliaio', hundred:'Centinaio', ten:'Decina', one:'Unità', statusStart:'Tutte le rappresentazioni sono collegate.', placeValue:'Valore posizionale', digits:'Numero', expanded:'Forma sviluppata', word:'Parole', all:'Tutte', value:'Valore', placeTable:'Tabella del valore posizionale', selected:'selezionati', cannotDecompose:'Seleziona esattamente un migliaio, un centinaio o una decina da scomporre.', cannotCompose:'Seleziona esattamente dieci pezzi uguali: 10 unità, 10 decine o 10 centinaia.', didDecompose:'Scomposto senza cambiare il valore.', didCompose:'Composto senza cambiare il valore.', materialCount:'Conteggio del materiale', standardReady:'Rappresentazione standard disponibile.', standardNeeded:'Rappresentazione equivalente. Componi il materiale per ottenere la forma standard del valore posizionale.', unavailable:'Rappresentazione standard non disponibile', composeFirst:'Componi prima il materiale.', materialExpanded:'Espressione del materiale', lockedUntilStandard:'Componi prima il materiale nella forma standard del valore posizionale.', lockedAll:'Apri prima Numero, Forma sviluppata e Parole.', opened:'visto', unlockPath:'Prima componi il materiale. Poi esplora Numero, Forma sviluppata e Parole per sbloccare Tutte.', speak:'Ascolta', slow:'Lento', normal:'Normale', repeat:'Ripeti ×2', voiceNote:'Voce nativa preferita: italiano (Italia).', audioUnavailable:'L’audio non è disponibile in questo browser.'}
+  en: {title:'Dienes material', subtitle:'Compose, decompose and connect representations', materialTitle:'DIENES MATERIAL', representationTitle:'REPRESENTATION', helpHtml:'Select pieces in the workspace.<br>Use <strong>Decompose</strong> to break into smaller units.<br>Use <strong>Compose</strong> to build into larger units.', decompose:'Decompose', compose:'Compose', undo:'Undo', clear:'Clear', empty:'Add pieces below or select pieces to compose/decompose.', addPieces:'Add pieces', add:'Add', thousand:'Thousand', hundred:'Hundred', ten:'Ten', one:'One', statusStart:'All representations are linked.', placeValue:'Table', digits:'Digits', expanded:'Expanded form', word:'Word form', all:'All', value:'Value', placeTable:'Table', selected:'selected', cannotDecompose:'Select exactly one thousand, hundred or ten to decompose.', cannotCompose:'Select exactly ten equal pieces: 10 ones, 10 tens or 10 hundreds.', didDecompose:'Decomposed without changing the value.', didCompose:'Composed without changing the value.', materialCount:'Material count', standardReady:'Standard representation available.', standardNeeded:'Equivalent representation. Compose the material to reach the standard table form.', unavailable:'Standard representation unavailable', composeFirst:'Compose the material first.', materialExpanded:'Material expression', lockedUntilStandard:'Compose the material into the standard table form first.', lockedAll:'Open Digits, Expanded form and Word form first.', opened:'opened', unlockPath:'First compose the material. Then explore Digits, Expanded form and Word form to unlock All.', speak:'Listen', slow:'Slow', normal:'Normal', repeat:'Repeat ×2', voiceNote:'Native voice preferred: English (United Kingdom).', audioUnavailable:'Audio is not available in this browser.'},
+  es: {title:'Material Dienes', subtitle:'Componer, descomponer y conectar representaciones', materialTitle:'MATERIAL DIENES', representationTitle:'REPRESENTACIÓN', helpHtml:'Selecciona piezas en el espacio de trabajo.<br>Usa <strong>Descomponer</strong> para transformar en unidades menores.<br>Usa <strong>Componer</strong> para formar una unidad mayor.', decompose:'Descomponer', compose:'Componer', undo:'Deshacer', clear:'Borrar', empty:'Añade piezas abajo o selecciona piezas para componer/descomponer.', addPieces:'Añadir piezas', add:'Añadir', thousand:'Mil', hundred:'Centena', ten:'Decena', one:'Unidad', statusStart:'Todas las representaciones están conectadas.', placeValue:'Tabla', digits:'Número', expanded:'Suma', word:'En palabras', all:'Todas', value:'Valor', placeTable:'Tabla', selected:'seleccionadas', cannotDecompose:'Selecciona exactamente un mil, una centena o una decena para descomponer.', cannotCompose:'Selecciona exactamente diez piezas iguales: 10 unidades, 10 decenas o 10 centenas.', didDecompose:'Se descompuso sin cambiar el valor.', didCompose:'Se compuso sin cambiar el valor.', materialCount:'Conteo del material', standardReady:'Representación estándar disponible.', standardNeeded:'Representación equivalente. Compón el material para completar la tabla estándar.', unavailable:'Representación estándar no disponible', composeFirst:'Primero compón el material.', materialExpanded:'Expresión del material', lockedUntilStandard:'Primero compón el material para completar la tabla estándar.', lockedAll:'Abre primero Número, Suma y En palabras.', opened:'visto', unlockPath:'Primero compón el material. Luego explora Número, Suma y En palabras para desbloquear Todas.', speak:'Escuchar', slow:'Lento', normal:'Normal', repeat:'Repetir ×2', voiceNote:'Voz nativa preferida: español (España).', audioUnavailable:'El audio no está disponible en este navegador.'},
+  de: {title:'Dienes-Material', subtitle:'Bündeln, entbündeln und Darstellungen verbinden', materialTitle:'DIENES-MATERIAL', representationTitle:'DARSTELLUNG', helpHtml:'Wähle Material im Arbeitsfeld aus.<br>Nutze <strong>Entbündeln</strong>, um kleinere Einheiten zu erhalten.<br>Nutze <strong>Bündeln</strong>, um größere Einheiten zu bilden.', decompose:'Entbündeln', compose:'Bündeln', undo:'Rückgängig', clear:'Löschen', empty:'Füge unten Material hinzu oder wähle Teile zum Bündeln/Entbündeln aus.', addPieces:'Material hinzufügen', add:'Hinzufügen', thousand:'Tausender', hundred:'Hunderter', ten:'Zehner', one:'Einer', statusStart:'Alle Darstellungen sind verbunden.', placeValue:'Tabelle', digits:'Zahl', expanded:'Summe', word:'Wortform', all:'Alle', value:'Wert', placeTable:'Tabelle', selected:'ausgewählt', cannotDecompose:'Wähle genau einen Tausender, Hunderter oder Zehner zum Entbündeln.', cannotCompose:'Wähle genau zehn gleiche Teile: 10 Einer, 10 Zehner oder 10 Hunderter.', didDecompose:'Entbündelt, ohne den Wert zu verändern.', didCompose:'Gebündelt, ohne den Wert zu verändern.', materialCount:'Materialanzahl', standardReady:'Standarddarstellung verfügbar.', standardNeeded:'Äquivalente Darstellung. Bündle das Material, um die Standardtabelle zu vervollständigen.', unavailable:'Standarddarstellung nicht verfügbar', composeFirst:'Bündle zuerst das Material.', materialExpanded:'Materialausdruck', lockedUntilStandard:'Bündle das Material zuerst, um die Standardtabelle zu vervollständigen.', lockedAll:'Öffne zuerst Zahl, Summe und Wortform.', opened:'gesehen', unlockPath:'Bündle zuerst das Material. Erkunde dann Zahl, Summe und Wortform, um Alle freizuschalten.', speak:'Anhören', slow:'Langsam', normal:'Normal', repeat:'2× wiederholen', voiceNote:'Bevorzugte native Stimme: Deutsch (Deutschland).', audioUnavailable:'Audio ist in diesem Browser nicht verfügbar.'},
+  it: {title:'Materiale Dienes', subtitle:'Comporre, scomporre e collegare rappresentazioni', materialTitle:'MATERIALE DIENES', representationTitle:'RAPPRESENTAZIONE', helpHtml:'Seleziona pezzi nell’area di lavoro.<br>Usa <strong>Scomponi</strong> per trasformare in unità minori.<br>Usa <strong>Componi</strong> per formare un’unità maggiore.', decompose:'Scomponi', compose:'Componi', undo:'Annulla', clear:'Cancella', empty:'Aggiungi pezzi sotto o seleziona pezzi per comporre/scomporre.', addPieces:'Aggiungi pezzi', add:'Aggiungi', thousand:'Migliaio', hundred:'Centinaio', ten:'Decina', one:'Unità', statusStart:'Tutte le rappresentazioni sono collegate.', placeValue:'Tabella', digits:'Numero', expanded:'Forma sviluppata', word:'Parole', all:'Tutte', value:'Valore', placeTable:'Tabella', selected:'selezionati', cannotDecompose:'Seleziona esattamente un migliaio, un centinaio o una decina da scomporre.', cannotCompose:'Seleziona esattamente dieci pezzi uguali: 10 unità, 10 decine o 10 centinaia.', didDecompose:'Scomposto senza cambiare il valore.', didCompose:'Composto senza cambiare il valore.', materialCount:'Conteggio del materiale', standardReady:'Rappresentazione standard disponibile.', standardNeeded:'Rappresentazione equivalente. Componi il materiale per completare la tabella standard.', unavailable:'Rappresentazione standard non disponibile', composeFirst:'Componi prima il materiale.', materialExpanded:'Espressione del materiale', lockedUntilStandard:'Componi prima il materiale per completare la tabella standard.', lockedAll:'Apri prima Numero, Forma sviluppata e Parole.', opened:'visto', unlockPath:'Prima componi il materiale. Poi esplora Numero, Forma sviluppata e Parole per sbloccare Tutte.', speak:'Ascolta', slow:'Lento', normal:'Normale', repeat:'Ripeti ×2', voiceNote:'Voce nativa preferita: italiano (Italia).', audioUnavailable:'L’audio non è disponibile in questo browser.'}
 };
 const values={thousand:1000,hundred:100,ten:10,one:1}, order=['thousand','hundred','ten','one'];
 let lang='en', pieces=[], selected=new Set(), history=[], nextId=1, rep='place';
@@ -717,7 +717,7 @@ function allUnlocked(){ return gatedReps.every(r=>visitedReps.has(r)); }
 function repAllowed(r){ if(r==='place') return true; if(!isStandard()) return false; if(r==='all') return allUnlocked(); return true; }
 function lockReason(r){ if(!isStandard()) return tr('lockedUntilStandard'); if(r==='all') return tr('lockedAll'); return tr('composeFirst'); }
 function lockHTMLFor(r){ return `<div class="lock-card"><div class="lock">🔒</div><strong>${tr('unavailable')}</strong><div>${lockReason(r)}</div></div>`; }
-function updateAccess(){ const sig=materialSignature(); if(sig!==lastMaterialSignature){ lastMaterialSignature=sig; visitedReps.clear(); } if(!repAllowed(rep)) rep='place'; $$('.rep-tab').forEach(btn=>{ const r=btn.dataset.rep; const allowed=repAllowed(r); btn.classList.toggle('locked', !allowed); btn.classList.toggle('unlocked', allowed && r!=='place'); btn.disabled=false; btn.setAttribute('aria-disabled', allowed?'false':'true'); btn.classList.toggle('active', r===rep); }); }
+function updateAccess(){ const sig=materialSignature(); if(sig!==lastMaterialSignature){ lastMaterialSignature=sig; visitedReps.clear(); } if(!repAllowed(rep)) rep='place'; $$('.rep-tab').forEach(btn=>{ const r=btn.dataset.rep; const allowed=repAllowed(r); btn.classList.toggle('locked', !allowed); btn.classList.toggle('unlocked', allowed); btn.disabled=false; btn.setAttribute('aria-disabled', allowed?'false':'true'); btn.classList.toggle('active', r===rep); }); }
 function save(){ history.push(JSON.stringify(pieces)); if(history.length>80) history.shift(); }
 function setStatus(msg,err=false,key=null){ const s=$('#status'); s.style.display='block'; s.innerHTML=msg; s.classList.toggle('err',err); currentStatusErr=err; if(key) currentStatusKey=key; }
 function setStatusKey(key,err=false){ setStatus(tr(key),err,key); }
@@ -1542,7 +1542,7 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
     const m=teacherCounts();
     const labs=labels();
     return `<div class="teacher-place-table-edit clean-teacher-pv teacher-one-rep">
-      <table aria-label="Place-value">
+      <table aria-label="Table">
         <thead><tr>${labs.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead>
         <tbody><tr>${order.map(k=> editable
           ? `<td><input class="teacher-place-input" data-t-place-live="${k}" inputmode="numeric" pattern="[0-9]*" value="${m[k]}" aria-label="${k}"></td>`
@@ -1847,28 +1847,28 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
       launcher:'Exercises', title:'Exercises', subtitle:'Complete the selected representations.',
       given:'Given representation', complete:'Complete', verify:'Check', newSet:'New exercises', back:'Back to the application',
       result:'Result', correct:'correct out of', excellent:'Excellent work!', good:'Well done!', retry:'Review the marked answers and try again.',
-      correctAnswer:'Correct', exercise:'Exercise', material:'Dienes material', place:'Place-value table', digits:'Number', expanded:'Expanded form', word:'Word form',
+      correctAnswer:'Correct', exercise:'Exercise', material:'Dienes material', place:'Table', digits:'Number', expanded:'Expanded form', word:'Word form',
       noExercises:'At least two different representations are needed for the exercises.'
     },
     es: {
       launcher:'Ejercicios', title:'Ejercicios', subtitle:'Completa las representaciones seleccionadas por el profesor.',
       given:'Representación dada', complete:'Completa', verify:'Verificar', newSet:'Nuevos ejercicios', back:'Volver a la aplicación',
       result:'Resultado', correct:'correctos de', excellent:'¡Excelente trabajo!', good:'¡Muy bien!', retry:'Revisa las respuestas marcadas e inténtalo nuevamente.',
-      correctAnswer:'Correcto', exercise:'Ejercicio', material:'Material Dienes', place:'Tabla de valor posicional', digits:'Número', expanded:'Suma', word:'En palabras',
+      correctAnswer:'Correcto', exercise:'Ejercicio', material:'Material Dienes', place:'Tabla', digits:'Número', expanded:'Suma', word:'En palabras',
       noExercises:'Para los ejercicios se necesitan al menos dos representaciones distintas.'
     },
     de: {
       launcher:'Übungen', title:'Übungen', subtitle:'Vervollständige die von der Lehrkraft ausgewählten Darstellungen.',
       given:'Gegebene Darstellung', complete:'Ergänze', verify:'Überprüfen', newSet:'Neue Übungen', back:'Zur Anwendung',
       result:'Ergebnis', correct:'richtig von', excellent:'Sehr gut!', good:'Gut gemacht!', retry:'Überprüfe die markierten Antworten und versuche es noch einmal.',
-      correctAnswer:'Richtig', exercise:'Aufgabe', material:'Dienes-Material', place:'Stellenwerttafel', digits:'Zahl', expanded:'Summe', word:'Wortform',
+      correctAnswer:'Richtig', exercise:'Aufgabe', material:'Dienes-Material', place:'Tabelle', digits:'Zahl', expanded:'Summe', word:'Wortform',
       noExercises:'Für die Übungen werden mindestens zwei verschiedene Darstellungen benötigt.'
     },
     it: {
       launcher:'Esercizi', title:'Esercizi', subtitle:'Completa le rappresentazioni selezionate dall’insegnante.',
       given:'Rappresentazione data', complete:'Completa', verify:'Verifica', newSet:'Nuovi esercizi', back:'Torna all’applicazione',
       result:'Risultato', correct:'corretti su', excellent:'Ottimo lavoro!', good:'Ben fatto!', retry:'Controlla le risposte evidenziate e riprova.',
-      correctAnswer:'Corretto', exercise:'Esercizio', material:'Materiale Dienes', place:'Tabella del valore posizionale', digits:'Numero', expanded:'Forma sviluppata', word:'In parole',
+      correctAnswer:'Corretto', exercise:'Esercizio', material:'Materiale Dienes', place:'Tabella', digits:'Numero', expanded:'Forma sviluppata', word:'In parole',
       noExercises:'Per gli esercizi sono necessarie almeno due rappresentazioni diverse.'
     }
   };
@@ -1955,7 +1955,7 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
     const scales={thousand:.33,hundred:.39,ten:.42,one:.54};
     return `<div class="ex-material-display">${order.map(type=>{
       const pieces=Array.from({length:c[type]},()=>`<span class="ex-material-piece ex-${type}">${blockSVG(type,scales[type])}</span>`).join('');
-      return `<div class="ex-material-group ex-${type}-group">${pieces || '<span class="ex-zero">0</span>'}</div>`;
+      return `<div class="ex-material-group ex-${type}-group">${pieces}</div>`;
     }).join('')}</div>`;
   }
   function materialInputHTML(id){
@@ -1964,7 +1964,7 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
     return `<div class="ex-material-builder" data-ex-material-builder="${id}">${positions.map((type,i)=>`
       <div class="ex-material-control">
         <div class="ex-material-head">${escEx(labels[i])}</div>
-        <div class="ex-material-preview" data-ex-material-preview="${id}-${type}"><span class="ex-zero">0</span></div>
+        <div class="ex-material-preview" data-ex-material-preview="${id}-${type}"></div>
         <div class="ex-material-counter">
           <button type="button" class="ex-adjust ex-minus" data-ex-adjust="${id}" data-ex-type="${type}" data-ex-delta="-1" aria-label="${escEx(labels[i])} minus">−</button>
           <output data-ex-material-count="${id}-${type}">0</output>
@@ -2037,7 +2037,7 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
     if(count) count.textContent=String(n);
     if(preview){
       const scale={thousand:.24,hundred:.29,ten:.34,one:.40}[type] || .34;
-      preview.innerHTML=n ? Array.from({length:n},()=>`<span class="ex-material-piece ex-${type}">${blockSVG(type,scale)}</span>`).join('') : '<span class="ex-zero">0</span>';
+      preview.innerHTML=n ? Array.from({length:n},()=>`<span class="ex-material-piece ex-${type}">${blockSVG(type,scale)}</span>`).join('') : '';
     }
   }
   function correctAnswerHTML(ex,rep){
@@ -3198,6 +3198,932 @@ addPiece('thousand'); addPiece('hundred'); addPiece('ten'); addPiece('one');
   #exerciseScreen.ex-colour-scaffold .ex-correct-answer .pv-operator,
   #exerciseScreen.ex-colour-scaffold .ex-correct-answer .pv-connector {
     color: #46564b !important;
+  }
+</style>
+
+
+<!-- v52: corrections from external review -->
+<style>
+  /* The table representation is an available representation too; it should not look disabled/white. */
+  .rep-tab.unlocked:not(.active) {
+    background:#f3fff0;
+    color:#285b2a;
+    box-shadow:inset 0 0 0 1px rgba(47,125,50,.16);
+  }
+
+  /* Never crop the Dienes solution. The previous scaled container could hide the final one-cube. */
+  #exerciseScreen .ex-correct-answer .ex-material-display {
+    width:100% !important;
+    max-width:100% !important;
+    max-height:none !important;
+    overflow:visible !important;
+    transform:none !important;
+    transform-origin:initial !important;
+    justify-content:flex-start !important;
+    align-items:flex-start !important;
+    flex-wrap:wrap !important;
+    gap:5px 7px !important;
+  }
+  #exerciseScreen .ex-correct-answer .ex-material-group {
+    min-width:0;
+    max-width:100%;
+    flex-wrap:wrap;
+  }
+  #exerciseScreen .ex-correct-answer .ex-material-piece.ex-thousand svg { width:35px !important; }
+  #exerciseScreen .ex-correct-answer .ex-material-piece.ex-hundred svg { width:30px !important; }
+  #exerciseScreen .ex-correct-answer .ex-material-piece.ex-ten svg { width:25px !important; }
+  #exerciseScreen .ex-correct-answer .ex-material-piece.ex-one svg { width:14px !important; min-width:10px; }
+
+  /* Keep the visual solution available on phones as well. */
+  @media(max-width:560px){
+    #exerciseScreen .ex-correct-answer .ex-material-display { display:flex !important; }
+  }
+</style>
+
+
+<!-- v54: in Dienes material, zero is represented by the absence of a block -->
+<style>
+  #exerciseScreen .ex-material-display .ex-material-group:empty {
+    display: none !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #exerciseScreen .ex-material-preview:empty {
+    min-height: 62px;
+  }
+  @media (max-width:560px) {
+    #exerciseScreen .ex-material-preview:empty {
+      min-height: 54px;
+    }
+  }
+</style>
+
+
+<!-- v55: fixed positional columns for displayed Dienes material -->
+<style>
+  /*
+    The four positional groups always remain in the order
+    thousands | hundreds | tens | ones.
+    A zero value is shown as an empty column, never as a printed 0.
+  */
+  #exerciseScreen .ex-material-display {
+    display:grid !important;
+    grid-template-columns:
+      minmax(72px, 1.35fr)
+      minmax(72px, 1.25fr)
+      minmax(58px, .9fr)
+      minmax(58px, .8fr) !important;
+    align-items:start !important;
+    justify-content:stretch !important;
+    column-gap:12px !important;
+    row-gap:0 !important;
+    width:100% !important;
+    max-width:760px;
+    margin-inline:auto;
+    overflow-x:auto;
+    overflow-y:visible;
+    padding:4px 2px 8px;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group,
+  #exerciseScreen .ex-material-display .ex-material-group:empty {
+    display:flex !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    align-content:flex-start;
+    align-items:flex-start;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:3px;
+  }
+
+  /* Each type wraps only inside its own positional column. */
+  #exerciseScreen .ex-material-display .ex-thousand-group {
+    grid-column:1;
+  }
+  #exerciseScreen .ex-material-display .ex-hundred-group {
+    grid-column:2;
+  }
+  #exerciseScreen .ex-material-display .ex-ten-group {
+    grid-column:3;
+  }
+  #exerciseScreen .ex-material-display .ex-one-group {
+    grid-column:4;
+    display:grid !important;
+    grid-template-columns:repeat(5, max-content);
+    grid-auto-rows:max-content;
+    justify-content:center;
+    align-content:start;
+    gap:2px 3px;
+  }
+
+  /*
+    The correction area uses the same four-column logic at a smaller scale,
+    so a one-cube can never move underneath the tens column.
+  */
+  #exerciseScreen .ex-correct-answer .ex-material-display {
+    display:grid !important;
+    grid-template-columns:
+      minmax(48px, 1.35fr)
+      minmax(46px, 1.25fr)
+      minmax(38px, .9fr)
+      minmax(36px, .8fr) !important;
+    column-gap:7px !important;
+    width:min(100%, 520px) !important;
+    max-width:520px !important;
+    margin:4px 0 0 !important;
+    overflow:visible !important;
+  }
+  #exerciseScreen .ex-correct-answer .ex-material-group,
+  #exerciseScreen .ex-correct-answer .ex-material-group:empty {
+    display:flex !important;
+  }
+  #exerciseScreen .ex-correct-answer .ex-one-group,
+  #exerciseScreen .ex-correct-answer .ex-one-group:empty {
+    display:grid !important;
+    grid-template-columns:repeat(5, max-content);
+  }
+
+  @media (max-width:700px) {
+    #exerciseScreen .ex-material-display {
+      grid-template-columns:
+        minmax(68px, 1.35fr)
+        minmax(66px, 1.2fr)
+        minmax(52px, .85fr)
+        minmax(52px, .8fr) !important;
+      column-gap:7px !important;
+      min-width:300px;
+    }
+  }
+
+  @media (max-width:430px) {
+    #exerciseScreen .ex-material-display {
+      justify-content:start !important;
+      min-width:330px;
+    }
+  }
+</style>
+
+
+<!-- v56: preserve positional order without gaps for zero groups -->
+<style>
+#exerciseScreen .ex-material-display{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  gap:16px !important;
+  width:100% !important;
+  max-width:760px;
+  margin-inline:auto;
+  overflow-x:auto;
+  overflow-y:visible;
+  padding:4px 2px 8px;
+}
+#exerciseScreen .ex-material-display .ex-material-group{
+  display:flex !important;
+  flex:0 0 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  align-content:flex-start;
+  align-items:flex-start;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:3px;
+}
+#exerciseScreen .ex-material-display .ex-material-group:empty{
+  display:none !important;
+}
+#exerciseScreen .ex-material-display .ex-one-group{
+  display:grid !important;
+  grid-template-columns:repeat(5,max-content);
+  grid-auto-rows:max-content;
+  justify-content:center;
+  align-content:start;
+  gap:2px 3px;
+}
+#exerciseScreen .ex-correct-answer .ex-material-display{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  gap:9px !important;
+  width:min(100%,520px) !important;
+  max-width:520px !important;
+  margin:4px 0 0 !important;
+  overflow-x:auto !important;
+  overflow-y:visible !important;
+}
+#exerciseScreen .ex-correct-answer .ex-material-group{
+  display:flex !important;
+  flex:0 0 auto !important;
+}
+#exerciseScreen .ex-correct-answer .ex-material-group:empty{
+  display:none !important;
+}
+#exerciseScreen .ex-correct-answer .ex-one-group{
+  display:grid !important;
+  grid-template-columns:repeat(5,max-content);
+}
+@media (max-width:700px){
+  #exerciseScreen .ex-material-display{
+    justify-content:flex-start !important;
+    gap:10px !important;
+  }
+}
+</style>
+
+
+<!-- v57: Dienes material arranged in four place-value columns -->
+<style>
+  #exerciseScreen .ex-material-display {
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(92px,1fr)) !important;
+    gap:10px !important;
+    width:100% !important;
+    max-width:760px !important;
+    margin-inline:auto !important;
+    overflow:visible !important;
+    padding:0 !important;
+    align-items:stretch !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group,
+  #exerciseScreen .ex-material-display .ex-material-group:empty {
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-content:flex-start !important;
+    align-items:flex-start !important;
+    justify-content:center !important;
+    gap:4px !important;
+    min-width:0 !important;
+    min-height:150px !important;
+    width:100% !important;
+    margin:0 !important;
+    padding:46px 8px 10px !important;
+    border:2px solid #d6e4cf !important;
+    border-radius:14px !important;
+    background:#fff !important;
+    position:relative !important;
+    overflow:hidden !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group::before {
+    content:attr(data-pos-label);
+    position:absolute;
+    inset:0 0 auto 0;
+    min-height:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px 4px;
+    border-bottom:2px solid #d6e4cf;
+    font-weight:900;
+    font-size:18px;
+    color:#183f20;
+    background:#f4f8f0;
+  }
+
+  #exerciseScreen .ex-material-display .ex-one-group {
+    display:grid !important;
+    grid-template-columns:repeat(5,max-content) !important;
+    grid-auto-rows:max-content !important;
+    justify-content:center !important;
+    align-content:start !important;
+    gap:3px !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-one-group::before {
+    grid-column:1 / -1;
+  }
+
+  /* Compact correction view, still preserving the same four-column structure. */
+  #exerciseScreen .ex-correct-answer .ex-material-display {
+    grid-template-columns:repeat(4,minmax(62px,1fr)) !important;
+    gap:6px !important;
+    width:min(100%,560px) !important;
+    max-width:560px !important;
+    margin:6px 0 0 !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-material-group,
+  #exerciseScreen .ex-correct-answer .ex-material-group:empty {
+    min-height:105px !important;
+    padding:34px 4px 6px !important;
+    border-radius:10px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-material-group::before {
+    min-height:28px;
+    padding:3px;
+    font-size:13px;
+  }
+
+  @media (max-width:700px) {
+    #exerciseScreen .ex-material-display {
+      grid-template-columns:repeat(4,minmax(72px,1fr)) !important;
+      gap:6px !important;
+    }
+    #exerciseScreen .ex-material-display .ex-material-group,
+    #exerciseScreen .ex-material-display .ex-material-group:empty {
+      min-height:130px !important;
+      padding:40px 4px 8px !important;
+    }
+  }
+
+  @media (max-width:460px) {
+    #exerciseScreen .ex-material-display {
+      grid-template-columns:repeat(4,minmax(64px,1fr)) !important;
+      gap:4px !important;
+    }
+    #exerciseScreen .ex-material-display .ex-material-group::before {
+      font-size:15px;
+    }
+  }
+</style>
+
+<script>
+(function(){
+  const positionLabels = {
+    en:{thousand:'Th', hundred:'H', ten:'T', one:'O'},
+    de:{thousand:'T',  hundred:'H', ten:'Z', one:'E'},
+    es:{thousand:'M',  hundred:'C', ten:'D', one:'U'},
+    it:{thousand:'M',  hundred:'C', ten:'D', one:'U'}
+  };
+
+  function currentLanguage(){
+    const selector =
+      document.getElementById('lang') ||
+      document.getElementById('language') ||
+      document.getElementById('langSelect') ||
+      document.querySelector('select.lang');
+    const value = selector && selector.value ? selector.value.toLowerCase() : '';
+    if (value.startsWith('de')) return 'de';
+    if (value.startsWith('es')) return 'es';
+    if (value.startsWith('it')) return 'it';
+    return 'en';
+  }
+
+  function applyMaterialColumnLabels(root=document){
+    const labels = positionLabels[currentLanguage()];
+    root.querySelectorAll('#exerciseScreen .ex-thousand-group').forEach(el=>el.dataset.posLabel=labels.thousand);
+    root.querySelectorAll('#exerciseScreen .ex-hundred-group').forEach(el=>el.dataset.posLabel=labels.hundred);
+    root.querySelectorAll('#exerciseScreen .ex-ten-group').forEach(el=>el.dataset.posLabel=labels.ten);
+    root.querySelectorAll('#exerciseScreen .ex-one-group').forEach(el=>el.dataset.posLabel=labels.one);
+  }
+
+  const observer = new MutationObserver(()=>applyMaterialColumnLabels());
+  const start = ()=>{
+    const screen = document.getElementById('exerciseScreen');
+    if (screen) observer.observe(screen,{childList:true,subtree:true});
+    document.querySelectorAll('select.lang, #lang, #language, #langSelect')
+      .forEach(el=>el.addEventListener('change',()=>setTimeout(applyMaterialColumnLabels,0)));
+    applyMaterialColumnLabels();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded',start,{once:true});
+  } else {
+    start();
+  }
+})();
+</script>
+
+
+<!-- v58: compact Dienes layout with didactic stacking rules -->
+<style>
+  /*
+    Compact ordered flow:
+    thousands -> hundreds -> tens -> ones.
+    Empty groups remain hidden and no fixed place-value boxes are shown.
+  */
+  #exerciseScreen .ex-material-display {
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    gap:18px !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:10px 12px !important;
+    overflow:visible !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group,
+  #exerciseScreen .ex-material-display .ex-material-group:empty {
+    position:static !important;
+    width:auto !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    overflow:visible !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group::before {
+    content:none !important;
+    display:none !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group:empty {
+    display:none !important;
+  }
+
+  /* Thousands: maximum 3 cubes per row. */
+  #exerciseScreen .ex-material-display .ex-thousand-group {
+    display:grid !important;
+    grid-template-columns:repeat(3,max-content) !important;
+    grid-auto-rows:max-content !important;
+    grid-auto-flow:row !important;
+    align-content:start !important;
+    justify-content:start !important;
+    gap:6px 8px !important;
+  }
+
+  /* Hundreds: maximum 5 plates per row. */
+  #exerciseScreen .ex-material-display .ex-hundred-group {
+    display:grid !important;
+    grid-template-columns:repeat(5,max-content) !important;
+    grid-auto-rows:max-content !important;
+    grid-auto-flow:row !important;
+    align-content:start !important;
+    justify-content:start !important;
+    gap:5px 7px !important;
+  }
+
+  /*
+    Tens: bars keep their horizontal orientation.
+    They stack downward; after 5 bars, a new column begins to the right.
+  */
+  #exerciseScreen .ex-material-display .ex-ten-group {
+    display:grid !important;
+    grid-template-rows:repeat(5,max-content) !important;
+    grid-auto-columns:max-content !important;
+    grid-auto-flow:column !important;
+    align-content:start !important;
+    justify-content:start !important;
+    gap:4px 8px !important;
+  }
+
+  /* Ones: keep the current compact grouping, maximum 5 per row. */
+  #exerciseScreen .ex-material-display .ex-one-group {
+    display:grid !important;
+    grid-template-columns:repeat(5,max-content) !important;
+    grid-auto-rows:max-content !important;
+    grid-auto-flow:row !important;
+    align-content:start !important;
+    justify-content:start !important;
+    gap:3px 4px !important;
+  }
+
+  /*
+    Correction/solution area uses the same rules with tighter spacing.
+  */
+  #exerciseScreen .ex-correct-answer .ex-material-display {
+    display:flex !important;
+    flex-wrap:wrap !important;
+    justify-content:flex-start !important;
+    gap:10px !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:5px 0 0 !important;
+    padding:4px 0 !important;
+    overflow:visible !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-thousand-group {
+    grid-template-columns:repeat(3,max-content) !important;
+    gap:4px 5px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-hundred-group {
+    grid-template-columns:repeat(5,max-content) !important;
+    gap:3px 4px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-ten-group {
+    grid-template-rows:repeat(5,max-content) !important;
+    gap:2px 5px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-one-group {
+    grid-template-columns:repeat(5,max-content) !important;
+    gap:2px 3px !important;
+  }
+
+  @media (max-width:700px) {
+    #exerciseScreen .ex-material-display {
+      gap:12px !important;
+      padding:8px !important;
+    }
+  }
+</style>
+
+
+<!-- v59: adaptive Dienes layout — horizontal when space allows, compact stacking only when needed -->
+<style>
+  /*
+    Large/wide containers:
+    keep all visible pieces flowing horizontally in positional order.
+  */
+  #exerciseScreen .ex-material-display {
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    gap:16px !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:10px 12px !important;
+    overflow:visible !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group,
+  #exerciseScreen .ex-material-display .ex-material-group:empty {
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    gap:5px !important;
+    width:auto !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:none !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    background:transparent !important;
+    overflow:visible !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group::before {
+    content:none !important;
+    display:none !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-material-group:empty {
+    display:none !important;
+  }
+
+  /*
+    When horizontal space becomes limited, use compact didactic stacking.
+    Thousands and hundreds: max. 3 per row.
+    Tens: horizontal bars stacked downward, then a new column.
+    Ones: max. 5 per row.
+  */
+  @container (max-width: 820px) {
+    #exerciseScreen .ex-material-display .ex-thousand-group,
+    #exerciseScreen .ex-material-display .ex-hundred-group {
+      display:grid !important;
+      grid-template-columns:repeat(3,max-content) !important;
+      grid-auto-rows:max-content !important;
+      grid-auto-flow:row !important;
+      gap:6px 8px !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-ten-group {
+      display:grid !important;
+      grid-template-rows:repeat(5,max-content) !important;
+      grid-auto-columns:max-content !important;
+      grid-auto-flow:column !important;
+      gap:4px 8px !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-one-group {
+      display:grid !important;
+      grid-template-columns:repeat(5,max-content) !important;
+      grid-auto-rows:max-content !important;
+      grid-auto-flow:row !important;
+      gap:3px 4px !important;
+    }
+  }
+
+  /*
+    Fallback for browsers without container queries:
+    activate the compact arrangement on narrower screens.
+  */
+  @media (max-width: 920px) {
+    #exerciseScreen .ex-material-display .ex-thousand-group,
+    #exerciseScreen .ex-material-display .ex-hundred-group {
+      display:grid !important;
+      grid-template-columns:repeat(3,max-content) !important;
+      grid-auto-flow:row !important;
+      gap:6px 8px !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-ten-group {
+      display:grid !important;
+      grid-template-rows:repeat(5,max-content) !important;
+      grid-auto-flow:column !important;
+      gap:4px 8px !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-one-group {
+      display:grid !important;
+      grid-template-columns:repeat(5,max-content) !important;
+      grid-auto-flow:row !important;
+      gap:3px 4px !important;
+    }
+  }
+
+  /*
+    The exercise card becomes a query container so the layout reacts to
+    the actual available width, not only to the whole screen.
+  */
+  #exerciseScreen .ex-given-box,
+  #exerciseScreen .ex-answer-box,
+  #exerciseScreen .ex-correct-answer {
+    container-type:inline-size;
+  }
+
+  /* Correction area follows the same adaptive behaviour at a smaller scale. */
+  #exerciseScreen .ex-correct-answer .ex-material-display {
+    gap:10px !important;
+    padding:4px 0 !important;
+  }
+
+  @container (max-width: 560px) {
+    #exerciseScreen .ex-correct-answer .ex-thousand-group,
+    #exerciseScreen .ex-correct-answer .ex-hundred-group {
+      display:grid !important;
+      grid-template-columns:repeat(3,max-content) !important;
+      grid-auto-flow:row !important;
+      gap:4px 5px !important;
+    }
+
+    #exerciseScreen .ex-correct-answer .ex-ten-group {
+      display:grid !important;
+      grid-template-rows:repeat(5,max-content) !important;
+      grid-auto-flow:column !important;
+      gap:2px 5px !important;
+    }
+
+    #exerciseScreen .ex-correct-answer .ex-one-group {
+      display:grid !important;
+      grid-template-columns:repeat(5,max-content) !important;
+      grid-auto-flow:row !important;
+      gap:2px 3px !important;
+    }
+  }
+
+  @media (max-width: 700px) {
+    #exerciseScreen .ex-material-display {
+      gap:12px !important;
+      padding:8px !important;
+    }
+  }
+</style>
+
+
+<!-- v60: compact each positional group internally before any global wrapping -->
+<style>
+  /*
+    The positional groups must always remain on the same global row.
+    When the exercise card is not wide enough, each group compacts internally:
+    - thousands: max. 3 per row
+    - hundreds: max. 3 per row
+    - tens: horizontal bars stacked downward, max. 5 per column
+    - ones: max. 5 per row
+  */
+  #exerciseScreen .ex-material-display {
+    flex-wrap:nowrap !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    gap:14px !important;
+    overflow:visible !important;
+  }
+
+  @container (max-width: 1180px) {
+    #exerciseScreen .ex-material-display {
+      display:flex !important;
+      flex-wrap:nowrap !important;
+      align-items:flex-start !important;
+      justify-content:flex-start !important;
+      gap:12px !important;
+      width:100% !important;
+      overflow:visible !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-thousand-group,
+    #exerciseScreen .ex-material-display .ex-hundred-group {
+      display:grid !important;
+      grid-template-columns:repeat(3,max-content) !important;
+      grid-auto-rows:max-content !important;
+      grid-auto-flow:row !important;
+      align-content:start !important;
+      justify-content:start !important;
+      gap:6px 8px !important;
+      flex:0 0 auto !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-ten-group {
+      display:grid !important;
+      grid-template-rows:repeat(5,max-content) !important;
+      grid-auto-columns:max-content !important;
+      grid-auto-flow:column !important;
+      align-content:start !important;
+      justify-content:start !important;
+      gap:4px 8px !important;
+      flex:0 0 auto !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-one-group {
+      display:grid !important;
+      grid-template-columns:repeat(5,max-content) !important;
+      grid-auto-rows:max-content !important;
+      grid-auto-flow:row !important;
+      align-content:start !important;
+      justify-content:start !important;
+      gap:3px 4px !important;
+      flex:0 0 auto !important;
+    }
+  }
+
+  /*
+    Fallback for browsers without container-query support.
+    The same internal arrangement is used on ordinary laptop/tablet widths.
+  */
+  @media (max-width: 1280px) {
+    #exerciseScreen .ex-material-display {
+      display:flex !important;
+      flex-wrap:nowrap !important;
+      align-items:flex-start !important;
+      justify-content:flex-start !important;
+      gap:12px !important;
+      overflow:visible !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-thousand-group,
+    #exerciseScreen .ex-material-display .ex-hundred-group {
+      display:grid !important;
+      grid-template-columns:repeat(3,max-content) !important;
+      grid-auto-flow:row !important;
+      gap:6px 8px !important;
+      flex:0 0 auto !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-ten-group {
+      display:grid !important;
+      grid-template-rows:repeat(5,max-content) !important;
+      grid-auto-flow:column !important;
+      gap:4px 8px !important;
+      flex:0 0 auto !important;
+    }
+
+    #exerciseScreen .ex-material-display .ex-one-group {
+      display:grid !important;
+      grid-template-columns:repeat(5,max-content) !important;
+      grid-auto-flow:row !important;
+      gap:3px 4px !important;
+      flex:0 0 auto !important;
+    }
+  }
+
+  /*
+    The correction area follows exactly the same grouping rules,
+    with tighter spacing to fit inside the feedback panel.
+  */
+  #exerciseScreen .ex-correct-answer .ex-material-display {
+    flex-wrap:nowrap !important;
+    gap:8px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-thousand-group,
+  #exerciseScreen .ex-correct-answer .ex-hundred-group {
+    grid-template-columns:repeat(3,max-content) !important;
+    gap:4px 5px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-ten-group {
+    grid-template-rows:repeat(5,max-content) !important;
+    gap:2px 5px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-one-group {
+    grid-template-columns:repeat(5,max-content) !important;
+    gap:2px 3px !important;
+  }
+
+  @media (max-width:700px) {
+    #exerciseScreen .ex-material-display {
+      gap:8px !important;
+      padding:7px 5px !important;
+      transform-origin:left top;
+    }
+  }
+</style>
+
+
+
+<!-- v62: fixed Dienes scale; internal stacking only -->
+<style>
+  /*
+    Every Dienes object keeps its original size in every exercise.
+    No JavaScript scaling and no per-card size variation.
+  */
+  #exerciseScreen .ex-material-display .ex-material-piece svg {
+    width:auto !important;
+    max-width:none !important;
+    height:auto !important;
+    transform:none !important;
+  }
+
+  #exerciseScreen .ex-material-display {
+    overflow:visible !important;
+  }
+
+  /*
+    Preserve the agreed internal layout:
+    thousands and hundreds: max. 3 per row;
+    tens: horizontal bars stacked downward, then a new column after 5;
+    ones: max. 5 per row.
+  */
+  #exerciseScreen .ex-material-display .ex-thousand-group,
+  #exerciseScreen .ex-material-display .ex-hundred-group {
+    display:grid !important;
+    grid-template-columns:repeat(3,max-content) !important;
+    grid-auto-rows:max-content !important;
+    grid-auto-flow:row !important;
+    align-content:start !important;
+    justify-content:start !important;
+    gap:6px 8px !important;
+    flex:0 0 auto !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-ten-group {
+    display:grid !important;
+    grid-template-rows:repeat(5,max-content) !important;
+    grid-auto-columns:max-content !important;
+    grid-auto-flow:column !important;
+    align-content:start !important;
+    justify-content:start !important;
+    gap:4px 8px !important;
+    flex:0 0 auto !important;
+  }
+
+  #exerciseScreen .ex-material-display .ex-one-group {
+    display:grid !important;
+    grid-template-columns:repeat(5,max-content) !important;
+    grid-auto-rows:max-content !important;
+    grid-auto-flow:row !important;
+    align-content:start !important;
+    justify-content:start !important;
+    gap:3px 4px !important;
+    flex:0 0 auto !important;
+  }
+
+  /* The four positional groups remain together in the same exercise row. */
+  #exerciseScreen .ex-material-display {
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    gap:12px !important;
+    width:100% !important;
+    max-width:100% !important;
+    padding:10px 12px !important;
+  }
+
+  /* Same fixed-size logic in the correction area. */
+  #exerciseScreen .ex-correct-answer .ex-material-display {
+    flex-wrap:nowrap !important;
+    gap:8px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-thousand-group,
+  #exerciseScreen .ex-correct-answer .ex-hundred-group {
+    grid-template-columns:repeat(3,max-content) !important;
+    gap:4px 5px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-ten-group {
+    grid-template-rows:repeat(5,max-content) !important;
+    gap:2px 5px !important;
+  }
+
+  #exerciseScreen .ex-correct-answer .ex-one-group {
+    grid-template-columns:repeat(5,max-content) !important;
+    gap:2px 3px !important;
+  }
+
+  @media (max-width:700px) {
+    #exerciseScreen .ex-material-display {
+      gap:8px !important;
+      padding:7px 5px !important;
+    }
   }
 </style>
 
